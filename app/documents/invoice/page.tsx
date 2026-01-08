@@ -44,48 +44,74 @@ export default function InvoiceGenerator() {
     }
 
     const html2pdf = (await import('html2pdf.js')).default;
-    const element = document.getElementById('invoice-preview');
     
-    if (!element) {
-      alert("Помилка: не знайдено елемент для генерації PDF");
-      return;
-    }
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = `
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      width: 800px;
+      padding: 40px;
+      background: #ffffff;
+      color: #000000;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+    `;
     
-    const clone = element.cloneNode(true) as HTMLElement;
-    clone.removeAttribute('class');
-    clone.style.cssText = 'padding: 20px; background: white; color: black; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6;';
+    wrapper.innerHTML = `
+      <div style="text-align: center; font-weight: bold; font-size: 18px; margin-bottom: 20px;">
+        РАХУНОК-ФАКТУРА № ${formData.invoiceNumber || '___'}<br>
+        від ${formData.invoiceDate}
+      </div>
+      <div style="margin: 20px 0;">
+        <strong>Постачальник:</strong><br>
+        ${formData.executorName}<br>
+        ІПН: ${formData.executorTaxId || '___'}
+      </div>
+      <div style="margin: 20px 0;">
+        <strong>Покупець:</strong><br>
+        ${formData.clientName}<br>
+        ІПН: ${formData.clientTaxId || '___'}
+      </div>
+      <div style="margin: 20px 0;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr style="background: #f0f0f0;">
+            <th style="border: 1px solid #000; padding: 8px;">Опис</th>
+            <th style="border: 1px solid #000; padding: 8px;">Сума</th>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #000; padding: 8px;">${formData.serviceDescription}</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: right;">${formData.amount} грн</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #000; padding: 8px; text-align: right;"><strong>РАЗОМ:</strong></td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: right;"><strong>${formData.amount} грн</strong></td>
+          </tr>
+        </table>
+      </div>
+      <div style="margin-top: 40px;">
+        <strong>Виконавець:</strong> ${formData.executorName} _________________
+      </div>
+    `;
     
-    const allElements = clone.getElementsByTagName('*');
-    for (let i = 0; i < allElements.length; i++) {
-      const el = allElements[i] as HTMLElement;
-      el.removeAttribute('class');
-      el.style.color = 'black';
-      el.style.backgroundColor = 'transparent';
-    }
-    
-    clone.style.position = 'absolute';
-    clone.style.left = '-9999px';
-    clone.style.top = '0';
-    document.body.appendChild(clone);
+    document.body.appendChild(wrapper);
     
     const opt = {
       margin: 15,
       filename: `Рахунок_${formData.invoiceNumber || 'б/н'}_${formData.invoiceDate}.pdf`,
       image: { type: 'jpeg' as const, quality: 0.98 },
       html2canvas: { 
-        scale: 2, 
-        useCORS: true,
-        logging: false,
-        allowTaint: true,
+        scale: 2,
         backgroundColor: '#ffffff'
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
     };
 
     try {
-      await html2pdf().set(opt).from(clone).save();
+      await html2pdf().set(opt).from(wrapper).save();
     } finally {
-      document.body.removeChild(clone);
+      document.body.removeChild(wrapper);
     }
   };
 

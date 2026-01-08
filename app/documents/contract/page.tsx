@@ -46,41 +46,76 @@ export default function ContractGenerator() {
       return;
     }
     
-    const clone = element.cloneNode(true) as HTMLElement;
-    clone.removeAttribute('class');
-    clone.style.cssText = 'padding: 20px; background: white; color: black; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6;';
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = `
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      width: 800px;
+      padding: 40px;
+      background: #ffffff;
+      color: #000000;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+    `;
     
-    const allElements = clone.getElementsByTagName('*');
-    for (let i = 0; i < allElements.length; i++) {
-      const el = allElements[i] as HTMLElement;
-      el.removeAttribute('class');
-      el.style.color = 'black';
-      el.style.backgroundColor = 'transparent';
-    }
+    wrapper.innerHTML = element.textContent || '';
+    wrapper.innerHTML = `
+      <div style="text-align: center; font-weight: bold; font-size: 18px; margin-bottom: 20px;">
+        ДОГОВІР № ${formData.contractNumber || '___'}<br>
+        надання послуг
+      </div>
+      <div style="margin-bottom: 15px;">
+        м. ${formData.city || '___'}, ${formData.contractDate}
+      </div>
+      <div style="margin-bottom: 20px; text-align: justify;">
+        <strong>${formData.executorName}</strong>, надалі "Виконавець", з однієї сторони, та 
+        <strong>${formData.clientName}</strong>, надалі "Замовник", з іншої сторони, уклали цей Договір про наступне:
+      </div>
+      <div style="margin: 20px 0;">
+        <strong>1. ПРЕДМЕТ ДОГОВОРУ</strong><br>
+        <div style="margin-left: 20px; margin-top: 10px;">
+          1.1. Виконавець зобов'язується надати послуги: <strong>${formData.serviceDescription}</strong>
+        </div>
+      </div>
+      <div style="margin: 20px 0;">
+        <strong>2. ВАРТІСТЬ ПОСЛУГ</strong><br>
+        <div style="margin-left: 20px; margin-top: 10px;">
+          2.1. Загальна вартість послуг становить: <strong>${formData.amount} грн</strong>
+        </div>
+      </div>
+      <div style="margin-top: 40px; display: flex; justify-content: space-between;">
+        <div>
+          <strong>ВИКОНАВЕЦЬ:</strong><br>
+          ${formData.executorName}<br>
+          _________________
+        </div>
+        <div>
+          <strong>ЗАМОВНИК:</strong><br>
+          ${formData.clientName}<br>
+          _________________
+        </div>
+      </div>
+    `;
     
-    clone.style.position = 'absolute';
-    clone.style.left = '-9999px';
-    clone.style.top = '0';
-    document.body.appendChild(clone);
+    document.body.appendChild(wrapper);
     
     const opt = {
       margin: 15,
       filename: `Договір_${formData.contractNumber || 'б/н'}_${formData.contractDate}.pdf`,
       image: { type: 'jpeg' as const, quality: 0.98 },
       html2canvas: { 
-        scale: 2, 
-        useCORS: true,
-        logging: false,
-        allowTaint: true,
+        scale: 2,
         backgroundColor: '#ffffff'
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
     };
 
     try {
-      await html2pdf().set(opt).from(clone).save();
+      await html2pdf().set(opt).from(wrapper).save();
     } finally {
-      document.body.removeChild(clone);
+      document.body.removeChild(wrapper);
     }
   };
 

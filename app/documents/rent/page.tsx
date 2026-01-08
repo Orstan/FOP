@@ -38,48 +38,75 @@ export default function RentGenerator() {
     }
 
     const html2pdf = (await import('html2pdf.js')).default;
-    const element = document.getElementById('rent-preview');
     
-    if (!element) {
-      alert("Помилка: не знайдено елемент для генерації PDF");
-      return;
-    }
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = `
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      width: 800px;
+      padding: 40px;
+      background: #ffffff;
+      color: #000000;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+    `;
     
-    const clone = element.cloneNode(true) as HTMLElement;
-    clone.removeAttribute('class');
-    clone.style.cssText = 'padding: 20px; background: white; color: black; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6;';
+    wrapper.innerHTML = `
+      <div style="text-align: center; font-weight: bold; font-size: 18px; margin-bottom: 20px;">
+        ДОГОВІР ОРЕНДИ ЖИТЛА<br>
+        від ${formData.contractDate}
+      </div>
+      <div style="margin-bottom: 20px; text-align: justify;">
+        <strong>Орендодавець:</strong> ${formData.landlordName}<br>
+        <strong>Орендар:</strong> ${formData.tenantName}
+      </div>
+      <div style="margin: 20px 0;">
+        <strong>1. ПРЕДМЕТ ДОГОВОРУ</strong><br>
+        <div style="margin-left: 20px; margin-top: 10px;">
+          1.1. Орендодавець передає, а Орендар приймає в тимчасове платне користування житло за адресою:<br>
+          <strong>${formData.apartmentAddress}</strong>
+        </div>
+      </div>
+      <div style="margin: 20px 0;">
+        <strong>2. ОРЕНДНА ПЛАТА</strong><br>
+        <div style="margin-left: 20px; margin-top: 10px;">
+          2.1. Орендна плата становить: <strong>${formData.rentAmount} грн</strong> на місяць<br>
+          2.2. Термін оренди: з ${formData.startDate} по ${formData.endDate}
+        </div>
+      </div>
+      <div style="margin-top: 40px; display: flex; justify-content: space-between;">
+        <div>
+          <strong>ОРЕНДОДАВЕЦЬ:</strong><br>
+          ${formData.landlordName}<br>
+          _________________
+        </div>
+        <div>
+          <strong>ОРЕНДАР:</strong><br>
+          ${formData.tenantName}<br>
+          _________________
+        </div>
+      </div>
+    `;
     
-    const allElements = clone.getElementsByTagName('*');
-    for (let i = 0; i < allElements.length; i++) {
-      const el = allElements[i] as HTMLElement;
-      el.removeAttribute('class');
-      el.style.color = 'black';
-      el.style.backgroundColor = 'transparent';
-    }
-    
-    clone.style.position = 'absolute';
-    clone.style.left = '-9999px';
-    clone.style.top = '0';
-    document.body.appendChild(clone);
+    document.body.appendChild(wrapper);
     
     const opt = {
       margin: 15,
       filename: `Договір_оренди_${formData.contractDate}.pdf`,
       image: { type: 'jpeg' as const, quality: 0.98 },
       html2canvas: { 
-        scale: 2, 
-        useCORS: true,
-        logging: false,
-        allowTaint: true,
+        scale: 2,
         backgroundColor: '#ffffff'
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
     };
 
     try {
-      await html2pdf().set(opt).from(clone).save();
+      await html2pdf().set(opt).from(wrapper).save();
     } finally {
-      document.body.removeChild(clone);
+      document.body.removeChild(wrapper);
     }
   };
 
