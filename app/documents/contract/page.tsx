@@ -42,103 +42,23 @@ export default function ContractGenerator() {
       const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
       
-      const iframe = document.createElement('iframe');
-      iframe.style.visibility = 'hidden';
-      iframe.style.position = 'fixed';
-      iframe.style.left = '-10000px';
-      iframe.style.top = '0';
-      iframe.style.width = '0';
-      iframe.style.height = '0';
-      iframe.style.border = 'none';
-      document.body.appendChild(iframe);
-
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-      
-      if (!iframeDoc) {
-        throw new Error("Не вдалося створити iframe");
+      const element = document.getElementById('contract-preview');
+      if (!element) {
+        alert("Помилка: не знайдено елемент для генерації PDF");
+        return;
       }
 
-      const content = `
-        <html>
-          <head>
-            <style>
-              body { 
-                font-family: Arial, sans-serif; 
-                background-color: #ffffff; 
-                color: #000000; 
-                margin: 0; 
-                padding: 20mm; 
-                width: 210mm;
-                min-height: 297mm;
-                box-sizing: border-box;
-              }
-              .header { text-align: center; font-weight: bold; font-size: 16pt; margin-bottom: 20px; }
-              .section { margin: 20px 0; }
-              .sub-section { margin-left: 20px; margin-top: 10px; }
-              .bold { font-weight: bold; }
-              .flex-row { display: flex; justify-content: space-between; margin-top: 50px; }
-              .col { width: 45%; }
-            </style>
-          </head>
-          <body>
-            <div class="header">
-              ДОГОВІР № ${formData.contractNumber || '___'}<br>
-              надання послуг
-            </div>
-            
-            <div style="margin-bottom: 15px;">
-              ${formData.contractDate}
-            </div>
-
-            <div style="margin-bottom: 20px; text-align: justify;">
-              <strong>${formData.executorName}</strong>, надалі "Виконавець", з однієї сторони, та 
-              <strong>${formData.clientName}</strong>, надалі "Замовник", з іншої сторони, уклали цей Договір про наступне:
-            </div>
-
-            <div class="section">
-              <strong>1. ПРЕДМЕТ ДОГОВОРУ</strong>
-              <div class="sub-section">
-                1.1. Виконавець зобов'язується надати послуги: <strong>${formData.serviceDescription}</strong>
-              </div>
-            </div>
-
-            <div class="section">
-              <strong>2. ВАРТІСТЬ ПОСЛУГ</strong>
-              <div class="sub-section">
-                2.1. Загальна вартість послуг становить: <strong>${formData.amount} грн</strong>
-              </div>
-            </div>
-
-            <div class="flex-row">
-              <div class="col">
-                <strong>ВИКОНАВЕЦЬ:</strong><br><br>
-                _________________<br>
-                ${formData.executorName}
-              </div>
-              <div class="col">
-                <strong>ЗАМОВНИК:</strong><br><br>
-                _________________<br>
-                ${formData.clientName}
-              </div>
-            </div>
-          </body>
-        </html>
-      `;
-
-      iframeDoc.open();
-      iframeDoc.write(content);
-      iframeDoc.close();
-
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      const canvas = await html2canvas(iframeDoc.body, {
-        scale: 2,
-        backgroundColor: '#ffffff',
+      const canvas = await html2canvas(element, {
+        scale: 3,
+        useCORS: true,
         logging: false,
-        useCORS: true 
+        backgroundColor: "#ffffff",
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight
       });
 
       const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -147,17 +67,28 @@ export default function ContractGenerator() {
 
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
+      
       const imgProps = pdf.getImageProperties(imgData);
       const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, imgHeight);
-      pdf.save(`Договір_${formData.contractNumber || 'б/н'}_${formData.contractDate}.pdf`);
+      let heightLeft = imgHeight;
+      let position = 0;
 
-      document.body.removeChild(iframe);
+      pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
+      heightLeft -= pdfHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+
+      pdf.save(`Договір_${formData.contractNumber || 'б/н'}_${formData.contractDate}.pdf`);
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);
-      alert("Не вдалося створити PDF. Деталі в консолі.");
+      alert("Не вдалося створити PDF. Спробуйте ще раз.");
     }
   };
 

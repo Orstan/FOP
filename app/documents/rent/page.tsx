@@ -41,211 +41,23 @@ export default function RentGenerator() {
       const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
       
-      const iframe = document.createElement('iframe');
-      iframe.style.visibility = 'hidden';
-      iframe.style.position = 'fixed';
-      iframe.style.left = '-10000px';
-      iframe.style.top = '0';
-      iframe.style.width = '0';
-      iframe.style.height = '0';
-      iframe.style.border = 'none';
-      document.body.appendChild(iframe);
-
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-      
-      if (!iframeDoc) {
-        throw new Error("Не вдалося створити iframe");
+      const element = document.getElementById('rent-preview');
+      if (!element) {
+        alert("Помилка: не знайдено елемент для генерації PDF");
+        return;
       }
 
-      const content = `
-        <html>
-          <head>
-            <style>
-              body { 
-                font-family: 'Times New Roman', Times, serif;
-                background-color: #ffffff; 
-                color: #000000; 
-                margin: 0; 
-                padding: 15mm 20mm;
-                width: 210mm; 
-                min-height: 297mm; 
-                box-sizing: border-box;
-                font-size: 11pt;
-                line-height: 1.4;
-              }
-              .header { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 10px; text-transform: uppercase; }
-              .date-city { text-align: right; margin-bottom: 20px; font-size: 11pt; }
-              .intro { text-align: justify; margin-bottom: 15px; text-indent: 10mm; }
-              .section-title { font-weight: bold; margin-top: 15px; margin-bottom: 5px; text-transform: uppercase; font-size: 11pt; }
-              .section-content { text-align: justify; margin-left: 0; }
-              .item { margin-bottom: 5px; display: flex; }
-              .item-number { min-width: 10mm; }
-              .item-text { flex: 1; }
-              .sub-item { margin-left: 10mm; display: flex; margin-bottom: 3px; }
-              .sub-item-number { min-width: 12mm; }
-              
-              .signatures { display: flex; justify-content: space-between; margin-top: 40px; }
-              .col { width: 45%; }
-              .sign-line { border-top: 1px solid #000; margin-top: 30px; width: 100%; }
-              strong { font-weight: bold; }
-            </style>
-          </head>
-          <body>
-            <div class="header">
-              ДОГОВІР НАЙМУ ЖИТЛА
-            </div>
-            
-            <div class="date-city">
-               м. Київ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${formData.contractDate}
-            </div>
-
-            <div class="intro">
-              <strong>${formData.landlordName}</strong>, ІПН ${formData.landlordCode || '___________'}, зареєстрований за адресою: ${formData.landlordAddress || '___________'}, надалі іменований "Орендодавець", з однієї сторони, та
-            </div>
-            <div class="intro">
-              <strong>${formData.tenantName}</strong>, ІПН ${formData.tenantCode || '___________'}, надалі іменований "Орендар", з другої сторони, разом іменовані "Сторони", уклали цей Договір про наступне:
-            </div>
-
-            <div class="section-title">1. ПРЕДМЕТ ДОГОВОРУ</div>
-            <div class="section-content">
-              <div class="item">
-                <span class="item-number">1.1.</span>
-                <span class="item-text">Орендодавець передає, а Орендар приймає в тимчасове платне користування житлове приміщення (квартиру), що знаходиться за адресою: <strong>${formData.apartmentAddress}</strong>.</span>
-              </div>
-              <div class="item">
-                <span class="item-number">1.2.</span>
-                <span class="item-text">Житло передається в користування разом з меблями та побутовою технікою, що знаходиться в ньому на момент підписання цього Договору.</span>
-              </div>
-            </div>
-
-            <div class="section-title">2. ТЕРМІН ДІЇ ДОГОВОРУ</div>
-            <div class="section-content">
-              <div class="item">
-                <span class="item-number">2.1.</span>
-                <span class="item-text">Договір укладено на строк <strong>${formData.duration} місяців</strong> ${formData.startDate ? `з ${formData.startDate}` : ''}.</span>
-              </div>
-              <div class="item">
-                <span class="item-number">2.2.</span>
-                <span class="item-text">Договір може бути продовжений за згодою Сторін шляхом укладення додаткової угоди.</span>
-              </div>
-            </div>
-
-            <div class="section-title">3. ОРЕНДНА ПЛАТА</div>
-            <div class="section-content">
-              <div class="item">
-                <span class="item-number">3.1.</span>
-                <span class="item-text">Розмір орендної плати становить <strong>${formData.rentAmount} грн</strong> на місяць.</span>
-              </div>
-              ${formData.utilityAmount ? `<div class="item">
-                <span class="item-number">3.2.</span>
-                <span class="item-text">Оплата комунальних послуг становить додатково <strong>${formData.utilityAmount} грн</strong> на місяць, або згідно фактичного споживання за показниками лічильників.</span>
-              </div>` : ''}
-              <div class="item">
-                <span class="item-number">3.${formData.utilityAmount ? '3' : '2'}.</span>
-                <span class="item-text">Орендна плата вноситься Орендарем щомісяця до 5 числа поточного місяця.</span>
-              </div>
-              <div class="item">
-                <span class="item-number">3.${formData.utilityAmount ? '4' : '3'}.</span>
-                <span class="item-text">Оплата здійснюється шляхом перерахування коштів на банківський рахунок Орендодавця або готівкою за розпискою.</span>
-              </div>
-            </div>
-
-            <div class="section-title">4. ПРАВА ТА ОБОВ'ЯЗКИ СТОРІН</div>
-            <div class="section-content">
-              <div class="item">
-                <span class="item-number">4.1.</span>
-                <span class="item-text">Орендодавець зобов'язується:</span>
-              </div>
-              <div class="sub-item">
-                <span class="sub-item-number">4.1.1.</span>
-                <span class="item-text">Передати Орендарю житло у стані, придатному для проживання.</span>
-              </div>
-              <div class="sub-item">
-                <span class="sub-item-number">4.1.2.</span>
-                <span class="item-text">Забезпечити можливість користування комунальними послугами.</span>
-              </div>
-
-              <div class="item" style="margin-top: 5px;">
-                <span class="item-number">4.2.</span>
-                <span class="item-text">Орендар зобов'язується:</span>
-              </div>
-              <div class="sub-item">
-                 <span class="sub-item-number">4.2.1.</span>
-                 <span class="item-text">Використовувати житло виключно для проживання.</span>
-              </div>
-              <div class="sub-item">
-                 <span class="sub-item-number">4.2.2.</span>
-                 <span class="item-text">Своєчасно вносити орендну плату.</span>
-              </div>
-              <div class="sub-item">
-                 <span class="sub-item-number">4.2.3.</span>
-                 <span class="item-text">Підтримувати житло у належному стані.</span>
-              </div>
-               <div class="sub-item">
-                 <span class="sub-item-number">4.2.4.</span>
-                 <span class="item-text">Повернути житло у такому ж стані при закінченні Договору.</span>
-              </div>
-            </div>
-
-            <div class="section-title">5. ВІДПОВІДАЛЬНІСТЬ СТОРІН</div>
-            <div class="section-content">
-              <div class="item">
-                <span class="item-number">5.1.</span>
-                <span class="item-text">За несвоєчасну сплату орендної плати Орендар сплачує пеню у розмірі 0,1% від суми заборгованості за кожний день прострочення.</span>
-              </div>
-              <div class="item">
-                <span class="item-number">5.2.</span>
-                <span class="item-text">У разі пошкодження майна Орендар відшкодовує збитки у повному обсязі.</span>
-              </div>
-            </div>
-
-            <div class="section-title">6. РОЗІРВАННЯ ДОГОВОРУ</div>
-            <div class="section-content">
-              <div class="item">
-                <span class="item-number">6.1.</span>
-                <span class="item-text">Договір може бути розірваний достроково за взаємною згодою Сторін.</span>
-              </div>
-              <div class="item">
-                <span class="item-number">6.2.</span>
-                <span class="item-text">Кожна Сторона має право розірвати Договір в односторонньому порядку, попередивши іншу Сторону не пізніше ніж за 30 днів.</span>
-              </div>
-            </div>
-
-            <div class="section-title">7. ПІДПИСИ СТОРІН</div>
-            <div class="signatures">
-              <div class="col">
-                <strong>ОРЕНДОДАВЕЦЬ:</strong><br>
-                ${formData.landlordName}<br>
-                ІПН: ${formData.landlordCode || '___________'}
-                <div class="sign-line"></div>
-                (підпис)
-              </div>
-              <div class="col">
-                <strong>ОРЕНДАР:</strong><br>
-                ${formData.tenantName}<br>
-                ІПН: ${formData.tenantCode || '___________'}
-                <div class="sign-line"></div>
-                (підпис)
-              </div>
-            </div>
-          </body>
-        </html>
-      `;
-
-      iframeDoc.open();
-      iframeDoc.write(content);
-      iframeDoc.close();
-
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      const canvas = await html2canvas(iframeDoc.body, {
-        scale: 2,
-        backgroundColor: '#ffffff',
+      const canvas = await html2canvas(element, {
+        scale: 3,
+        useCORS: true,
         logging: false,
-        useCORS: true 
+        backgroundColor: "#ffffff",
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight
       });
 
       const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -254,13 +66,24 @@ export default function RentGenerator() {
 
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
+      
       const imgProps = pdf.getImageProperties(imgData);
       const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, imgHeight);
-      pdf.save(`Договір_оренди_${formData.contractDate}.pdf`);
+      let heightLeft = imgHeight;
+      let position = 0;
 
-      document.body.removeChild(iframe);
+      pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
+      heightLeft -= pdfHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+
+      pdf.save(`Договір_оренди_${formData.contractDate}.pdf`);
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);
@@ -268,9 +91,7 @@ export default function RentGenerator() {
     }
   };
 
-  // ... решта коду (return ...) залишається без змін
   return (
-    // ... ваш JSX ...
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
        {/* ... вставте сюди решту вашого JSX коду ... */}
         <header className="border-b bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm sticky top-0 z-50 print:hidden">
