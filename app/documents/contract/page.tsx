@@ -38,7 +38,23 @@ export default function ContractGenerator() {
       return;
     }
 
-    alert("Генерація PDF буде додана у наступній версії. Поки що ви можете роздрукувати цю сторінку (Ctrl+P)");
+    const html2pdf = (await import('html2pdf.js')).default;
+    const element = document.getElementById('contract-preview');
+    
+    if (!element) {
+      alert("Помилка: не знайдено елемент для генерації PDF");
+      return;
+    }
+    
+    const opt = {
+      margin: 15,
+      filename: `Договір_${formData.contractNumber || 'б/н'}_${formData.contractDate}.pdf`,
+      image: { type: 'jpeg' as const, quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
+    };
+
+    html2pdf().set(opt).from(element).save();
   };
 
   return (
@@ -234,7 +250,7 @@ export default function ContractGenerator() {
                 Так виглядатиме ваш договір
               </CardDescription>
             </CardHeader>
-            <CardContent className="prose dark:prose-invert max-w-none text-sm">
+            <CardContent id="contract-preview" className="prose dark:prose-invert max-w-none text-sm">
               <div className="space-y-4">
                 <div className="text-center font-bold text-lg print:text-base">
                   ДОГОВІР № {formData.contractNumber || "___"}<br />

@@ -43,7 +43,23 @@ export default function InvoiceGenerator() {
       return;
     }
 
-    alert("Генерація PDF буде додана у наступній версії. Поки що ви можете роздрукувати цю сторінку (Ctrl+P)");
+    const html2pdf = (await import('html2pdf.js')).default;
+    const element = document.getElementById('invoice-preview');
+    
+    if (!element) {
+      alert("Помилка: не знайдено елемент для генерації PDF");
+      return;
+    }
+    
+    const opt = {
+      margin: 15,
+      filename: `Рахунок_${formData.invoiceNumber || 'б/н'}_${formData.invoiceDate}.pdf`,
+      image: { type: 'jpeg' as const, quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
+    };
+
+    html2pdf().set(opt).from(element).save();
   };
 
   return (
@@ -306,7 +322,7 @@ export default function InvoiceGenerator() {
                 Англомовна версія інвойсу
               </CardDescription>
             </CardHeader>
-            <CardContent className="prose dark:prose-invert max-w-none text-sm">
+            <CardContent id="invoice-preview" className="prose dark:prose-invert max-w-none text-sm">
               <div className="space-y-6">
                 <div className="flex justify-between items-start">
                   <div>
