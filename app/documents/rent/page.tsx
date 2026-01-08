@@ -37,407 +37,435 @@ export default function RentGenerator() {
       return;
     }
 
-    const html2pdf = (await import('html2pdf.js')).default;
-    
-    const wrapper = document.createElement('div');
-    wrapper.style.cssText = `
-      position: absolute;
-      left: -9999px;
-      top: 0;
-      width: 800px;
-      padding: 40px;
-      background: #ffffff;
-      color: #000000;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      line-height: 1.8;
-    `;
-    
-    wrapper.innerHTML = `
-      <div style="text-align: center; font-weight: bold; font-size: 18px; margin-bottom: 20px;">
-        ДОГОВІР ОРЕНДИ ЖИТЛА<br>
-        від ${formData.contractDate}
-      </div>
-      <div style="margin-bottom: 20px; text-align: justify;">
-        <strong>Орендодавець:</strong> ${formData.landlordName}<br>
-        <strong>Орендар:</strong> ${formData.tenantName}
-      </div>
-      <div style="margin: 20px 0;">
-        <strong>1. ПРЕДМЕТ ДОГОВОРУ</strong><br>
-        <div style="margin-left: 20px; margin-top: 10px;">
-          1.1. Орендодавець передає, а Орендар приймає в тимчасове платне користування житло за адресою:<br>
-          <strong>${formData.apartmentAddress}</strong>
-        </div>
-      </div>
-      <div style="margin: 20px 0;">
-        <strong>2. ОРЕНДНА ПЛАТА</strong><br>
-        <div style="margin-left: 20px; margin-top: 10px;">
-          2.1. Орендна плата становить: <strong>${formData.rentAmount} грн</strong> на місяць<br>
-          2.2. Термін оренди: з ${formData.startDate} по ${formData.endDate}
-        </div>
-      </div>
-      <div style="margin-top: 40px; display: flex; justify-content: space-between;">
-        <div>
-          <strong>ОРЕНДОДАВЕЦЬ:</strong><br>
-          ${formData.landlordName}<br>
-          _________________
-        </div>
-        <div>
-          <strong>ОРЕНДАР:</strong><br>
-          ${formData.tenantName}<br>
-          _________________
-        </div>
-      </div>
-    `;
-    
-    document.body.appendChild(wrapper);
-    
-    const opt = {
-      margin: 15,
-      filename: `Договір_оренди_${formData.contractDate}.pdf`,
-      image: { type: 'jpeg' as const, quality: 0.98 },
-      html2canvas: { 
-        scale: 2,
-        backgroundColor: '#ffffff'
-      },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
-    };
-
     try {
-      await html2pdf().set(opt).from(wrapper).save();
-    } finally {
+      // Динамічний імпорт нових бібліотек
+      const html2canvas = (await import('html2canvas')).default;
+      const jsPDF = (await import('jspdf')).default;
+      
+      const wrapper = document.createElement('div');
+      
+      // ВАЖЛИВО: явно задаємо білий фон і чорний текст, щоб перебити CSS змінні Tailwind (lab/oklch)
+      wrapper.style.cssText = `
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        width: 210mm; /* Ширина А4 */
+        min-height: 297mm;
+        padding: 20mm;
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        font-family: Arial, sans-serif;
+        font-size: 12pt;
+        line-height: 1.5;
+        z-index: 1000;
+      `;
+      
+      // Ваш HTML шаблон (без змін)
+      wrapper.innerHTML = `
+        <div style="text-align: center; font-weight: bold; font-size: 16pt; margin-bottom: 20px;">
+          ДОГОВІР ОРЕНДИ ЖИТЛА<br>
+          від ${formData.contractDate}
+        </div>
+        <div style="margin-bottom: 20px;">
+          <strong>Орендодавець:</strong> ${formData.landlordName}<br>
+          <strong>Орендар:</strong> ${formData.tenantName}
+        </div>
+        <div style="margin: 20px 0;">
+          <strong>1. ПРЕДМЕТ ДОГОВОРУ</strong><br>
+          <div style="margin-left: 20px; margin-top: 10px;">
+            1.1. Орендодавець передає, а Орендар приймає в тимчасове платне користування житло за адресою:<br>
+            <strong>${formData.apartmentAddress}</strong>
+          </div>
+        </div>
+        <div style="margin: 20px 0;">
+          <strong>2. ОРЕНДНА ПЛАТА</strong><br>
+          <div style="margin-left: 20px; margin-top: 10px;">
+            2.1. Орендна плата становить: <strong>${formData.rentAmount} грн</strong> на місяць<br>
+            2.2. Термін оренди: ${formData.duration} місяців ${formData.startDate ? `(з ${formData.startDate})` : ''}
+          </div>
+        </div>
+        <div style="margin-top: 50px; display: flex; justify-content: space-between;">
+          <div style="width: 45%;">
+            <strong>ОРЕНДОДАВЕЦЬ:</strong><br><br>
+            _________________<br>
+            ${formData.landlordName}
+          </div>
+          <div style="width: 45%;">
+            <strong>ОРЕНДАР:</strong><br><br>
+            _________________<br>
+            ${formData.tenantName}
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(wrapper);
+
+      // Створення канвасу
+      const canvas = await html2canvas(wrapper, {
+        scale: 2, // Вища якість
+        backgroundColor: '#ffffff', // Примусовий білий фон
+        logging: false,
+        useCORS: true // Дозволяє завантажувати зовнішні ресурси, якщо будуть
+      });
+
+      // Конвертація в PDF
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgProps = pdf.getImageProperties(imgData);
+      const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      // Якщо документ довгий, тут можна додати логіку для декількох сторінок, 
+      // але для цього шаблону вистачить однієї
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, imgHeight);
+      
+      pdf.save(`Договір_оренди_${formData.contractDate}.pdf`);
+
       document.body.removeChild(wrapper);
+      
+    } catch (error) {
+      console.error("Помилка при генерації PDF:", error);
+      alert("Не вдалося створити PDF. Спробуйте ще раз.");
     }
   };
 
+  // ... решта коду (return ...) залишається без змін
   return (
+    // ... ваш JSX ...
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
-      <header className="border-b bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm sticky top-0 z-50 print:hidden">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/documents" className="flex items-center gap-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-            <ArrowLeft className="h-5 w-5" />
-            <span className="font-semibold">Документи</span>
-          </Link>
-          <ThemeToggle />
-        </div>
-      </header>
+       {/* ... вставте сюди решту вашого JSX коду ... */}
+        <header className="border-b bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm sticky top-0 z-50 print:hidden">
+            <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+            <Link href="/documents" className="flex items-center gap-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                <ArrowLeft className="h-5 w-5" />
+                <span className="font-semibold">Документи</span>
+            </Link>
+            <ThemeToggle />
+            </div>
+        </header>
 
-      <main className="container mx-auto px-4 py-12 max-w-6xl">
-        <div className="mb-8 print:hidden">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Договір оренди житла
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
-            Створіть договір найму житлового приміщення між орендодавцем та орендарем
-          </p>
-        </div>
+        <main className="container mx-auto px-4 py-12 max-w-6xl">
+            <div className="mb-8 print:hidden">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+                Договір оренди житла
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-300">
+                Створіть договір найму житлового приміщення між орендодавцем та орендарем
+            </p>
+            </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          <Card className="dark:bg-gray-900 print:hidden">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Home className="h-5 w-5 text-orange-600 dark:text-orange-400" />
-                Заповніть дані
-              </CardTitle>
-              <CardDescription>
-                Договір має бути зареєстрований у відділі реєстрації місця проживання
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-4">
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100">Дати договору</h3>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="contractDate">Дата укладення *</Label>
-                  <Input
-                    id="contractDate"
-                    name="contractDate"
-                    type="date"
-                    value={formData.contractDate}
-                    onChange={handleChange}
-                  />
+            <div className="grid lg:grid-cols-2 gap-8">
+            <Card className="dark:bg-gray-900 print:hidden">
+                <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                    <Home className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                    Заповніть дані
+                </CardTitle>
+                <CardDescription>
+                    Договір має бути зареєстрований у відділі реєстрації місця проживання
+                </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                <div className="space-y-4">
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">Дати договору</h3>
+                    
+                    <div className="space-y-2">
+                    <Label htmlFor="contractDate">Дата укладення *</Label>
+                    <Input
+                        id="contractDate"
+                        name="contractDate"
+                        type="date"
+                        value={formData.contractDate}
+                        onChange={handleChange}
+                    />
+                    </div>
+
+                    <div className="space-y-2">
+                    <Label htmlFor="startDate">Дата початку оренди</Label>
+                    <Input
+                        id="startDate"
+                        name="startDate"
+                        type="date"
+                        value={formData.startDate}
+                        onChange={handleChange}
+                    />
+                    </div>
+
+                    <div className="space-y-2">
+                    <Label htmlFor="duration">Термін оренди (місяців)</Label>
+                    <Input
+                        id="duration"
+                        name="duration"
+                        type="number"
+                        placeholder="12"
+                        value={formData.duration}
+                        onChange={handleChange}
+                    />
+                    </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="startDate">Дата початку оренди</Label>
-                  <Input
-                    id="startDate"
-                    name="startDate"
-                    type="date"
-                    value={formData.startDate}
-                    onChange={handleChange}
-                  />
+                <div className="space-y-4">
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">Орендодавець (власник)</h3>
+                    
+                    <div className="space-y-2">
+                    <Label htmlFor="landlordName">ПІБ орендодавця *</Label>
+                    <Input
+                        id="landlordName"
+                        name="landlordName"
+                        placeholder="Іваненко Іван Іванович"
+                        value={formData.landlordName}
+                        onChange={handleChange}
+                    />
+                    </div>
+
+                    <div className="space-y-2">
+                    <Label htmlFor="landlordCode">ІПН орендодавця</Label>
+                    <Input
+                        id="landlordCode"
+                        name="landlordCode"
+                        placeholder="1234567890"
+                        value={formData.landlordCode}
+                        onChange={handleChange}
+                    />
+                    </div>
+
+                    <div className="space-y-2">
+                    <Label htmlFor="landlordAddress">Адреса реєстрації</Label>
+                    <Input
+                        id="landlordAddress"
+                        name="landlordAddress"
+                        placeholder="м. Київ, вул. Хрещатик, 1"
+                        value={formData.landlordAddress}
+                        onChange={handleChange}
+                    />
+                    </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="duration">Термін оренди (місяців)</Label>
-                  <Input
-                    id="duration"
-                    name="duration"
-                    type="number"
-                    placeholder="12"
-                    value={formData.duration}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
+                <div className="space-y-4">
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">Орендар (наймач)</h3>
+                    
+                    <div className="space-y-2">
+                    <Label htmlFor="tenantName">ПІБ орендаря *</Label>
+                    <Input
+                        id="tenantName"
+                        name="tenantName"
+                        placeholder="Петренко Петро Петрович"
+                        value={formData.tenantName}
+                        onChange={handleChange}
+                    />
+                    </div>
 
-              <div className="space-y-4">
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100">Орендодавець (власник)</h3>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="landlordName">ПІБ орендодавця *</Label>
-                  <Input
-                    id="landlordName"
-                    name="landlordName"
-                    placeholder="Іваненко Іван Іванович"
-                    value={formData.landlordName}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="landlordCode">ІПН орендодавця</Label>
-                  <Input
-                    id="landlordCode"
-                    name="landlordCode"
-                    placeholder="1234567890"
-                    value={formData.landlordCode}
-                    onChange={handleChange}
-                  />
+                    <div className="space-y-2">
+                    <Label htmlFor="tenantCode">ІПН орендаря</Label>
+                    <Input
+                        id="tenantCode"
+                        name="tenantCode"
+                        placeholder="0987654321"
+                        value={formData.tenantCode}
+                        onChange={handleChange}
+                    />
+                    </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="landlordAddress">Адреса реєстрації</Label>
-                  <Input
-                    id="landlordAddress"
-                    name="landlordAddress"
-                    placeholder="м. Київ, вул. Хрещатик, 1"
-                    value={formData.landlordAddress}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
+                <div className="space-y-4">
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">Об'єкт оренди</h3>
+                    
+                    <div className="space-y-2">
+                    <Label htmlFor="apartmentAddress">Адреса квартири *</Label>
+                    <Input
+                        id="apartmentAddress"
+                        name="apartmentAddress"
+                        placeholder="м. Київ, вул. Шевченка, 10, кв. 25"
+                        value={formData.apartmentAddress}
+                        onChange={handleChange}
+                    />
+                    </div>
 
-              <div className="space-y-4">
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100">Орендар (наймач)</h3>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="tenantName">ПІБ орендаря *</Label>
-                  <Input
-                    id="tenantName"
-                    name="tenantName"
-                    placeholder="Петренко Петро Петрович"
-                    value={formData.tenantName}
-                    onChange={handleChange}
-                  />
-                </div>
+                    <div className="space-y-2">
+                    <Label htmlFor="rentAmount">Орендна плата (грн/міс) *</Label>
+                    <Input
+                        id="rentAmount"
+                        name="rentAmount"
+                        type="number"
+                        placeholder="15000"
+                        value={formData.rentAmount}
+                        onChange={handleChange}
+                    />
+                    </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="tenantCode">ІПН орендаря</Label>
-                  <Input
-                    id="tenantCode"
-                    name="tenantCode"
-                    placeholder="0987654321"
-                    value={formData.tenantCode}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100">Об'єкт оренди</h3>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="apartmentAddress">Адреса квартири *</Label>
-                  <Input
-                    id="apartmentAddress"
-                    name="apartmentAddress"
-                    placeholder="м. Київ, вул. Шевченка, 10, кв. 25"
-                    value={formData.apartmentAddress}
-                    onChange={handleChange}
-                  />
+                    <div className="space-y-2">
+                    <Label htmlFor="utilityAmount">Комунальні послуги (грн/міс)</Label>
+                    <Input
+                        id="utilityAmount"
+                        name="utilityAmount"
+                        type="number"
+                        placeholder="3000"
+                        value={formData.utilityAmount}
+                        onChange={handleChange}
+                    />
+                    </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="rentAmount">Орендна плата (грн/міс) *</Label>
-                  <Input
-                    id="rentAmount"
-                    name="rentAmount"
-                    type="number"
-                    placeholder="15000"
-                    value={formData.rentAmount}
-                    onChange={handleChange}
-                  />
+                <Button onClick={generatePDF} className="w-full" size="lg">
+                    <Download className="mr-2 h-5 w-5" />
+                    Завантажити PDF
+                </Button>
+
+                <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
+                    <div className="flex gap-2">
+                    <Info className="h-5 w-5 text-orange-600 dark:text-orange-400 flex-shrink-0 mt-0.5" />
+                    <div className="text-sm text-orange-900 dark:text-orange-200">
+                        <p className="font-semibold mb-1">Важливо!</p>
+                        <p>Договір оренди термін більше 1 року підлягає нотаріальному посвідченню та державній реєстрації.</p>
+                    </div>
+                    </div>
                 </div>
+                </CardContent>
+            </Card>
 
-                <div className="space-y-2">
-                  <Label htmlFor="utilityAmount">Комунальні послуги (грн/міс)</Label>
-                  <Input
-                    id="utilityAmount"
-                    name="utilityAmount"
-                    type="number"
-                    placeholder="3000"
-                    value={formData.utilityAmount}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
+            <Card className="dark:bg-gray-900 print:shadow-none print:border-0">
+                <CardHeader className="print:hidden">
+                <CardTitle>Попередній перегляд</CardTitle>
+                <CardDescription>
+                    Так виглядатиме договір оренди
+                </CardDescription>
+                </CardHeader>
+                <CardContent id="rent-preview" className="prose dark:prose-invert max-w-none text-sm">
+                <div className="space-y-4">
+                    <div className="text-center font-bold text-lg print:text-base">
+                    ДОГОВІР НАЙМУ ЖИТЛА
+                    </div>
+                    
+                    <div className="text-right">
+                    м. _______________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {formData.contractDate || "__.__.____"}
+                    </div>
 
-              <Button onClick={generatePDF} className="w-full" size="lg">
-                <Download className="mr-2 h-5 w-5" />
-                Завантажити PDF
-              </Button>
-
-              <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
-                <div className="flex gap-2">
-                  <Info className="h-5 w-5 text-orange-600 dark:text-orange-400 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm text-orange-900 dark:text-orange-200">
-                    <p className="font-semibold mb-1">Важливо!</p>
-                    <p>Договір оренди термін більше 1 року підлягає нотаріальному посвідченню та державній реєстрації.</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="dark:bg-gray-900 print:shadow-none print:border-0">
-            <CardHeader className="print:hidden">
-              <CardTitle>Попередній перегляд</CardTitle>
-              <CardDescription>
-                Так виглядатиме договір оренди
-              </CardDescription>
-            </CardHeader>
-            <CardContent id="rent-preview" className="prose dark:prose-invert max-w-none text-sm">
-              <div className="space-y-4">
-                <div className="text-center font-bold text-lg print:text-base">
-                  ДОГОВІР НАЙМУ ЖИТЛА
-                </div>
-                
-                <div className="text-right">
-                  м. _______________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {formData.contractDate || "__.__.____"}
-                </div>
-
-                <p>
-                  <strong>{formData.landlordName || "[ПІБ Орендодавця]"}</strong>
-                  {formData.landlordCode && <>, ІПН {formData.landlordCode}</>}
-                  {formData.landlordAddress && <>, зареєстрований за адресою: {formData.landlordAddress}</>}, 
-                  надалі іменований "Орендодавець", з однієї сторони, та
-                </p>
-
-                <p>
-                  <strong>{formData.tenantName || "[ПІБ Орендаря]"}</strong>
-                  {formData.tenantCode && <>, ІПН {formData.tenantCode}</>}, 
-                  надалі іменований "Орендар", з другої сторони, 
-                  разом іменовані "Сторони", уклали цей Договір про наступне:
-                </p>
-
-                <div>
-                  <p className="font-bold">1. ПРЕДМЕТ ДОГОВОРУ</p>
-                  <p>
-                    1.1. Орендодавець передає, а Орендар приймає в тимчасове платне користування 
-                    житлове приміщення (квартиру), що знаходиться за адресою:{" "}
-                    <strong>{formData.apartmentAddress || "[Адреса квартири]"}</strong>.
-                  </p>
-                  <p>
-                    1.2. Житло передається в користування разом з меблями та побутовою технікою, 
-                    що знаходиться в ньому на момент підписання цього Договору.
-                  </p>
-                </div>
-
-                <div>
-                  <p className="font-bold">2. ТЕРМІН ДІЇ ДОГОВОРУ</p>
-                  <p>
-                    2.1. Договір укладено на строк <strong>{formData.duration || "___"} місяців</strong>
-                    {formData.startDate && <> з {formData.startDate}</>}.
-                  </p>
-                  <p>
-                    2.2. Договір може бути продовжений за згодою Сторін шляхом укладення додаткової угоди.
-                  </p>
-                </div>
-
-                <div>
-                  <p className="font-bold">3. ОРЕНДНА ПЛАТА</p>
-                  <p>
-                    3.1. Розмір орендної плати становить <strong>{formData.rentAmount || "[___]"} грн</strong> на місяць.
-                  </p>
-                  {formData.utilityAmount && (
                     <p>
-                      3.2. Оплата комунальних послуг становить додатково <strong>{formData.utilityAmount} грн</strong> на місяць, 
-                      або згідно фактичного споживання за показниками лічильників.
+                    <strong>{formData.landlordName || "[ПІБ Орендодавця]"}</strong>
+                    {formData.landlordCode && <>, ІПН {formData.landlordCode}</>}
+                    {formData.landlordAddress && <>, зареєстрований за адресою: {formData.landlordAddress}</>}, 
+                    надалі іменований "Орендодавець", з однієї сторони, та
                     </p>
-                  )}
-                  <p>
-                    3.3. Орендна плата вноситься Орендарем щомісяця до 5 числа поточного місяця.
-                  </p>
-                  <p>
-                    3.4. Оплата здійснюється шляхом перерахування коштів на банківський рахунок Орендодавця 
-                    або готівкою за розпискою.
-                  </p>
-                </div>
 
-                <div>
-                  <p className="font-bold">4. ПРАВА ТА ОБОВ'ЯЗКИ СТОРІН</p>
-                  <p>4.1. Орендодавець зобов'язується:</p>
-                  <p className="pl-4">4.1.1. Передати Орендарю житло у стані, придатному для проживання.</p>
-                  <p className="pl-4">4.1.2. Забезпечити можливість користування комунальними послугами.</p>
-                  
-                  <p>4.2. Орендар зобов'язується:</p>
-                  <p className="pl-4">4.2.1. Використовувати житло виключно для проживання.</p>
-                  <p className="pl-4">4.2.2. Своєчасно вносити орендну плату.</p>
-                  <p className="pl-4">4.2.3. Підтримувати житло у належному стані.</p>
-                  <p className="pl-4">4.2.4. Повернути житло у такому ж стані при закінченні Договору.</p>
-                </div>
+                    <p>
+                    <strong>{formData.tenantName || "[ПІБ Орендаря]"}</strong>
+                    {formData.tenantCode && <>, ІПН {formData.tenantCode}</>}, 
+                    надалі іменований "Орендар", з другої сторони, 
+                    разом іменовані "Сторони", уклали цей Договір про наступне:
+                    </p>
 
-                <div>
-                  <p className="font-bold">5. ВІДПОВІДАЛЬНІСТЬ СТОРІН</p>
-                  <p>
-                    5.1. За несвоєчасну сплату орендної плати Орендар сплачує пеню у розмірі 0,1% 
-                    від суми заборгованості за кожний день прострочення.
-                  </p>
-                  <p>
-                    5.2. У разі пошкодження майна Орендар відшкодовує збитки у повному обсязі.
-                  </p>
-                </div>
-
-                <div>
-                  <p className="font-bold">6. РОЗІРВАННЯ ДОГОВОРУ</p>
-                  <p>
-                    6.1. Договір може бути розірваний достроково за взаємною згодою Сторін.
-                  </p>
-                  <p>
-                    6.2. Кожна Сторона має право розірвати Договір в односторонньому порядку, 
-                    попередивши іншу Сторону не пізніше ніж за 30 днів.
-                  </p>
-                </div>
-
-                <div>
-                  <p className="font-bold">7. ПІДПИСИ СТОРІН</p>
-                  <div className="grid grid-cols-2 gap-4 mt-4">
                     <div>
-                      <p className="font-semibold">ОРЕНДОДАВЕЦЬ:</p>
-                      <p className="text-sm">
-                        {formData.landlordName || "[ПІБ]"}<br />
-                        {formData.landlordCode && <>ІПН: {formData.landlordCode}<br /></>}
-                        {formData.landlordAddress && <>Адреса: {formData.landlordAddress}<br /></>}
-                      </p>
-                      <p className="mt-8">_____________ / {formData.landlordName?.split(' ')[1] || "_______"} /</p>
+                    <p className="font-bold">1. ПРЕДМЕТ ДОГОВОРУ</p>
+                    <p>
+                        1.1. Орендодавець передає, а Орендар приймає в тимчасове платне користування 
+                        житлове приміщення (квартиру), що знаходиться за адресою:{" "}
+                        <strong>{formData.apartmentAddress || "[Адреса квартири]"}</strong>.
+                    </p>
+                    <p>
+                        1.2. Житло передається в користування разом з меблями та побутовою технікою, 
+                        що знаходиться в ньому на момент підписання цього Договору.
+                    </p>
                     </div>
+
                     <div>
-                      <p className="font-semibold">ОРЕНДАР:</p>
-                      <p className="text-sm">
-                        {formData.tenantName || "[ПІБ]"}<br />
-                        {formData.tenantCode && <>ІПН: {formData.tenantCode}<br /></>}
-                      </p>
-                      <p className="mt-8">_____________ / {formData.tenantName?.split(' ')[1] || "_______"} /</p>
+                    <p className="font-bold">2. ТЕРМІН ДІЇ ДОГОВОРУ</p>
+                    <p>
+                        2.1. Договір укладено на строк <strong>{formData.duration || "___"} місяців</strong>
+                        {formData.startDate && <> з {formData.startDate}</>}.
+                    </p>
+                    <p>
+                        2.2. Договір може бути продовжений за згодою Сторін шляхом укладення додаткової угоди.
+                    </p>
                     </div>
-                  </div>
+
+                    <div>
+                    <p className="font-bold">3. ОРЕНДНА ПЛАТА</p>
+                    <p>
+                        3.1. Розмір орендної плати становить <strong>{formData.rentAmount || "[___]"} грн</strong> на місяць.
+                    </p>
+                    {formData.utilityAmount && (
+                        <p>
+                        3.2. Оплата комунальних послуг становить додатково <strong>{formData.utilityAmount} грн</strong> на місяць, 
+                        або згідно фактичного споживання за показниками лічильників.
+                        </p>
+                    )}
+                    <p>
+                        3.3. Орендна плата вноситься Орендарем щомісяця до 5 числа поточного місяця.
+                    </p>
+                    <p>
+                        3.4. Оплата здійснюється шляхом перерахування коштів на банківський рахунок Орендодавця 
+                        або готівкою за розпискою.
+                    </p>
+                    </div>
+
+                    <div>
+                    <p className="font-bold">4. ПРАВА ТА ОБОВ'ЯЗКИ СТОРІН</p>
+                    <p>4.1. Орендодавець зобов'язується:</p>
+                    <p className="pl-4">4.1.1. Передати Орендарю житло у стані, придатному для проживання.</p>
+                    <p className="pl-4">4.1.2. Забезпечити можливість користування комунальними послугами.</p>
+                    
+                    <p>4.2. Орендар зобов'язується:</p>
+                    <p className="pl-4">4.2.1. Використовувати житло виключно для проживання.</p>
+                    <p className="pl-4">4.2.2. Своєчасно вносити орендну плату.</p>
+                    <p className="pl-4">4.2.3. Підтримувати житло у належному стані.</p>
+                    <p className="pl-4">4.2.4. Повернути житло у такому ж стані при закінченні Договору.</p>
+                    </div>
+
+                    <div>
+                    <p className="font-bold">5. ВІДПОВІДАЛЬНІСТЬ СТОРІН</p>
+                    <p>
+                        5.1. За несвоєчасну сплату орендної плати Орендар сплачує пеню у розмірі 0,1% 
+                        від суми заборгованості за кожний день прострочення.
+                    </p>
+                    <p>
+                        5.2. У разі пошкодження майна Орендар відшкодовує збитки у повному обсязі.
+                    </p>
+                    </div>
+
+                    <div>
+                    <p className="font-bold">6. РОЗІРВАННЯ ДОГОВОРУ</p>
+                    <p>
+                        6.1. Договір може бути розірваний достроково за взаємною згодою Сторін.
+                    </p>
+                    <p>
+                        6.2. Кожна Сторона має право розірвати Договір в односторонньому порядку, 
+                        попередивши іншу Сторону не пізніше ніж за 30 днів.
+                    </p>
+                    </div>
+
+                    <div>
+                    <p className="font-bold">7. ПІДПИСИ СТОРІН</p>
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                        <p className="font-semibold">ОРЕНДОДАВЕЦЬ:</p>
+                        <p className="text-sm">
+                            {formData.landlordName || "[ПІБ]"}<br />
+                            {formData.landlordCode && <>ІПН: {formData.landlordCode}<br /></>}
+                            {formData.landlordAddress && <>Адреса: {formData.landlordAddress}<br /></>}
+                        </p>
+                        <p className="mt-8">_____________ / {formData.landlordName?.split(' ')[1] || "_______"} /</p>
+                        </div>
+                        <div>
+                        <p className="font-semibold">ОРЕНДАР:</p>
+                        <p className="text-sm">
+                            {formData.tenantName || "[ПІБ]"}<br />
+                            {formData.tenantCode && <>ІПН: {formData.tenantCode}<br /></>}
+                        </p>
+                        <p className="mt-8">_____________ / {formData.tenantName?.split(' ')[1] || "_______"} /</p>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
+                </CardContent>
+            </Card>
+            </div>
+        </main>
     </div>
   );
 }

@@ -37,77 +37,95 @@ export default function ActGenerator() {
       return;
     }
 
-    const html2pdf = (await import('html2pdf.js')).default;
-    
-    const wrapper = document.createElement('div');
-    wrapper.style.cssText = `
-      position: absolute;
-      left: -9999px;
-      top: 0;
-      width: 800px;
-      padding: 40px;
-      background: #ffffff;
-      color: #000000;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      line-height: 1.8;
-    `;
-    
-    wrapper.innerHTML = `
-      <div style="text-align: center; font-weight: bold; font-size: 18px; margin-bottom: 20px;">
-        АКТ № ${formData.actNumber || '___'}<br>
-        приймання-передачі виконаних робіт (наданих послуг)
-      </div>
-      <div style="margin-bottom: 15px;">
-        м. ${formData.city || '___'}, ${formData.actDate}
-      </div>
-      <div style="margin-bottom: 20px; text-align: justify;">
-        <strong>Виконавець:</strong> ${formData.executorName}<br>
-        <strong>Замовник:</strong> ${formData.clientName}
-      </div>
-      <div style="margin: 20px 0;">
-        <strong>1. Виконані роботи (надані послуги):</strong><br>
-        <div style="margin-left: 20px; margin-top: 10px;">
-          ${formData.serviceDescription}
-        </div>
-      </div>
-      <div style="margin: 20px 0;">
-        <strong>2. Вартість:</strong><br>
-        <div style="margin-left: 20px; margin-top: 10px;">
-          <strong>${formData.amount} грн</strong> ${amountInWords(parseFloat(formData.amount))}
-        </div>
-      </div>
-      <div style="margin-top: 40px; display: flex; justify-content: space-between;">
-        <div>
-          <strong>ВИКОНАВЕЦЬ:</strong><br>
-          ${formData.executorName}<br>
-          _________________
-        </div>
-        <div>
-          <strong>ЗАМОВНИК:</strong><br>
-          ${formData.clientName}<br>
-          _________________
-        </div>
-      </div>
-    `;
-    
-    document.body.appendChild(wrapper);
-    
-    const opt = {
-      margin: 15,
-      filename: `Акт_${formData.actNumber || 'б/н'}_${formData.actDate}.pdf`,
-      image: { type: 'jpeg' as const, quality: 0.98 },
-      html2canvas: { 
-        scale: 2,
-        backgroundColor: '#ffffff'
-      },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
-    };
-
     try {
-      await html2pdf().set(opt).from(wrapper).save();
-    } finally {
+      const html2canvas = (await import('html2canvas')).default;
+      const jsPDF = (await import('jspdf')).default;
+      
+      const wrapper = document.createElement('div');
+      
+      wrapper.style.cssText = `
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        width: 210mm;
+        min-height: 297mm;
+        padding: 20mm;
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        font-family: Arial, sans-serif;
+        font-size: 12pt;
+        line-height: 1.5;
+        z-index: 1000;
+      `;
+      
+      wrapper.innerHTML = `
+        <div style="text-align: center; font-weight: bold; font-size: 16pt; margin-bottom: 20px;">
+          АКТ № ${formData.actNumber || '___'}<br>
+          приймання-передачі виконаних робіт (наданих послуг)
+        </div>
+        <div style="margin-bottom: 15px;">
+          ${formData.actDate}
+        </div>
+        <div style="margin-bottom: 20px; text-align: justify;">
+          <strong>Виконавець:</strong> ${formData.executorName}<br>
+          <strong>Замовник:</strong> ${formData.clientName}
+        </div>
+        <div style="margin: 20px 0;">
+          <strong>1. Виконані роботи (надані послуги):</strong><br>
+          <div style="margin-left: 20px; margin-top: 10px;">
+            ${formData.serviceDescription}
+          </div>
+        </div>
+        <div style="margin: 20px 0;">
+          <strong>2. Вартість:</strong><br>
+          <div style="margin-left: 20px; margin-top: 10px;">
+            <strong>${formData.amount} грн</strong> ${amountInWords(parseFloat(formData.amount))}
+          </div>
+        </div>
+        <div style="margin-top: 50px; display: flex; justify-content: space-between;">
+          <div style="width: 45%;">
+            <strong>ВИКОНАВЕЦЬ:</strong><br><br>
+            _________________<br>
+            ${formData.executorName}
+          </div>
+          <div style="width: 45%;">
+            <strong>ЗАМОВНИК:</strong><br><br>
+            _________________<br>
+            ${formData.clientName}
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(wrapper);
+
+      const canvas = await html2canvas(wrapper, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        logging: false,
+        useCORS: true
+      });
+
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgProps = pdf.getImageProperties(imgData);
+      const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, imgHeight);
+      
+      pdf.save(`Акт_${formData.actNumber || 'б/н'}_${formData.actDate}.pdf`);
+
       document.body.removeChild(wrapper);
+      
+    } catch (error) {
+      console.error("Помилка при генерації PDF:", error);
+      alert("Не вдалося створити PDF. Спробуйте ще раз.");
     }
   };
 
