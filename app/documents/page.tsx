@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileText, ArrowLeft, Download, FileSignature, Receipt, Home } from "lucide-react";
+import { FileText, ArrowLeft, Download, FileSignature, Receipt, Home, ShoppingCart, Hammer, Briefcase, HandCoins, ShoppingBag, ShieldCheck, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -51,6 +51,62 @@ export default function DocumentsPage() {
       icon: Home,
       href: "/documents/rent",
       color: "orange",
+      available: true,
+    },
+    {
+      title: "Договір купівлі-продажу",
+      description: "Продаж товарів між ФОП та клієнтом",
+      icon: ShoppingCart,
+      href: "/documents/sale",
+      color: "orange",
+      available: true,
+    },
+    {
+      title: "Договір підряду",
+      description: "Будівельні та ремонтні роботи",
+      icon: Hammer,
+      href: "/documents/construction",
+      color: "amber",
+      available: true,
+    },
+    {
+      title: "Трудовий договір / ЦПД",
+      description: "Оформлення найму працівників",
+      icon: Briefcase,
+      href: "/documents/employment",
+      color: "indigo",
+      available: true,
+    },
+    {
+      title: "Договір позики",
+      description: "Позика грошей між фізособами",
+      icon: HandCoins,
+      href: "/documents/loan",
+      color: "emerald",
+      available: true,
+    },
+    {
+      title: "Договір комісії",
+      description: "Продаж через посередника (дропшиппінг)",
+      icon: ShoppingBag,
+      href: "/documents/commission",
+      color: "purple",
+      available: true,
+    },
+    {
+      title: "Договір NDA",
+      description: "Про нерозголошення конфіденційної інформації",
+      icon: ShieldCheck,
+      href: "/documents/nda",
+      color: "red",
+      available: true,
+    },
+    {
+      title: "Оренда нежитлового приміщення",
+      description: "Оренда офісу, магазину, складу",
+      icon: Building2,
+      href: "/documents/commercial-rent",
+      color: "cyan",
       available: true,
     },
   ];
