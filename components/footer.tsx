@@ -17,8 +17,8 @@ export function Footer() {
         {/* Колонки - центровані на десктопі, рівномірно розподілені на мобільних */}
         <div className="flex flex-col items-center md:items-center">
           {/* Документи і Калькулятори в 2 колонки на мобільних */}
-          <div className="grid grid-cols-2 gap-x-12 gap-y-6 w-full max-w-md md:max-w-none md:grid-cols-3 md:gap-8 md:justify-items-center">
-            <div className="text-left">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-6 w-full px-4 md:max-w-none md:grid-cols-3 md:gap-8 md:justify-items-center md:px-0">
+            <div className="text-left pl-2">
               <h3 className="text-white dark:text-gray-200 font-semibold mb-3 text-sm md:text-base">Документи</h3>
               <ul className="space-y-2 text-xs md:text-sm">
                 <li><Link href="/documents/contract" className="hover:text-white dark:hover:text-gray-200 transition-colors">Договір послуг</Link></li>

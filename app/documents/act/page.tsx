@@ -46,9 +46,20 @@ export default function ActGenerator() {
     }
     
     const clone = element.cloneNode(true) as HTMLElement;
-    clone.classList.remove('prose', 'dark:prose-invert', 'prose-lg');
-    clone.style.maxWidth = 'none';
-    clone.style.color = '#000';
+    clone.removeAttribute('class');
+    clone.style.cssText = 'padding: 20px; background: white; color: black; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6;';
+    
+    const allElements = clone.getElementsByTagName('*');
+    for (let i = 0; i < allElements.length; i++) {
+      const el = allElements[i] as HTMLElement;
+      el.removeAttribute('class');
+      el.style.color = 'black';
+      el.style.backgroundColor = 'transparent';
+    }
+    
+    clone.style.position = 'absolute';
+    clone.style.left = '-9999px';
+    clone.style.top = '0';
     document.body.appendChild(clone);
     
     const opt = {
@@ -59,7 +70,8 @@ export default function ActGenerator() {
         scale: 2, 
         useCORS: true,
         logging: false,
-        allowTaint: true
+        allowTaint: true,
+        backgroundColor: '#ffffff'
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
     };
