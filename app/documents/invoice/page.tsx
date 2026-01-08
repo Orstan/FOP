@@ -47,65 +47,95 @@ export default function InvoiceGenerator() {
       const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
       
-      const wrapper = document.createElement('div');
-      
-      wrapper.style.cssText = `
-        position: absolute;
-        left: -9999px;
-        top: 0;
-        width: 210mm;
-        min-height: 297mm;
-        padding: 20mm;
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        font-family: Arial, sans-serif;
-        font-size: 12pt;
-        line-height: 1.5;
-        z-index: 1000;
-      `;
-      
-      wrapper.innerHTML = `
-        <div style="text-align: center; font-weight: bold; font-size: 16pt; margin-bottom: 20px;">
-          РАХУНОК-ФАКТУРА № ${formData.invoiceNumber || '___'}<br>
-          від ${formData.invoiceDate}
-        </div>
-        <div style="margin: 20px 0;">
-          <strong>Постачальник:</strong><br>
-          ${formData.executorName}<br>
-          ІПН: ${formData.executorCode || '___'}
-        </div>
-        <div style="margin: 20px 0;">
-          <strong>Покупець:</strong><br>
-          ${formData.clientName}<br>
-        </div>
-        <div style="margin: 20px 0;">
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr style="background: #f0f0f0;">
-              <th style="border: 1px solid #000; padding: 8px;">Опис</th>
-              <th style="border: 1px solid #000; padding: 8px;">Сума</th>
-            </tr>
-            <tr>
-              <td style="border: 1px solid #000; padding: 8px;">${formData.serviceDescription}</td>
-              <td style="border: 1px solid #000; padding: 8px; text-align: right;">${formData.amount} грн</td>
-            </tr>
-            <tr>
-              <td style="border: 1px solid #000; padding: 8px; text-align: right;"><strong>РАЗОМ:</strong></td>
-              <td style="border: 1px solid #000; padding: 8px; text-align: right;"><strong>${formData.amount} грн</strong></td>
-            </tr>
-          </table>
-        </div>
-        <div style="margin-top: 40px;">
-          <strong>Виконавець:</strong> ${formData.executorName} _________________
-        </div>
-      `;
-      
-      document.body.appendChild(wrapper);
+      const iframe = document.createElement('iframe');
+      iframe.style.visibility = 'hidden';
+      iframe.style.position = 'fixed';
+      iframe.style.left = '-10000px';
+      iframe.style.top = '0';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = 'none';
+      document.body.appendChild(iframe);
 
-      const canvas = await html2canvas(wrapper, {
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+      
+      if (!iframeDoc) {
+        throw new Error("Не вдалося створити iframe");
+      }
+
+      const content = `
+        <html>
+          <head>
+            <style>
+              body { 
+                font-family: Arial, sans-serif; 
+                background-color: #ffffff; 
+                color: #000000; 
+                margin: 0; 
+                padding: 20mm; 
+                width: 210mm;
+                min-height: 297mm;
+                box-sizing: border-box;
+              }
+              .header { text-align: center; font-weight: bold; font-size: 16pt; margin-bottom: 20px; }
+              .section { margin: 20px 0; }
+              table { width: 100%; border-collapse: collapse; }
+              th, td { border: 1px solid #000; padding: 8px; }
+              th { background: #f0f0f0; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              РАХУНОК-ФАКТУРА № ${formData.invoiceNumber || '___'}<br>
+              від ${formData.invoiceDate}
+            </div>
+            
+            <div class="section">
+              <strong>Постачальник:</strong><br>
+              ${formData.executorName}<br>
+              ІПН: ${formData.executorCode || '___'}
+            </div>
+
+            <div class="section">
+              <strong>Покупець:</strong><br>
+              ${formData.clientName}<br>
+            </div>
+
+            <div class="section">
+              <table>
+                <tr>
+                  <th>Опис</th>
+                  <th>Сума</th>
+                </tr>
+                <tr>
+                  <td>${formData.serviceDescription}</td>
+                  <td style="text-align: right;">${formData.amount} грн</td>
+                </tr>
+                <tr>
+                  <td style="text-align: right;"><strong>РАЗОМ:</strong></td>
+                  <td style="text-align: right;"><strong>${formData.amount} грн</strong></td>
+                </tr>
+              </table>
+            </div>
+
+            <div style="margin-top: 40px;">
+              <strong>Виконавець:</strong> ${formData.executorName} _________________
+            </div>
+          </body>
+        </html>
+      `;
+
+      iframeDoc.open();
+      iframeDoc.write(content);
+      iframeDoc.close();
+
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      const canvas = await html2canvas(iframeDoc.body, {
         scale: 2,
         backgroundColor: '#ffffff',
         logging: false,
-        useCORS: true
+        useCORS: true 
       });
 
       const imgData = canvas.toDataURL('image/jpeg', 1.0);
@@ -121,14 +151,13 @@ export default function InvoiceGenerator() {
       const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
       pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, imgHeight);
-      
       pdf.save(`Рахунок_${formData.invoiceNumber || 'б/н'}_${formData.invoiceDate}.pdf`);
 
-      document.body.removeChild(wrapper);
+      document.body.removeChild(iframe);
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);
-      alert("Не вдалося створити PDF. Спробуйте ще раз.");
+      alert("Не вдалося створити PDF. Деталі в консолі.");
     }
   };
 

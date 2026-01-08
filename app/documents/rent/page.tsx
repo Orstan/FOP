@@ -38,77 +38,103 @@ export default function RentGenerator() {
     }
 
     try {
-      // Динамічний імпорт нових бібліотек
       const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
       
-      const wrapper = document.createElement('div');
-      
-      // ВАЖЛИВО: явно задаємо білий фон і чорний текст, щоб перебити CSS змінні Tailwind (lab/oklch)
-      wrapper.style.cssText = `
-        position: absolute;
-        left: -9999px;
-        top: 0;
-        width: 210mm; /* Ширина А4 */
-        min-height: 297mm;
-        padding: 20mm;
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        font-family: Arial, sans-serif;
-        font-size: 12pt;
-        line-height: 1.5;
-        z-index: 1000;
-      `;
-      
-      // Ваш HTML шаблон (без змін)
-      wrapper.innerHTML = `
-        <div style="text-align: center; font-weight: bold; font-size: 16pt; margin-bottom: 20px;">
-          ДОГОВІР ОРЕНДИ ЖИТЛА<br>
-          від ${formData.contractDate}
-        </div>
-        <div style="margin-bottom: 20px;">
-          <strong>Орендодавець:</strong> ${formData.landlordName}<br>
-          <strong>Орендар:</strong> ${formData.tenantName}
-        </div>
-        <div style="margin: 20px 0;">
-          <strong>1. ПРЕДМЕТ ДОГОВОРУ</strong><br>
-          <div style="margin-left: 20px; margin-top: 10px;">
-            1.1. Орендодавець передає, а Орендар приймає в тимчасове платне користування житло за адресою:<br>
-            <strong>${formData.apartmentAddress}</strong>
-          </div>
-        </div>
-        <div style="margin: 20px 0;">
-          <strong>2. ОРЕНДНА ПЛАТА</strong><br>
-          <div style="margin-left: 20px; margin-top: 10px;">
-            2.1. Орендна плата становить: <strong>${formData.rentAmount} грн</strong> на місяць<br>
-            2.2. Термін оренди: ${formData.duration} місяців ${formData.startDate ? `(з ${formData.startDate})` : ''}
-          </div>
-        </div>
-        <div style="margin-top: 50px; display: flex; justify-content: space-between;">
-          <div style="width: 45%;">
-            <strong>ОРЕНДОДАВЕЦЬ:</strong><br><br>
-            _________________<br>
-            ${formData.landlordName}
-          </div>
-          <div style="width: 45%;">
-            <strong>ОРЕНДАР:</strong><br><br>
-            _________________<br>
-            ${formData.tenantName}
-          </div>
-        </div>
-      `;
-      
-      document.body.appendChild(wrapper);
+      const iframe = document.createElement('iframe');
+      iframe.style.visibility = 'hidden';
+      iframe.style.position = 'fixed';
+      iframe.style.left = '-10000px';
+      iframe.style.top = '0';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = 'none';
+      document.body.appendChild(iframe);
 
-      // Створення канвасу
-      const canvas = await html2canvas(wrapper, {
-        scale: 2, // Вища якість
-        backgroundColor: '#ffffff', // Примусовий білий фон
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+      
+      if (!iframeDoc) {
+        throw new Error("Не вдалося створити iframe");
+      }
+
+      const content = `
+        <html>
+          <head>
+            <style>
+              body { 
+                font-family: Arial, sans-serif; 
+                background-color: #ffffff; 
+                color: #000000; 
+                margin: 0; 
+                padding: 20mm; 
+                width: 210mm;
+                min-height: 297mm;
+                box-sizing: border-box;
+              }
+              .header { text-align: center; font-weight: bold; font-size: 16pt; margin-bottom: 20px; }
+              .section { margin: 20px 0; }
+              .sub-section { margin-left: 20px; margin-top: 10px; }
+              .bold { font-weight: bold; }
+              .flex-row { display: flex; justify-content: space-between; margin-top: 50px; }
+              .col { width: 45%; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              ДОГОВІР ОРЕНДИ ЖИТЛА<br>
+              від ${formData.contractDate}
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+              <strong>Орендодавець:</strong> ${formData.landlordName}<br>
+              <strong>Орендар:</strong> ${formData.tenantName}
+            </div>
+
+            <div class="section">
+              <strong>1. ПРЕДМЕТ ДОГОВОРУ</strong>
+              <div class="sub-section">
+                1.1. Орендодавець передає, а Орендар приймає в тимчасове платне користування житло за адресою:<br>
+                <strong>${formData.apartmentAddress}</strong>
+              </div>
+            </div>
+
+            <div class="section">
+              <strong>2. ОРЕНДНА ПЛАТА</strong>
+              <div class="sub-section">
+                2.1. Орендна плата становить: <strong>${formData.rentAmount} грн</strong> на місяць<br>
+                2.2. Термін оренди: ${formData.duration} місяців ${formData.startDate ? `(з ${formData.startDate})` : ''}
+              </div>
+            </div>
+
+            <div class="flex-row">
+              <div class="col">
+                <strong>ОРЕНДОДАВЕЦЬ:</strong><br><br>
+                _________________<br>
+                ${formData.landlordName}
+              </div>
+              <div class="col">
+                <strong>ОРЕНДАР:</strong><br><br>
+                _________________<br>
+                ${formData.tenantName}
+              </div>
+            </div>
+          </body>
+        </html>
+      `;
+
+      iframeDoc.open();
+      iframeDoc.write(content);
+      iframeDoc.close();
+
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      const canvas = await html2canvas(iframeDoc.body, {
+        scale: 2,
+        backgroundColor: '#ffffff',
         logging: false,
-        useCORS: true // Дозволяє завантажувати зовнішні ресурси, якщо будуть
+        useCORS: true 
       });
 
-      // Конвертація в PDF
       const imgData = canvas.toDataURL('image/jpeg', 1.0);
       const pdf = new jsPDF({
         orientation: 'portrait',
@@ -121,13 +147,10 @@ export default function RentGenerator() {
       const imgProps = pdf.getImageProperties(imgData);
       const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-      // Якщо документ довгий, тут можна додати логіку для декількох сторінок, 
-      // але для цього шаблону вистачить однієї
       pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, imgHeight);
-      
       pdf.save(`Договір_оренди_${formData.contractDate}.pdf`);
 
-      document.body.removeChild(wrapper);
+      document.body.removeChild(iframe);
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);
