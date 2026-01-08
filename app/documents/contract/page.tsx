@@ -59,8 +59,10 @@ export default function ContractGenerator() {
       }
 
       const content = `
+        <!DOCTYPE html>
         <html>
           <head>
+            <meta name="color-scheme" content="light only">
             <style>
               body { 
                 font-family: 'Times New Roman', Times, serif;
