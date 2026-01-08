@@ -95,9 +95,9 @@ export default function Home() {
                   <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400 mb-6">
                     <li>• Єдиний податок за групами</li>
                     <li>• ЄСВ (Єдиний соціальний внесок)</li>
-                    <li>• Калькулятор пені та штрафів</li>
-                    <li>• Розрахунок відпускних</li>
-                    <li>• Декретні виплати</li>
+                    <li>• Калькулятор зарплати</li>
+                    <li>• Маржа та ROI</li>
+                    <li>• Cash Flow та Break-Even</li>
                   </ul>
                   <Button asChild className="w-full" variant="default">
                     <Link href="/calculators">

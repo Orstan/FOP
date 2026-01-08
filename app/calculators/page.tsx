@@ -1,17 +1,17 @@
 import Link from "next/link";
-import { Calculator, ArrowLeft, TrendingUp, AlertCircle, Calendar } from "lucide-react";
+import { Calculator, ArrowLeft, TrendingUp, AlertCircle, Calendar, Wallet, PieChart, DollarSign, Target, BarChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Безкоштовні Калькулятори для ФОП - Податки, ЄСВ, Пеня, Відпускні 2026",
-  description: "★ Розумні калькулятори для українських підприємців ★ Розрахунок податків ФОП (групи 1-3) ★ ЄСВ калькулятор ★ Пеня та штрафи ★ Відпускні виплати ★ Точні розрахунки згідно з законодавством 2026",
-  keywords: "калькулятор податків ФОП, розрахунок ЄСВ, калькулятор пені, єдиний податок, відпускні калькулятор, податки підприємця 2026",
+  title: "Безкоштовні Калькулятори для ФОП - Податки, ЄСВ, Зарплата, ROI, Маржа 2026",
+  description: "★ 9 розумних калькуляторів для українських підприємців ★ Розрахунок податків ФОП ★ Зарплата ★ Маржа ★ Cash Flow ★ ROI ★ Break-Even ★ Точні розрахунки згідно з законодавством 2026",
+  keywords: "калькулятор податків ФОП, розрахунок ЄСВ, калькулятор зарплати, маржа, ROI, break-even, cash flow, податки підприємця 2026",
   openGraph: {
-    title: "Калькулятори для ФОП - Розрахунок податків онлайн",
-    description: "Безкоштовні калькулятори податків, ЄСВ, пені та відпускних для українських підприємців",
+    title: "9 Калькуляторів для ФОП - Розрахунок податків та фінансів онлайн",
+    description: "Безкоштовні калькулятори податків, зарплати, маржі, ROI, cash flow для українських підприємців",
     url: "/calculators",
   },
   alternates: {
@@ -38,6 +38,46 @@ export default function CalculatorsPage() {
       available: true,
     },
     {
+      title: "Калькулятор зарплати",
+      description: "ПДФО, військовий збір, ЄСВ - чиста зарплата на руки",
+      icon: Wallet,
+      href: "/calculators/salary",
+      color: "indigo",
+      available: true,
+    },
+    {
+      title: "Калькулятор маржі",
+      description: "Розрахунок прибутку, маржі та наценки",
+      icon: PieChart,
+      href: "/calculators/margin",
+      color: "purple",
+      available: true,
+    },
+    {
+      title: "Cash Flow калькулятор",
+      description: "Грошовий потік та чистий прибуток бізнесу",
+      icon: DollarSign,
+      href: "/calculators/cash-flow",
+      color: "emerald",
+      available: true,
+    },
+    {
+      title: "ROI калькулятор",
+      description: "Повернення інвестицій (Return on Investment)",
+      icon: TrendingUp,
+      href: "/calculators/roi",
+      color: "cyan",
+      available: true,
+    },
+    {
+      title: "Break-Even калькулятор",
+      description: "Точка беззбитковості вашого бізнесу",
+      icon: Target,
+      href: "/calculators/break-even",
+      color: "orange",
+      available: true,
+    },
+    {
       title: "Калькулятор пені та штрафів",
       description: "Розрахунок пені за прострочені платежі",
       icon: AlertCircle,
@@ -50,7 +90,7 @@ export default function CalculatorsPage() {
       description: "Розрахунок відпускних для найманих працівників",
       icon: Calendar,
       href: "/calculators/vacation",
-      color: "purple",
+      color: "pink",
       available: true,
     },
   ];
