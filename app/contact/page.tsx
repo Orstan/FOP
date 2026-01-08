@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowLeft, Mail, MessageSquare, Github, Send } from 'lucide-react'
+import { ArrowLeft, Mail, MessageSquare, Send } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 
 export const metadata: Metadata = {
@@ -68,12 +68,12 @@ export default function ContactPage() {
               </div>
             </div>
             <a 
-              href="https://t.me/fop_helper" 
+              href="https://t.me/fophelp" 
               target="_blank"
               rel="noopener noreferrer"
               className="text-lg text-blue-600 dark:text-blue-400 hover:underline font-medium"
             >
-              @fop_helper
+              @fophelp
             </a>
             <p className="text-slate-600 dark:text-slate-400 mt-4">
               Найшвидший спосіб зв'язку для термінових питань
@@ -91,10 +91,14 @@ export default function ContactPage() {
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                 Як я можу підтримати проект?
               </h3>
-              <p className="text-slate-600 dark:text-slate-400">
+              <p className="text-slate-600 dark:text-slate-400 mb-3">
                 Найкраща підтримка - це поширення інформації про ФОП Помічник серед знайомих підприємців. 
-                Також ви можете залишити відгук або пропозиції щодо покращення сервісу.
+                Також ви можете залишити пропозиції щодо покращення сервісу.
               </p>
+              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mt-3">
+                <p className="text-sm font-semibold text-yellow-900 dark:text-yellow-200 mb-2">☕ Підтримати на каву:</p>
+                <code className="text-sm font-mono bg-white dark:bg-slate-800 px-3 py-2 rounded border border-yellow-300 dark:border-yellow-700 text-slate-900 dark:text-slate-100 inline-block">4441111009028824</code>
+              </div>
             </div>
 
             <div className="border-l-4 border-green-500 pl-6 py-2">
@@ -171,7 +175,7 @@ export default function ContactPage() {
               Написати на Email
             </a>
             <a 
-              href="https://t.me/fop_helper"
+              href="https://t.me/fophelp"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-white/10 backdrop-blur text-white border-2 border-white px-6 py-3 rounded-lg font-semibold hover:bg-white/20 transition-colors inline-flex items-center gap-2"
@@ -182,20 +186,6 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900 px-6 py-3 rounded-full shadow-md">
-            <Github className="w-5 h-5" />
-            <span>Open Source проект</span>
-            <a 
-              href="https://github.com/Orstan/FOP" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
-            >
-              GitHub →
-            </a>
-          </div>
-        </div>
       </main>
     </div>
   )

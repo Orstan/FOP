@@ -55,7 +55,12 @@ export default function InvoiceGenerator() {
       margin: 15,
       filename: `Рахунок_${formData.invoiceNumber || 'б/н'}_${formData.invoiceDate}.pdf`,
       image: { type: 'jpeg' as const, quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
+      html2canvas: { 
+        scale: 2, 
+        useCORS: true,
+        logging: false,
+        allowTaint: true
+      },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
     };
 
