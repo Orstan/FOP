@@ -51,6 +51,12 @@ export default function InvoiceGenerator() {
       return;
     }
     
+    const clone = element.cloneNode(true) as HTMLElement;
+    clone.classList.remove('prose', 'dark:prose-invert', 'prose-lg');
+    clone.style.maxWidth = 'none';
+    clone.style.color = '#000';
+    document.body.appendChild(clone);
+    
     const opt = {
       margin: 15,
       filename: `Рахунок_${formData.invoiceNumber || 'б/н'}_${formData.invoiceDate}.pdf`,
@@ -59,14 +65,16 @@ export default function InvoiceGenerator() {
         scale: 2, 
         useCORS: true,
         logging: false,
-        allowTaint: true,
-        foreignObjectRendering: false,
-        letterRendering: true
+        allowTaint: true
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
     };
 
-    html2pdf().set(opt).from(element).save();
+    try {
+      await html2pdf().set(opt).from(clone).save();
+    } finally {
+      document.body.removeChild(clone);
+    }
   };
 
   return (
