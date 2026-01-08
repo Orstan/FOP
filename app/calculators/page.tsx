@@ -1,17 +1,17 @@
 import Link from "next/link";
-import { Calculator, ArrowLeft, TrendingUp, AlertCircle, Calendar, Wallet, PieChart, DollarSign, Target, BarChart } from "lucide-react";
+import { Calculator, ArrowLeft, TrendingUp, AlertCircle, Calendar, Wallet, PieChart, DollarSign, Target, BarChart, Car } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Безкоштовні Калькулятори для ФОП - Податки, ЄСВ, Зарплата, ROI, Маржа 2026",
-  description: "★ 9 розумних калькуляторів для українських підприємців ★ Розрахунок податків ФОП ★ Зарплата ★ Маржа ★ Cash Flow ★ ROI ★ Break-Even ★ Точні розрахунки згідно з законодавством 2026",
-  keywords: "калькулятор податків ФОП, розрахунок ЄСВ, калькулятор зарплати, маржа, ROI, break-even, cash flow, податки підприємця 2026",
+  title: "Безкоштовні Калькулятори для ФОП - Податки, ЄСВ, Зарплата, ROI, Розмитнення 2026",
+  description: "★ 10 розумних калькуляторів для українських підприємців ★ Розрахунок податків ФОП ★ Зарплата ★ Маржа ★ Cash Flow ★ ROI ★ Break-Even ★ Розмитнення авто ★ Точні розрахунки згідно з законодавством 2026",
+  keywords: "калькулятор податків ФОП, розрахунок ЄСВ, калькулятор зарплати, маржа, ROI, break-even, cash flow, розмитнення авто, податки підприємця 2026",
   openGraph: {
-    title: "9 Калькуляторів для ФОП - Розрахунок податків та фінансів онлайн",
-    description: "Безкоштовні калькулятори податків, зарплати, маржі, ROI, cash flow для українських підприємців",
+    title: "10 Калькуляторів для ФОП - Розрахунок податків, фінансів та розмитнення авто онлайн",
+    description: "Безкоштовні калькулятори податків, зарплати, маржі, ROI, cash flow, розмитнення авто для українських підприємців",
     url: "/calculators",
   },
   alternates: {
@@ -91,6 +91,14 @@ export default function CalculatorsPage() {
       icon: Calendar,
       href: "/calculators/vacation",
       color: "pink",
+      available: true,
+    },
+    {
+      title: "Калькулятор розмитнення авто",
+      description: "Розрахунок вартості розмитнення автомобіля в Україні",
+      icon: Car,
+      href: "/calculators/customs",
+      color: "slate",
       available: true,
     },
   ];
