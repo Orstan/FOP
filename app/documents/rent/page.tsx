@@ -62,60 +62,170 @@ export default function RentGenerator() {
           <head>
             <style>
               body { 
-                font-family: Arial, sans-serif; 
+                font-family: 'Times New Roman', Times, serif;
                 background-color: #ffffff; 
                 color: #000000; 
                 margin: 0; 
-                padding: 20mm; 
-                width: 210mm;
-                min-height: 297mm;
+                padding: 15mm 20mm;
+                width: 210mm; 
+                min-height: 297mm; 
                 box-sizing: border-box;
+                font-size: 11pt;
+                line-height: 1.4;
               }
-              .header { text-align: center; font-weight: bold; font-size: 16pt; margin-bottom: 20px; }
-              .section { margin: 20px 0; }
-              .sub-section { margin-left: 20px; margin-top: 10px; }
-              .bold { font-weight: bold; }
-              .flex-row { display: flex; justify-content: space-between; margin-top: 50px; }
+              .header { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 10px; text-transform: uppercase; }
+              .date-city { text-align: right; margin-bottom: 20px; font-size: 11pt; }
+              .intro { text-align: justify; margin-bottom: 15px; text-indent: 10mm; }
+              .section-title { font-weight: bold; margin-top: 15px; margin-bottom: 5px; text-transform: uppercase; font-size: 11pt; }
+              .section-content { text-align: justify; margin-left: 0; }
+              .item { margin-bottom: 5px; display: flex; }
+              .item-number { min-width: 10mm; }
+              .item-text { flex: 1; }
+              .sub-item { margin-left: 10mm; display: flex; margin-bottom: 3px; }
+              .sub-item-number { min-width: 12mm; }
+              
+              .signatures { display: flex; justify-content: space-between; margin-top: 40px; }
               .col { width: 45%; }
+              .sign-line { border-top: 1px solid #000; margin-top: 30px; width: 100%; }
+              strong { font-weight: bold; }
             </style>
           </head>
           <body>
             <div class="header">
-              ДОГОВІР ОРЕНДИ ЖИТЛА<br>
-              від ${formData.contractDate}
+              ДОГОВІР НАЙМУ ЖИТЛА
             </div>
             
-            <div style="margin-bottom: 20px;">
-              <strong>Орендодавець:</strong> ${formData.landlordName}<br>
-              <strong>Орендар:</strong> ${formData.tenantName}
+            <div class="date-city">
+               м. Київ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${formData.contractDate}
             </div>
 
-            <div class="section">
-              <strong>1. ПРЕДМЕТ ДОГОВОРУ</strong>
-              <div class="sub-section">
-                1.1. Орендодавець передає, а Орендар приймає в тимчасове платне користування житло за адресою:<br>
-                <strong>${formData.apartmentAddress}</strong>
+            <div class="intro">
+              <strong>${formData.landlordName}</strong>, ІПН ${formData.landlordCode || '___________'}, зареєстрований за адресою: ${formData.landlordAddress || '___________'}, надалі іменований "Орендодавець", з однієї сторони, та
+            </div>
+            <div class="intro">
+              <strong>${formData.tenantName}</strong>, ІПН ${formData.tenantCode || '___________'}, надалі іменований "Орендар", з другої сторони, разом іменовані "Сторони", уклали цей Договір про наступне:
+            </div>
+
+            <div class="section-title">1. ПРЕДМЕТ ДОГОВОРУ</div>
+            <div class="section-content">
+              <div class="item">
+                <span class="item-number">1.1.</span>
+                <span class="item-text">Орендодавець передає, а Орендар приймає в тимчасове платне користування житлове приміщення (квартиру), що знаходиться за адресою: <strong>${formData.apartmentAddress}</strong>.</span>
+              </div>
+              <div class="item">
+                <span class="item-number">1.2.</span>
+                <span class="item-text">Житло передається в користування разом з меблями та побутовою технікою, що знаходиться в ньому на момент підписання цього Договору.</span>
               </div>
             </div>
 
-            <div class="section">
-              <strong>2. ОРЕНДНА ПЛАТА</strong>
-              <div class="sub-section">
-                2.1. Орендна плата становить: <strong>${formData.rentAmount} грн</strong> на місяць<br>
-                2.2. Термін оренди: ${formData.duration} місяців ${formData.startDate ? `(з ${formData.startDate})` : ''}
+            <div class="section-title">2. ТЕРМІН ДІЇ ДОГОВОРУ</div>
+            <div class="section-content">
+              <div class="item">
+                <span class="item-number">2.1.</span>
+                <span class="item-text">Договір укладено на строк <strong>${formData.duration} місяців</strong> ${formData.startDate ? `з ${formData.startDate}` : ''}.</span>
+              </div>
+              <div class="item">
+                <span class="item-number">2.2.</span>
+                <span class="item-text">Договір може бути продовжений за згодою Сторін шляхом укладення додаткової угоди.</span>
               </div>
             </div>
 
-            <div class="flex-row">
+            <div class="section-title">3. ОРЕНДНА ПЛАТА</div>
+            <div class="section-content">
+              <div class="item">
+                <span class="item-number">3.1.</span>
+                <span class="item-text">Розмір орендної плати становить <strong>${formData.rentAmount} грн</strong> на місяць.</span>
+              </div>
+              ${formData.utilityAmount ? `<div class="item">
+                <span class="item-number">3.2.</span>
+                <span class="item-text">Оплата комунальних послуг становить додатково <strong>${formData.utilityAmount} грн</strong> на місяць, або згідно фактичного споживання за показниками лічильників.</span>
+              </div>` : ''}
+              <div class="item">
+                <span class="item-number">3.${formData.utilityAmount ? '3' : '2'}.</span>
+                <span class="item-text">Орендна плата вноситься Орендарем щомісяця до 5 числа поточного місяця.</span>
+              </div>
+              <div class="item">
+                <span class="item-number">3.${formData.utilityAmount ? '4' : '3'}.</span>
+                <span class="item-text">Оплата здійснюється шляхом перерахування коштів на банківський рахунок Орендодавця або готівкою за розпискою.</span>
+              </div>
+            </div>
+
+            <div class="section-title">4. ПРАВА ТА ОБОВ'ЯЗКИ СТОРІН</div>
+            <div class="section-content">
+              <div class="item">
+                <span class="item-number">4.1.</span>
+                <span class="item-text">Орендодавець зобов'язується:</span>
+              </div>
+              <div class="sub-item">
+                <span class="sub-item-number">4.1.1.</span>
+                <span class="item-text">Передати Орендарю житло у стані, придатному для проживання.</span>
+              </div>
+              <div class="sub-item">
+                <span class="sub-item-number">4.1.2.</span>
+                <span class="item-text">Забезпечити можливість користування комунальними послугами.</span>
+              </div>
+
+              <div class="item" style="margin-top: 5px;">
+                <span class="item-number">4.2.</span>
+                <span class="item-text">Орендар зобов'язується:</span>
+              </div>
+              <div class="sub-item">
+                 <span class="sub-item-number">4.2.1.</span>
+                 <span class="item-text">Використовувати житло виключно для проживання.</span>
+              </div>
+              <div class="sub-item">
+                 <span class="sub-item-number">4.2.2.</span>
+                 <span class="item-text">Своєчасно вносити орендну плату.</span>
+              </div>
+              <div class="sub-item">
+                 <span class="sub-item-number">4.2.3.</span>
+                 <span class="item-text">Підтримувати житло у належному стані.</span>
+              </div>
+               <div class="sub-item">
+                 <span class="sub-item-number">4.2.4.</span>
+                 <span class="item-text">Повернути житло у такому ж стані при закінченні Договору.</span>
+              </div>
+            </div>
+
+            <div class="section-title">5. ВІДПОВІДАЛЬНІСТЬ СТОРІН</div>
+            <div class="section-content">
+              <div class="item">
+                <span class="item-number">5.1.</span>
+                <span class="item-text">За несвоєчасну сплату орендної плати Орендар сплачує пеню у розмірі 0,1% від суми заборгованості за кожний день прострочення.</span>
+              </div>
+              <div class="item">
+                <span class="item-number">5.2.</span>
+                <span class="item-text">У разі пошкодження майна Орендар відшкодовує збитки у повному обсязі.</span>
+              </div>
+            </div>
+
+            <div class="section-title">6. РОЗІРВАННЯ ДОГОВОРУ</div>
+            <div class="section-content">
+              <div class="item">
+                <span class="item-number">6.1.</span>
+                <span class="item-text">Договір може бути розірваний достроково за взаємною згодою Сторін.</span>
+              </div>
+              <div class="item">
+                <span class="item-number">6.2.</span>
+                <span class="item-text">Кожна Сторона має право розірвати Договір в односторонньому порядку, попередивши іншу Сторону не пізніше ніж за 30 днів.</span>
+              </div>
+            </div>
+
+            <div class="section-title">7. ПІДПИСИ СТОРІН</div>
+            <div class="signatures">
               <div class="col">
-                <strong>ОРЕНДОДАВЕЦЬ:</strong><br><br>
-                _________________<br>
-                ${formData.landlordName}
+                <strong>ОРЕНДОДАВЕЦЬ:</strong><br>
+                ${formData.landlordName}<br>
+                ІПН: ${formData.landlordCode || '___________'}
+                <div class="sign-line"></div>
+                (підпис)
               </div>
               <div class="col">
-                <strong>ОРЕНДАР:</strong><br><br>
-                _________________<br>
-                ${formData.tenantName}
+                <strong>ОРЕНДАР:</strong><br>
+                ${formData.tenantName}<br>
+                ІПН: ${formData.tenantCode || '___________'}
+                <div class="sign-line"></div>
+                (підпис)
               </div>
             </div>
           </body>
