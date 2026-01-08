@@ -96,7 +96,7 @@ export default function ContactPage() {
                 Також ви можете залишити пропозиції щодо покращення сервісу.
               </p>
               <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mt-3">
-                <p className="text-sm font-semibold text-yellow-900 dark:text-yellow-200 mb-2">☕ Підтримати на каву:</p>
+                <p className="text-sm font-semibold text-yellow-900 dark:text-yellow-200 mb-2">☕ Підтримати проект:</p>
                 <code className="text-sm font-mono bg-white dark:bg-slate-800 px-3 py-2 rounded border border-yellow-300 dark:border-yellow-700 text-slate-900 dark:text-slate-100 inline-block">4441111009028824</code>
               </div>
             </div>
