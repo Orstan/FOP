@@ -47,23 +47,104 @@ export default function InvoiceGenerator() {
       const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
       
-      const element = document.getElementById('invoice-preview');
-      if (!element) {
-        alert("Помилка: не знайдено елемент для генерації PDF");
-        return;
+      const iframe = document.createElement('iframe');
+      iframe.style.visibility = 'hidden';
+      iframe.style.position = 'fixed';
+      iframe.style.left = '-10000px';
+      iframe.style.top = '0';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = 'none';
+      document.body.appendChild(iframe);
+
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+      
+      if (!iframeDoc) {
+        throw new Error("Не вдалося створити iframe");
       }
 
-      const canvas = await html2canvas(element, {
-        scale: 3,
-        useCORS: true,
+      const content = `
+        <html>
+          <head>
+            <style>
+              body { 
+                font-family: 'Times New Roman', Times, serif;
+                background-color: #ffffff; 
+                color: #000000; 
+                margin: 0; 
+                padding: 15mm 20mm;
+                width: 210mm; 
+                min-height: 297mm; 
+                box-sizing: border-box;
+                font-size: 11pt;
+                line-height: 1.4;
+              }
+              .header { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 10px; text-transform: uppercase; }
+              .date-city { text-align: right; margin-bottom: 20px; font-size: 11pt; }
+              .section { margin-bottom: 15px; }
+              table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+              th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+              th { background-color: #f0f0f0; font-weight: bold; }
+              .signatures { margin-top: 40px; }
+              strong { font-weight: bold; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              РАХУНОК-ФАКТУРА № ${formData.invoiceNumber || '___'}
+            </div>
+            
+            <div class="date-city">
+               від ${formData.invoiceDate}
+            </div>
+
+            <div class="section">
+              <strong>Постачальник:</strong><br>
+              ${formData.executorName}<br>
+              ІПН: ${formData.executorCode || '___________'}
+            </div>
+
+            <div class="section">
+              <strong>Покупець:</strong><br>
+              ${formData.clientName}
+            </div>
+
+            <table>
+              <tr>
+                <th style="width: 70%;">Опис товарів/послуг</th>
+                <th style="width: 30%; text-align: right;">Сума, грн</th>
+              </tr>
+              <tr>
+                <td>${formData.serviceDescription}</td>
+                <td style="text-align: right;">${formData.amount}</td>
+              </tr>
+              <tr>
+                <td style="text-align: right;"><strong>РАЗОМ:</strong></td>
+                <td style="text-align: right;"><strong>${formData.amount}</strong></td>
+              </tr>
+            </table>
+
+            <div class="signatures">
+              <strong>Виконавець:</strong> ${formData.executorName} _________________
+            </div>
+          </body>
+        </html>
+      `;
+
+      iframeDoc.open();
+      iframeDoc.write(content);
+      iframeDoc.close();
+
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      const canvas = await html2canvas(iframeDoc.body, {
+        scale: 2,
+        backgroundColor: '#ffffff',
         logging: false,
-        backgroundColor: "#ffffff",
-        windowWidth: element.scrollWidth,
-        windowHeight: element.scrollHeight
+        useCORS: true 
       });
 
       const imgData = canvas.toDataURL('image/jpeg', 1.0);
-      
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -72,7 +153,6 @@ export default function InvoiceGenerator() {
 
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      
       const imgProps = pdf.getImageProperties(imgData);
       const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
@@ -90,10 +170,12 @@ export default function InvoiceGenerator() {
       }
 
       pdf.save(`Рахунок_${formData.invoiceNumber || 'б/н'}_${formData.invoiceDate}.pdf`);
+
+      document.body.removeChild(iframe);
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);
-      alert("Не вдалося створити PDF. Спробуйте ще раз.");
+      alert("Не вдалося створити PDF. Деталі в консолі.");
     }
   };
 

@@ -41,23 +41,110 @@ export default function ActGenerator() {
       const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
       
-      const element = document.getElementById('act-preview');
-      if (!element) {
-        alert("Помилка: не знайдено елемент для генерації PDF");
-        return;
+      const iframe = document.createElement('iframe');
+      iframe.style.visibility = 'hidden';
+      iframe.style.position = 'fixed';
+      iframe.style.left = '-10000px';
+      iframe.style.top = '0';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = 'none';
+      document.body.appendChild(iframe);
+
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+      
+      if (!iframeDoc) {
+        throw new Error("Не вдалося створити iframe");
       }
 
-      const canvas = await html2canvas(element, {
-        scale: 3,
-        useCORS: true,
+      const content = `
+        <html>
+          <head>
+            <style>
+              body { 
+                font-family: 'Times New Roman', Times, serif;
+                background-color: #ffffff; 
+                color: #000000; 
+                margin: 0; 
+                padding: 15mm 20mm;
+                width: 210mm; 
+                min-height: 297mm; 
+                box-sizing: border-box;
+                font-size: 11pt;
+                line-height: 1.4;
+              }
+              .header { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 10px; text-transform: uppercase; }
+              .date-city { text-align: right; margin-bottom: 20px; font-size: 11pt; }
+              .section { margin-bottom: 15px; }
+              .section-title { font-weight: bold; margin-top: 15px; margin-bottom: 5px; font-size: 11pt; }
+              .section-content { text-align: justify; margin-left: 0; }
+              
+              .signatures { display: flex; justify-content: space-between; margin-top: 40px; }
+              .col { width: 45%; }
+              .sign-line { border-top: 1px solid #000; margin-top: 30px; width: 100%; }
+              strong { font-weight: bold; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              АКТ № ${formData.actNumber || '___'}<br>
+              приймання-передачі виконаних робіт (наданих послуг)
+            </div>
+            
+            <div class="date-city">
+               м. Київ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${formData.actDate}
+            </div>
+
+            <div class="section">
+              <strong>Виконавець:</strong> ${formData.executorName}
+            </div>
+            <div class="section">
+              <strong>Замовник:</strong> ${formData.clientName}
+            </div>
+
+            <div class="section-title">1. Виконані роботи (надані послуги):</div>
+            <div class="section-content">
+              ${formData.serviceDescription}
+            </div>
+
+            <div class="section-title">2. Вартість:</div>
+            <div class="section-content">
+              <strong>${formData.amount} грн</strong> ${amountInWords(parseFloat(formData.amount))}
+            </div>
+
+            <div class="section-title">3. ПІДПИСИ СТОРІН</div>
+            <div class="signatures">
+              <div class="col">
+                <strong>ВИКОНАВЕЦЬ:</strong><br>
+                ${formData.executorName}<br><br>
+                <div class="sign-line"></div>
+                (підпис)
+              </div>
+              <div class="col">
+                <strong>ЗАМОВНИК:</strong><br>
+                ${formData.clientName}<br><br>
+                <div class="sign-line"></div>
+                (підпис)
+              </div>
+            </div>
+          </body>
+        </html>
+      `;
+
+      iframeDoc.open();
+      iframeDoc.write(content);
+      iframeDoc.close();
+
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      const canvas = await html2canvas(iframeDoc.body, {
+        scale: 2,
+        backgroundColor: '#ffffff',
         logging: false,
-        backgroundColor: "#ffffff",
-        windowWidth: element.scrollWidth,
-        windowHeight: element.scrollHeight
+        useCORS: true 
       });
 
       const imgData = canvas.toDataURL('image/jpeg', 1.0);
-      
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -66,7 +153,6 @@ export default function ActGenerator() {
 
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      
       const imgProps = pdf.getImageProperties(imgData);
       const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
@@ -84,10 +170,12 @@ export default function ActGenerator() {
       }
 
       pdf.save(`Акт_${formData.actNumber || 'б/н'}_${formData.actDate}.pdf`);
+
+      document.body.removeChild(iframe);
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);
-      alert("Не вдалося створити PDF. Спробуйте ще раз.");
+      alert("Не вдалося створити PDF. Деталі в консолі.");
     }
   };
 

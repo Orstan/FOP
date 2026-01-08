@@ -42,23 +42,127 @@ export default function ContractGenerator() {
       const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
       
-      const element = document.getElementById('contract-preview');
-      if (!element) {
-        alert("Помилка: не знайдено елемент для генерації PDF");
-        return;
+      const iframe = document.createElement('iframe');
+      iframe.style.visibility = 'hidden';
+      iframe.style.position = 'fixed';
+      iframe.style.left = '-10000px';
+      iframe.style.top = '0';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = 'none';
+      document.body.appendChild(iframe);
+
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+      
+      if (!iframeDoc) {
+        throw new Error("Не вдалося створити iframe");
       }
 
-      const canvas = await html2canvas(element, {
-        scale: 3,
-        useCORS: true,
+      const content = `
+        <html>
+          <head>
+            <style>
+              body { 
+                font-family: 'Times New Roman', Times, serif;
+                background-color: #ffffff; 
+                color: #000000; 
+                margin: 0; 
+                padding: 15mm 20mm;
+                width: 210mm; 
+                min-height: 297mm; 
+                box-sizing: border-box;
+                font-size: 11pt;
+                line-height: 1.4;
+              }
+              .header { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 10px; text-transform: uppercase; }
+              .date-city { text-align: right; margin-bottom: 20px; font-size: 11pt; }
+              .intro { text-align: justify; margin-bottom: 15px; text-indent: 10mm; }
+              .section-title { font-weight: bold; margin-top: 15px; margin-bottom: 5px; text-transform: uppercase; font-size: 11pt; }
+              .section-content { text-align: justify; margin-left: 0; }
+              .item { margin-bottom: 5px; display: flex; }
+              .item-number { min-width: 10mm; }
+              .item-text { flex: 1; }
+              
+              .signatures { display: flex; justify-content: space-between; margin-top: 40px; }
+              .col { width: 45%; }
+              .sign-line { border-top: 1px solid #000; margin-top: 30px; width: 100%; }
+              strong { font-weight: bold; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              ДОГОВІР № ${formData.contractNumber || '___'}<br>
+              надання послуг
+            </div>
+            
+            <div class="date-city">
+               м. Київ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${formData.contractDate}
+            </div>
+
+            <div class="intro">
+              <strong>${formData.executorName}</strong>, надалі "Виконавець", з однієї сторони, та
+            </div>
+            <div class="intro">
+              <strong>${formData.clientName}</strong>, надалі "Замовник", з іншої сторони, уклали цей Договір про наступне:
+            </div>
+
+            <div class="section-title">1. ПРЕДМЕТ ДОГОВОРУ</div>
+            <div class="section-content">
+              <div class="item">
+                <span class="item-number">1.1.</span>
+                <span class="item-text">Виконавець зобов'язується надати наступні послуги: <strong>${formData.serviceDescription}</strong></span>
+              </div>
+              <div class="item">
+                <span class="item-number">1.2.</span>
+                <span class="item-text">Замовник зобов'язується прийняти та оплатити надані послуги.</span>
+              </div>
+            </div>
+
+            <div class="section-title">2. ВАРТІСТЬ ПОСЛУГ</div>
+            <div class="section-content">
+              <div class="item">
+                <span class="item-number">2.1.</span>
+                <span class="item-text">Загальна вартість послуг становить: <strong>${formData.amount} грн</strong></span>
+              </div>
+              <div class="item">
+                <span class="item-number">2.2.</span>
+                <span class="item-text">Оплата здійснюється після надання послуг.</span>
+              </div>
+            </div>
+
+            <div class="section-title">3. ПІДПИСИ СТОРІН</div>
+            <div class="signatures">
+              <div class="col">
+                <strong>ВИКОНАВЕЦЬ:</strong><br>
+                ${formData.executorName}<br><br>
+                <div class="sign-line"></div>
+                (підпис)
+              </div>
+              <div class="col">
+                <strong>ЗАМОВНИК:</strong><br>
+                ${formData.clientName}<br><br>
+                <div class="sign-line"></div>
+                (підпис)
+              </div>
+            </div>
+          </body>
+        </html>
+      `;
+
+      iframeDoc.open();
+      iframeDoc.write(content);
+      iframeDoc.close();
+
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      const canvas = await html2canvas(iframeDoc.body, {
+        scale: 2,
+        backgroundColor: '#ffffff',
         logging: false,
-        backgroundColor: "#ffffff",
-        windowWidth: element.scrollWidth,
-        windowHeight: element.scrollHeight
+        useCORS: true 
       });
 
       const imgData = canvas.toDataURL('image/jpeg', 1.0);
-      
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -67,7 +171,6 @@ export default function ContractGenerator() {
 
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      
       const imgProps = pdf.getImageProperties(imgData);
       const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
@@ -85,10 +188,12 @@ export default function ContractGenerator() {
       }
 
       pdf.save(`Договір_${formData.contractNumber || 'б/н'}_${formData.contractDate}.pdf`);
+
+      document.body.removeChild(iframe);
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);
-      alert("Не вдалося створити PDF. Спробуйте ще раз.");
+      alert("Не вдалося створити PDF. Деталі в консолі.");
     }
   };
 
