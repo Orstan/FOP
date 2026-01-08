@@ -54,7 +54,9 @@ export default function ContractGenerator() {
         scale: 2, 
         useCORS: true,
         logging: false,
-        allowTaint: true
+        allowTaint: true,
+        foreignObjectRendering: false,
+        letterRendering: true
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const }
     };
