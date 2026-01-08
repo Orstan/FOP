@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileText, ArrowLeft, Download, FileSignature, Receipt, Home, ShoppingCart, Hammer, Briefcase, HandCoins, ShoppingBag, ShieldCheck, Building2 } from "lucide-react";
+import { FileText, ArrowLeft, Download, FileSignature, Receipt, Home, ShoppingCart, Hammer, Briefcase, HandCoins, ShoppingBag, ShieldCheck, Building2, Award, Truck, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -107,6 +107,30 @@ export default function DocumentsPage() {
       icon: Building2,
       href: "/documents/commercial-rent",
       color: "cyan",
+      available: true,
+    },
+    {
+      title: "Договір франшизи",
+      description: "Передача прав на бізнес-модель",
+      icon: Award,
+      href: "/documents/franchise",
+      color: "yellow",
+      available: true,
+    },
+    {
+      title: "Договір перевезення",
+      description: "Доставка вантажу",
+      icon: Truck,
+      href: "/documents/transportation",
+      color: "blue",
+      available: true,
+    },
+    {
+      title: "Договір зберігання",
+      description: "Складські послуги",
+      icon: Package,
+      href: "/documents/storage",
+      color: "gray",
       available: true,
     },
   ];
