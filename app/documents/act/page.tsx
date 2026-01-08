@@ -68,26 +68,29 @@ export default function ActGenerator() {
                 background-color: #ffffff; 
                 color: #000000; 
                 margin: 0; 
-                padding: 15mm 20mm;
+                padding: 10mm 15mm;
                 width: 210mm; 
                 min-height: 297mm; 
                 box-sizing: border-box;
-                font-size: 11pt;
-                line-height: 1.4;
+                font-size: 10pt;
+                line-height: 1.3;
               }
-              .header { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 10px; text-transform: uppercase; }
-              .date-city { text-align: right; margin-bottom: 20px; font-size: 11pt; }
-              .section { margin-bottom: 15px; }
-              .section-title { font-weight: bold; margin-top: 15px; margin-bottom: 5px; font-size: 11pt; }
+              .branding { position: absolute; top: 10mm; right: 15mm; font-size: 8pt; color: #666; text-align: right; }
+              .header { text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 8px; text-transform: uppercase; }
+              .date-city { text-align: right; margin-bottom: 12px; font-size: 10pt; }
+              .section { margin-bottom: 10px; }
+              .section-title { font-weight: bold; margin-top: 10px; margin-bottom: 4px; font-size: 10pt; }
               .section-content { text-align: justify; margin-left: 0; }
               
-              .signatures { display: flex; justify-content: space-between; margin-top: 40px; }
+              .signatures { display: flex; justify-content: space-between; margin-top: 25px; }
               .col { width: 45%; }
-              .sign-line { border-top: 1px solid #000; margin-top: 30px; width: 100%; }
+              .sign-line { border-top: 1px solid #000; margin-top: 20px; width: 100%; }
               strong { font-weight: bold; }
             </style>
           </head>
           <body>
+            <div class="branding">ФОП Помічник<br>fop-help.com</div>
+            
             <div class="header">
               АКТ № ${formData.actNumber || '___'}<br>
               приймання-передачі виконаних робіт (наданих послуг)

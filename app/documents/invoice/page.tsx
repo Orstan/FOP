@@ -74,24 +74,27 @@ export default function InvoiceGenerator() {
                 background-color: #ffffff; 
                 color: #000000; 
                 margin: 0; 
-                padding: 15mm 20mm;
+                padding: 10mm 15mm;
                 width: 210mm; 
                 min-height: 297mm; 
                 box-sizing: border-box;
-                font-size: 11pt;
-                line-height: 1.4;
+                font-size: 10pt;
+                line-height: 1.3;
               }
-              .header { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 10px; text-transform: uppercase; }
-              .date-city { text-align: right; margin-bottom: 20px; font-size: 11pt; }
-              .section { margin-bottom: 15px; }
-              table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-              th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+              .branding { position: absolute; top: 10mm; right: 15mm; font-size: 8pt; color: #666; text-align: right; }
+              .header { text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 8px; text-transform: uppercase; }
+              .date-city { text-align: right; margin-bottom: 12px; font-size: 10pt; }
+              .section { margin-bottom: 10px; }
+              table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+              th, td { border: 1px solid #000; padding: 6px; text-align: left; }
               th { background-color: #f0f0f0; font-weight: bold; }
-              .signatures { margin-top: 40px; }
+              .signatures { margin-top: 25px; }
               strong { font-weight: bold; }
             </style>
           </head>
           <body>
+            <div class="branding">ФОП Помічник<br>fop-help.com</div>
+            
             <div class="header">
               РАХУНОК-ФАКТУРА № ${formData.invoiceNumber || '___'}
             </div>

@@ -68,31 +68,34 @@ export default function RentGenerator() {
                 background-color: #ffffff; 
                 color: #000000; 
                 margin: 0; 
-                padding: 15mm 20mm;
+                padding: 10mm 15mm;
                 width: 210mm; 
                 min-height: 297mm; 
                 box-sizing: border-box;
-                font-size: 11pt;
-                line-height: 1.4;
+                font-size: 10pt;
+                line-height: 1.3;
               }
-              .header { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 10px; text-transform: uppercase; }
-              .date-city { text-align: right; margin-bottom: 20px; font-size: 11pt; }
-              .intro { text-align: justify; margin-bottom: 15px; text-indent: 10mm; }
-              .section-title { font-weight: bold; margin-top: 15px; margin-bottom: 5px; text-transform: uppercase; font-size: 11pt; }
+              .branding { position: absolute; top: 10mm; right: 15mm; font-size: 8pt; color: #666; text-align: right; }
+              .header { text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 8px; text-transform: uppercase; }
+              .date-city { text-align: right; margin-bottom: 12px; font-size: 10pt; }
+              .intro { text-align: justify; margin-bottom: 10px; text-indent: 10mm; }
+              .section-title { font-weight: bold; margin-top: 10px; margin-bottom: 4px; text-transform: uppercase; font-size: 10pt; }
               .section-content { text-align: justify; margin-left: 0; }
-              .item { margin-bottom: 5px; display: flex; }
+              .item { margin-bottom: 3px; display: flex; }
               .item-number { min-width: 10mm; }
               .item-text { flex: 1; }
-              .sub-item { margin-left: 10mm; display: flex; margin-bottom: 3px; }
+              .sub-item { margin-left: 10mm; display: flex; margin-bottom: 2px; }
               .sub-item-number { min-width: 12mm; }
               
-              .signatures { display: flex; justify-content: space-between; margin-top: 40px; }
+              .signatures { display: flex; justify-content: space-between; margin-top: 25px; }
               .col { width: 45%; }
-              .sign-line { border-top: 1px solid #000; margin-top: 30px; width: 100%; }
+              .sign-line { border-top: 1px solid #000; margin-top: 20px; width: 100%; }
               strong { font-weight: bold; }
             </style>
           </head>
           <body>
+            <div class="branding">ФОП Помічник<br>fop-help.com</div>
+            
             <div class="header">
               ДОГОВІР НАЙМУ ЖИТЛА
             </div>
