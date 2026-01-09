@@ -38,7 +38,9 @@ async function fetchFromMonobank() {
   }
 
   const balance = jar.balance / 100;
-  await kv.set(JAR_BALANCE_KEY, balance);
+  // Зберігаємо отриманий баланс в Redis
+  if (!redisClient.isOpen) await redisClient.connect();
+  await redisClient.set(JAR_BALANCE_KEY, balance);
   return balance;
 }
 
