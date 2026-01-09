@@ -1,31 +1,54 @@
 import { NextResponse } from 'next/server';
 import { kv } from '@vercel/kv';
 
-const JAR_BALANCE_KEY = 'jar-balance'; // Key for Vercel KV
+const JAR_BALANCE_KEY = 'jar-balance';
 
-/**
- * API endpoint для отримання балансу банки з кешу Vercel KV.
- * Баланс оновлюється через вебхук /api/mono-webhook.
- */
+async function fetchFromMonobank() {
+  const MONOBANK_API_TOKEN = process.env.MONOBANK_API_TOKEN;
+  const JAR_ID = '9Ewef621zA';
+
+  if (!MONOBANK_API_TOKEN) {
+    throw new Error('Monobank API token is not set.');
+  }
+
+  const response = await fetch('https://api.monobank.ua/personal/client-info', {
+    headers: { 'X-Token': MONOBANK_API_TOKEN },
+    next: { revalidate: 60 },
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text();
+    console.error('[JAR API] Monobank API Error Body:', errorBody);
+    throw new Error(`Monobank API error: ${response.status} ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  const jar = data.jars?.find((j: any) => j.sendId === `jar/${JAR_ID}`);
+
+  if (!jar) {
+    throw new Error(`Jar with ID ${JAR_ID} not found.`);
+  }
+
+  const balance = jar.balance / 100;
+  await kv.set(JAR_BALANCE_KEY, balance);
+  return balance;
+}
+
 export async function GET() {
   try {
-    const balance = await kv.get(JAR_BALANCE_KEY);
+    let balance = await kv.get(JAR_BALANCE_KEY);
 
     if (balance === null) {
-      // Якщо в кеші нічого немає, повертаємо fallback
-      // Це може статися при першому запуску, до першого вебхука
-      console.warn('[JAR BALANCE] No balance found in KV, returning fallback.');
-      return NextResponse.json({ balance: 150, source: 'kv-fallback' });
+      console.warn('[JAR BALANCE] No balance in KV, fetching from Monobank...');
+      balance = await fetchFromMonobank();
+      return NextResponse.json({ balance, source: 'monobank-initial-fetch' });
     }
 
-    return NextResponse.json({ 
-      balance,
-      source: 'kv-cache',
-    });
+    return NextResponse.json({ balance, source: 'kv-cache' });
 
   } catch (error) {
-    console.error('[JAR BALANCE] Failed to fetch balance from KV:', error);
+    console.error('[JAR BALANCE] Failed to get balance:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ balance: 150, source: 'kv-error', error: errorMessage }, { status: 500 });
+    return NextResponse.json({ balance: 150, source: 'error-fallback', error: errorMessage }, { status: 500 });
   }
 }
