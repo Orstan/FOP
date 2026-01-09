@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Calculator, Info } from "lucide-react";
+import { Calculator, Info, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -19,6 +19,40 @@ export default function FOPTaxCalculator() {
     total: number;
     netIncome: number;
   } | null>(null);
+
+  const [penaltyState, setPenaltyState] = useState({
+    debt: "",
+    days: "",
+    taxType: "esv",
+    penaltyResult: null as number | null,
+  });
+
+  const nbuRate = 0.135; // NBU discount rate (example, 13.5%)
+
+  const calculatePenalty = () => {
+    const debtAmount = parseFloat(penaltyState.debt);
+    const daysDelayed = parseInt(penaltyState.days, 10);
+
+    if (isNaN(debtAmount) || debtAmount <= 0 || isNaN(daysDelayed) || daysDelayed <= 0) {
+      alert("Введіть коректну суму боргу та кількість днів прострочення");
+      return;
+    }
+
+    let penalty = 0;
+    if (penaltyState.taxType === "esv") {
+      // Penalty for ESV is 0.1% per day
+      penalty = debtAmount * 0.001 * daysDelayed;
+    } else {
+      // Penalty for Single Tax is 120% of NBU rate per year
+      const dailyRate = (1.2 * nbuRate) / 365;
+      penalty = debtAmount * dailyRate * daysDelayed;
+    }
+
+    setPenaltyState(prevState => ({
+      ...prevState,
+      penaltyResult: Math.round(penalty * 100) / 100,
+    }));
+  };
 
   const calculateTax = () => {
     const incomeAmount = parseFloat(income);
@@ -220,6 +254,77 @@ export default function FOPTaxCalculator() {
             </div>
           </CardContent>
         </Card>
+
+        <Card className="mt-8 dark:bg-gray-900">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
+              Калькулятор пені
+            </CardTitle>
+            <CardDescription>
+              Розрахуйте пеню за несвоєчасну сплату ЄСВ або Єдиного податку
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid lg:grid-cols-2 gap-8">
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="taxType">Тип податку</Label>
+                <Select 
+                  value={penaltyState.taxType} 
+                  onValueChange={(value) => setPenaltyState(s => ({...s, taxType: value, penaltyResult: null}))}
+                >
+                  <SelectTrigger id="taxType">
+                    <SelectValue placeholder="Оберіть тип податку" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="esv">ЄСВ (пеня 0.1% за день)</SelectItem>
+                    <SelectItem value="single_tax">Єдиний податок (120% ставки НБУ)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="debt">Сума боргу (грн)</Label>
+                <Input
+                  id="debt"
+                  type="number"
+                  placeholder="Наприклад: 10000"
+                  value={penaltyState.debt}
+                  onChange={(e) => setPenaltyState(s => ({...s, debt: e.target.value}))}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="days">Днів прострочення</Label>
+                <Input
+                  id="days"
+                  type="number"
+                  placeholder="Наприклад: 30"
+                  value={penaltyState.days}
+                  onChange={(e) => setPenaltyState(s => ({...s, days: e.target.value}))}
+                />
+              </div>
+              <Button onClick={calculatePenalty} className="w-full" size="lg">
+                <Calculator className="mr-2 h-5 w-5" />
+                Розрахувати пеню
+              </Button>
+            </div>
+            <div className="flex items-center justify-center bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6">
+              {penaltyState.penaltyResult !== null ? (
+                <div className="text-center">
+                  <p className="text-gray-600 dark:text-gray-400">Сума пені складає:</p>
+                  <p className="text-4xl font-bold text-red-600 dark:text-red-400 my-2">
+                    {penaltyState.penaltyResult.toLocaleString('uk-UA')} грн
+                  </p>
+                  <p className="text-xs text-gray-500 mt-4">* Розрахунок є орієнтовним. Остаточну суму уточнюйте в податковій.</p>
+                </div>
+              ) : (
+                <div className="text-center text-gray-400 dark:text-gray-500">
+                  <p>Введіть дані для розрахунку</p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
       </main>
     </div>
   );
