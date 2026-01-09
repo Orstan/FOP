@@ -37,8 +37,8 @@ export function DonationWidget() {
 
     fetchJarBalance();
     
-    // Оновлюємо баланс кожні 5 хвилин
-    const interval = setInterval(fetchJarBalance, 5 * 60 * 1000);
+    // Оновлюємо баланс кожні 10 секунд для швидкого відображення донатів
+    const interval = setInterval(fetchJarBalance, 10 * 1000);
     
     return () => clearInterval(interval);
   }, []);
