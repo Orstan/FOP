@@ -12,22 +12,18 @@ export function DonationWidget() {
   const goal = 25000;
   const progress = raised ? (raised / goal) * 100 : 0;
 
-  // Отримуємо баланс банки через Monobank API
+  // Отримуємо баланс банки через власний API endpoint (обходить CORS)
   useEffect(() => {
     const fetchJarBalance = async () => {
       try {
-        // Публічний endpoint Monobank для банок
-        // https://api.monobank.ua/bank/jar/{jarId}
-        const jarId = "9Ewef621zA"; // ID вашої банки
-        const response = await fetch(`https://api.monobank.ua/bank/jar/${jarId}`);
+        // Використовуємо власний API route, який проксіює запит до Monobank
+        const response = await fetch('/api/jar-balance');
         
         if (response.ok) {
           const data = await response.json();
-          // Баланс приходить у копійках, переводимо в гривні
-          const balanceInUAH = Math.round(data.balance / 100);
-          setRaised(balanceInUAH);
+          setRaised(data.balance);
         } else {
-          // Якщо API недоступне, показуємо placeholder
+          // Fallback
           setRaised(5000);
         }
       } catch (error) {
