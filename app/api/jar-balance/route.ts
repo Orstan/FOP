@@ -27,7 +27,9 @@ export async function GET() {
     });
 
     if (!response.ok) {
-      throw new Error(`Monobank API error: ${response.statusText}`);
+      const errorBody = await response.text();
+      console.error('[JAR API] Monobank API Error Body:', errorBody);
+      throw new Error(`Monobank API error: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -50,6 +52,7 @@ export async function GET() {
   } catch (error) {
     console.error('[JAR API] Failed to fetch jar balance:', error);
     // Повертаємо fallback у випадку помилки
-    return NextResponse.json({ balance: 150, source: 'fallback-error' }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ balance: 150, source: 'fallback-error', error: errorMessage }, { status: 500 });
   }
 }
