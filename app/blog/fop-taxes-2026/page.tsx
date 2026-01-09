@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Calculator, BookOpen, TrendingUp, AlertCircle } from "lucide-react";
+import { Calculator, BookOpen, TrendingUp, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -39,16 +39,6 @@ export default function FOPTaxesArticle() {
         datePublished="2026-01-08"
       />
       <FAQStructuredData questions={faqQuestions} />
-      <header className="border-b bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/blog" className="flex items-center gap-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-            <ArrowLeft className="h-5 w-5" />
-            <span className="font-semibold">Блог</span>
-          </Link>
-          <ThemeToggle />
-        </div>
-      </header>
-
       <article className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">

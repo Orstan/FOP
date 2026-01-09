@@ -11,22 +11,6 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
       <OrganizationStructuredData />
       <WebApplicationStructuredData />
-      <header className="border-b bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-            <span className="text-xl font-bold text-gray-900 dark:text-gray-100">ФОП Помічник</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <nav className="hidden md:flex gap-6">
-              <Link href="/documents" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">Документи</Link>
-              <Link href="/calculators" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">Калькулятори</Link>
-              <Link href="/blog" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">Блог</Link>
-            </nav>
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
 
       <main>
         <section className="py-20 px-4">

@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowLeft, Target, Heart, Users, Zap, Shield, TrendingUp } from 'lucide-react'
+import { Target, Heart, Users, Zap, Shield, TrendingUp } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 
 export const metadata: Metadata = {
@@ -15,16 +15,6 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
-      <header className="border-b bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-            <ArrowLeft className="h-5 w-5" />
-            <span className="font-semibold">На головну</span>
-          </Link>
-          <ThemeToggle />
-        </div>
-      </header>
-
       <main className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-slate-900 dark:text-white mb-4">

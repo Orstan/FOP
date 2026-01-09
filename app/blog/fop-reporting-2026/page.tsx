@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowLeft, Calendar, FileCheck, AlertTriangle } from 'lucide-react'
+import { Calendar, FileCheck, AlertTriangle } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Звітність ФОП у 2026 році: терміни, декларації, штрафи | ФОП Помічник',

@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowLeft, XCircle, CheckCircle, AlertCircle } from 'lucide-react'
+import { XCircle, CheckCircle, AlertCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Як закрити ФОП у 2026 році: покрокова інструкція | ФОП Помічник',
