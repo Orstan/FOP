@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { Calculator, FileText } from 'lucide-react'
+import { Calculator, FileText, ArrowLeft } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Як вибрати групу ФОП: 1, 2 чи 3 група у 2026 році | ФОП Помічник',
