@@ -1,14 +1,10 @@
 import { NextResponse } from 'next/server';
-import { redis } from '@/lib/redis';
+import { kv } from '@vercel/kv';
 
 const JAR_BALANCE_KEY = 'jar-balance';
 const LAST_UPDATED_KEY = 'jar-balance-last-updated';
 
 export async function POST(request: Request) {
-  if (!redis) {
-    return NextResponse.json({ error: 'Redis client is not available' }, { status: 500 });
-  }
-
   try {
     const body = await request.json();
     console.log('[MONO WEBHOOK] Received:', JSON.stringify(body, null, 2));
@@ -17,10 +13,8 @@ export async function POST(request: Request) {
 
     if (typeof newBalance === 'number') {
       const balanceInHryvnia = newBalance / 100;
-      const pipeline = redis.multi();
-      pipeline.set(JAR_BALANCE_KEY, balanceInHryvnia);
-      pipeline.set(LAST_UPDATED_KEY, new Date().toISOString());
-      await pipeline.exec();
+      await kv.set(JAR_BALANCE_KEY, balanceInHryvnia);
+      await kv.set(LAST_UPDATED_KEY, new Date().toISOString());
       console.log(`[MONO WEBHOOK] Updated balance via webhook: ${balanceInHryvnia}`);
     }
 
