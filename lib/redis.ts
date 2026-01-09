@@ -1,18 +1,30 @@
 import { createClient } from 'redis';
 
-let redisClient: ReturnType<typeof createClient> | null = null;
+// This creates a single, persistent Redis client for the entire application life cycle.
+function createRedisClient() {
+  if (!process.env.REDIS_URL) {
+    console.error('[REDIS] REDIS_URL is not set. Redis client cannot be created.');
+    return null;
+  }
 
-if (process.env.REDIS_URL) {
-  redisClient = createClient({
-    url: process.env.REDIS_URL,
-  });
+  try {
+    const client = createClient({
+      url: process.env.REDIS_URL,
+    });
 
-  redisClient.on('error', (err: Error) => console.error('[REDIS] Client Error', err));
+    client.on('error', (err: Error) => console.error('[REDIS] Client Error', err));
 
-  // Connect the client
-  if (!redisClient.isOpen) {
-    redisClient.connect().catch(console.error);
+    // The client will automatically try to connect and reconnect.
+    // We don't need to manage the connection manually in serverless functions.
+    client.connect().catch(err => {
+      console.error('[REDIS] Failed to connect to Redis:', err);
+    });
+
+    return client;
+  } catch (error) {
+    console.error('[REDIS] Failed to create Redis client:', error);
+    return null;
   }
 }
 
-export const redis = redisClient;
+export const redis = createRedisClient();

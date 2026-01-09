@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { redis } from '@/lib/redis';
 
 const JAR_BALANCE_KEY = 'jar-balance';
+const LAST_UPDATED_KEY = 'jar-balance-last-updated';
 
 export async function POST(request: Request) {
   if (!redis) {
@@ -15,8 +16,12 @@ export async function POST(request: Request) {
     const newBalance = body?.statementItem?.jarBalance;
 
     if (typeof newBalance === 'number') {
-      await redis.set(JAR_BALANCE_KEY, newBalance / 100);
-      console.log(`[MONO WEBHOOK] Updated balance in Redis: ${newBalance / 100}`);
+      const balanceInHryvnia = newBalance / 100;
+      const pipeline = redis.multi();
+      pipeline.set(JAR_BALANCE_KEY, balanceInHryvnia);
+      pipeline.set(LAST_UPDATED_KEY, new Date().toISOString());
+      await pipeline.exec();
+      console.log(`[MONO WEBHOOK] Updated balance via webhook: ${balanceInHryvnia}`);
     }
 
     return NextResponse.json({ status: 'ok' });
