@@ -1,106 +1,55 @@
 import { NextResponse } from 'next/server';
-import puppeteer, { type Browser } from 'puppeteer-core';
-import chromium from '@sparticuz/chromium';
+
+// This route is revalidated every 60 seconds by Vercel's caching mechanism
+export const revalidate = 60;
 
 /**
- * API endpoint для автоматичного отримання балансу банки
- * 
- * Використовує Puppeteer для рендерингу JavaScript та парсингу динамічного контенту.
- * Оновлюється в реальному часі при кожному запиті.
+ * API endpoint для отримання балансу банки Monobank
+ * Використовує офіційний API Monobank.
  */
 export async function GET() {
-  let browser: Browser | null = null;
-  
+  const MONOBANK_API_TOKEN = process.env.MONOBANK_API_TOKEN;
+  const JAR_ID = '9Ewef621zA'; // Ваш ID банки
+
+  if (!MONOBANK_API_TOKEN) {
+    console.error('[JAR API] Monobank API token is not set.');
+    // Повертаємо fallback, щоб сайт не падав
+    return NextResponse.json({ balance: 150, source: 'fallback-no-token' }, { status: 500 });
+  }
+
   try {
-    const jarUrl = 'https://send.monobank.ua/jar/9Ewef621zA';
-    
-    console.log('[JAR API] Launching browser for:', jarUrl);
-    
-    // Налаштування для Vercel
-    const isProduction = process.env.NODE_ENV === 'production';
-    
-    browser = await puppeteer.launch({
-      args: isProduction ? chromium.args : ['--no-sandbox', '--disable-setuid-sandbox'],
-      defaultViewport: { width: 1280, height: 720 },
-      executablePath: isProduction 
-        ? await chromium.executablePath() 
-        : 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-      headless: true,
+    const response = await fetch('https://api.monobank.ua/personal/client-info', {
+      headers: {
+        'X-Token': MONOBANK_API_TOKEN,
+      },
+      // Next.js revalidation strategy
+      next: { revalidate: 60 },
     });
 
-    const page = await browser.newPage();
-    
-    // Переходимо на сторінку банки
-    await page.goto(jarUrl, { 
-      waitUntil: 'networkidle2',
-      timeout: 15000 
-    });
-    
-    // Чекаємо поки завантажиться контент (3 сек)
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    // Витягуємо баланс та ціль з DOM після рендерингу JS
-    const data = await page.evaluate(() => {
-      const bodyText = document.body.innerText;
-      
-      let balance = 0;
-      let goal = 25000;
-      
-      // Шукаємо "Накопичено: 150 ₴"
-      const balanceMatch = bodyText.match(/Накопичено[:\s]*([\d\s]+)\s*₴/i);
-      if (balanceMatch) {
-        balance = parseInt(balanceMatch[1].replace(/\s/g, ''), 10);
-      }
-      
-      // Шукаємо "Ціль: 25 000 ₴"
-      const goalMatch = bodyText.match(/Ціль[:\s]*([\d\s]+)\s*₴/i);
-      if (goalMatch) {
-        goal = parseInt(goalMatch[1].replace(/\s/g, ''), 10);
-      }
-      
-      return { balance, goal, bodyText: bodyText.substring(0, 500) };
-    });
-    
-    await browser.close();
-    
-    console.log('[JAR API] Scraped balance:', data.balance, 'goal:', data.goal);
-    
-    if (data.balance === 0 || isNaN(data.balance)) {
-      console.warn('[JAR API] Could not parse balance, using fallback');
-      data.balance = 150;
+    if (!response.ok) {
+      throw new Error(`Monobank API error: ${response.statusText}`);
     }
-    
+
+    const data = await response.json();
+
+    // Знаходимо потрібну банку за її sendId
+    const jar = data.jars?.find((j: any) => j.sendId === JAR_ID);
+
+    if (!jar) {
+      throw new Error(`Jar with ID ${JAR_ID} not found.`);
+    }
+
+    // Баланс повертається в копійках, переводимо в гривні
+    const balance = jar.balance / 100;
+
     return NextResponse.json({ 
-      balance: data.balance,
-      goal: data.goal,
-      currency: 'UAH',
-      source: 'puppeteer',
-      timestamp: new Date().toISOString()
-    }, {
-      headers: {
-        'Cache-Control': 'no-store, max-age=0'
-      }
+      balance,
+      source: 'monobank-api',
     });
-    
+
   } catch (error) {
-    console.error('[JAR API] Error:', error);
-    
-    if (browser) {
-      await browser.close();
-    }
-    
-    // Fallback
-    return NextResponse.json({ 
-      balance: 150,
-      goal: 25000,
-      currency: 'UAH',
-      source: 'fallback',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { 
-      status: 200,
-      headers: {
-        'Cache-Control': 'no-store, max-age=0'
-      }
-    });
+    console.error('[JAR API] Failed to fetch jar balance:', error);
+    // Повертаємо fallback у випадку помилки
+    return NextResponse.json({ balance: 150, source: 'fallback-error' }, { status: 500 });
   }
 }
