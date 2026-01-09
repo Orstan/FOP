@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Briefcase, Download, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function EmploymentGenerator() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     employerName: "",
     employerCode: "",
@@ -249,6 +251,8 @@ export default function EmploymentGenerator() {
       pdf.save(`${fileName}_${formData.contractNumber || 'б/н'}_${formData.contractDate}.pdf`);
 
       document.body.removeChild(iframe);
+
+      router.push('/documents/success');
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);

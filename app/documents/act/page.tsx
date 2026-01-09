@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FileText, Download, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function ActGenerator() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     executorName: "",
     executorCode: "",
@@ -177,6 +179,8 @@ export default function ActGenerator() {
       pdf.save(`Акт_${formData.actNumber || 'б/н'}_${formData.actDate}.pdf`);
 
       document.body.removeChild(iframe);
+
+      router.push('/documents/success');
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);

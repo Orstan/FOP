@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ShoppingBag, Download, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function CommissionGenerator() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     principalName: "",
     principalCode: "",
@@ -208,6 +210,8 @@ export default function CommissionGenerator() {
       pdf.save(`Договір_комісії_${formData.contractNumber || 'б/н'}_${formData.contractDate}.pdf`);
 
       document.body.removeChild(iframe);
+
+      router.push('/documents/success');
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);

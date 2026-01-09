@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Home, Download, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function RentGenerator() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     landlordName: "",
     landlordCode: "",
@@ -278,6 +280,8 @@ export default function RentGenerator() {
       pdf.save(`Договір_оренди_${formData.contractDate}.pdf`);
 
       document.body.removeChild(iframe);
+
+      router.push('/documents/success');
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);

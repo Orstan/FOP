@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FileSignature, Download, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { CompanySearch } from "@/components/company-search";
 
 export default function ContractGenerator() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     executorName: "",
     executorCode: "",
@@ -196,6 +198,8 @@ export default function ContractGenerator() {
       pdf.save(`Договір_${formData.contractNumber || 'б/н'}_${formData.contractDate}.pdf`);
 
       document.body.removeChild(iframe);
+
+      router.push('/documents/success');
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);

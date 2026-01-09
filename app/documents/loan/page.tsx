@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { HandCoins, Download, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function LoanGenerator() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     lenderName: "",
     lenderCode: "",
@@ -210,6 +212,8 @@ export default function LoanGenerator() {
       pdf.save(`Договір_позики_${formData.contractNumber || 'б/н'}_${formData.contractDate}.pdf`);
 
       document.body.removeChild(iframe);
+
+      router.push('/documents/success');
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);

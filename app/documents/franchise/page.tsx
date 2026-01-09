@@ -1,3 +1,100 @@
 "use client"
 
-import{useState}from"react";import Link from"next/link";import{Award,Download}from"lucide-react";import{Button}from"@/components/ui/button";import{Card,CardContent,CardHeader,CardTitle}from"@/components/ui/card";import{Input}from"@/components/ui/input";import{Label}from"@/components/ui/label";import{Textarea}from"@/components/ui/textarea";import{ThemeToggle}from"@/components/theme-toggle";export default function FranchiseGenerator(){const[formData,setFormData]=useState({franchisorName:"",franchisorCode:"",franchiseeName:"",franchiseeCode:"",franchiseName:"",territory:"",franchiseFee:"",royaltyRate:"",contractNumber:"",contractDate:new Date().toISOString().split('T')[0],duration:"5"});const handleChange=(e:React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>)=>{setFormData({...formData,[e.target.name]:e.target.value})};const generatePDF=async()=>{if(!formData.franchisorName||!formData.franchiseeName||!formData.franchiseName||!formData.franchiseFee){alert("Заповніть обов'язкові поля");return}try{const html2canvas=(await import('html2canvas')).default;const jsPDF=(await import('jspdf')).default;const iframe=document.createElement('iframe');iframe.style.cssText='visibility:hidden;position:fixed;left:-10000px;width:0;height:0;border:none';document.body.appendChild(iframe);const iframeDoc=iframe.contentDocument||iframe.contentWindow?.document;if(!iframeDoc)throw new Error("Не вдалося створити iframe");const content=`<!DOCTYPE html><html><head><meta name="color-scheme" content="light only"><style>body{font-family:'Times New Roman',Times,serif;background:#fff;color:#000;margin:0;padding:10mm 15mm;width:210mm;font-size:10pt;line-height:1.3}.branding{position:absolute;top:10mm;right:15mm;font-size:8pt;color:#666}.header{text-align:center;font-weight:bold;font-size:13pt;margin-bottom:8px;text-transform:uppercase}.date-city{text-align:right;margin-bottom:12px;font-size:10pt}.intro{text-align:justify;margin-bottom:10px;text-indent:10mm}.section-title{font-weight:bold;margin-top:10px;margin-bottom:4px;text-transform:uppercase;font-size:10pt}.item{margin-bottom:3px;display:flex}.item-number{min-width:10mm}.item-text{flex:1}.signatures{display:flex;justify-content:space-between;margin-top:25px}.col{width:45%}.sign-line{border-top:1px solid #000;margin-top:20px;width:100%}</style></head><body><div class="branding">ФОП Помічник<br>fop-help.com</div><div class="header">ДОГОВІР ФРАНШИЗИ № ${formData.contractNumber||'___'}</div><div class="date-city">м. Київ ${formData.contractDate}</div><div class="intro"><strong>${formData.franchisorName}</strong>, ІПН ${formData.franchisorCode||'___________'}, надалі "Франчайзер", та</div><div class="intro"><strong>${formData.franchiseeName}</strong>, ІПН ${formData.franchiseeCode||'___________'}, надалі "Франчайзі", уклали цей Договір:</div><div class="section-title">1. ПРЕДМЕТ ДОГОВОРУ</div><div class="item"><span class="item-number">1.1.</span><span class="item-text">Франчайзер надає Франчайзі право використання бізнес-моделі "<strong>${formData.franchiseName}</strong>" на території: ${formData.territory||'згідно додатку'}</span></div><div class="item"><span class="item-number">1.2.</span><span class="item-text">Франчайзі отримує право на товарний знак, ноу-хау, технології та бізнес-процеси</span></div><div class="section-title">2. ПЛАТЕЖІ</div><div class="item"><span class="item-number">2.1.</span><span class="item-text">Паушальний внесок: <strong>${formData.franchiseFee} грн</strong></span></div>${formData.royaltyRate?`<div class="item"><span class="item-number">2.2.</span><span class="item-text">Роялті: <strong>${formData.royaltyRate}%</strong> від обороту щомісяця</span></div>`:''}div class="section-title">3. ТЕРМІН ДІЇ</div><div class="item"><span class="item-number">3.1.</span><span class="item-text">Договір діє <strong>${formData.duration} років</strong> з ${formData.contractDate}</span></div><div class="section-title">4. ПІДПИСИ</div><div class="signatures"><div class="col"><strong>ФРАНЧАЙЗЕР:</strong><br>${formData.franchisorName}<br>ІПН: ${formData.franchisorCode||'___________'}<div class="sign-line"></div>(підпис)</div><div class="col"><strong>ФРАНЧАЙЗІ:</strong><br>${formData.franchiseeName}<br>ІПН: ${formData.franchiseeCode||'___________'}<div class="sign-line"></div>(підпис)</div></div></body></html>`;iframeDoc.open();iframeDoc.write(content);iframeDoc.close();await new Promise(resolve=>setTimeout(resolve,500));const canvas=await html2canvas(iframeDoc.body,{scale:2,backgroundColor:'#ffffff',logging:false,useCORS:true});const imgData=canvas.toDataURL('image/jpeg',1.0);const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});const pdfWidth=pdf.internal.pageSize.getWidth();const pdfHeight=pdf.internal.pageSize.getHeight();const imgProps=pdf.getImageProperties(imgData);const imgHeight=(imgProps.height*pdfWidth)/imgProps.width;let heightLeft=imgHeight,position=0;pdf.addImage(imgData,'JPEG',0,position,pdfWidth,imgHeight);heightLeft-=pdfHeight;while(heightLeft>=0){position=heightLeft-imgHeight;pdf.addPage();pdf.addImage(imgData,'JPEG',0,position,pdfWidth,imgHeight);heightLeft-=pdfHeight}pdf.save(`Франшиза_${formData.contractNumber||'б/н'}_${formData.contractDate}.pdf`);document.body.removeChild(iframe)}catch(error){console.error("Помилка:",error);alert("Не вдалося створити PDF")}};return(<div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900"><main className="container mx-auto px-4 py-12 max-w-4xl"><h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Договір франшизи</h1><p className="text-xl text-gray-600 dark:text-gray-300 mb-8">Передача прав на бізнес-модель</p><Card className="dark:bg-gray-900"><CardHeader><CardTitle className="flex items-center gap-2"><Award className="h-5 w-5 text-yellow-600"/>Заповніть дані</CardTitle></CardHeader><CardContent className="space-y-6"><div className="grid grid-cols-2 gap-4"><div><Label htmlFor="contractNumber">№ договору</Label><Input id="contractNumber"name="contractNumber"value={formData.contractNumber}onChange={handleChange}/></div><div><Label htmlFor="contractDate">Дата</Label><Input id="contractDate"name="contractDate"type="date"value={formData.contractDate}onChange={handleChange}/></div></div><div className="space-y-4"><h3 className="font-semibold">Франчайзер</h3><div><Label htmlFor="franchisorName">ПІБ *</Label><Input id="franchisorName"name="franchisorName"placeholder="ТОВ Компанія"value={formData.franchisorName}onChange={handleChange}/></div><div><Label htmlFor="franchisorCode">ІПН</Label><Input id="franchisorCode"name="franchisorCode"value={formData.franchisorCode}onChange={handleChange}/></div></div><div className="space-y-4"><h3 className="font-semibold">Франчайзі</h3><div><Label htmlFor="franchiseeName">ПІБ *</Label><Input id="franchiseeName"name="franchiseeName"placeholder="ФОП Підприємець"value={formData.franchiseeName}onChange={handleChange}/></div><div><Label htmlFor="franchiseeCode">ІПН</Label><Input id="franchiseeCode"name="franchiseeCode"value={formData.franchiseeCode}onChange={handleChange}/></div></div><div className="space-y-4"><h3 className="font-semibold">Умови франшизи</h3><div><Label htmlFor="franchiseName">Назва франшизи *</Label><Input id="franchiseName"name="franchiseName"placeholder="Кав'ярня CoffeePro"value={formData.franchiseName}onChange={handleChange}/></div><div><Label htmlFor="territory">Територія</Label><Input id="territory"name="territory"placeholder="м. Київ"value={formData.territory}onChange={handleChange}/></div><div className="grid grid-cols-3 gap-4"><div><Label htmlFor="franchiseFee">Паушальний внесок *</Label><Input id="franchiseFee"name="franchiseFee"type="number"placeholder="500000"value={formData.franchiseFee}onChange={handleChange}/></div><div><Label htmlFor="royaltyRate">Роялті, %</Label><Input id="royaltyRate"name="royaltyRate"type="number"placeholder="5"value={formData.royaltyRate}onChange={handleChange}/></div><div><Label htmlFor="duration">Термін, років</Label><Input id="duration"name="duration"type="number"placeholder="5"value={formData.duration}onChange={handleChange}/></div></div></div><Button onClick={generatePDF}className="w-full"size="lg"><Download className="mr-2 h-5 w-5"/>Завантажити PDF</Button></CardContent></Card></main></div>)}
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Award, Download, Info } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+
+export default function FranchiseGenerator() {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    franchisorName: "",
+    franchisorCode: "",
+    franchiseeName: "",
+    franchiseeCode: "",
+    franchiseName: "",
+    territory: "",
+    franchiseFee: "",
+    royaltyRate: "",
+    contractNumber: "",
+    contractDate: new Date().toISOString().split('T')[0],
+    duration: "5",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const generatePDF = async () => {
+    if (!formData.franchisorName || !formData.franchiseeName || !formData.franchiseName || !formData.franchiseFee) {
+      alert("Заповніть обов'язкові поля");
+      return;
+    }
+
+    try {
+      const html2canvas = (await import('html2canvas')).default;
+      const jsPDF = (await import('jspdf')).default;
+      const iframe = document.createElement('iframe');
+      iframe.style.cssText = 'visibility:hidden;position:fixed;left:-10000px;width:0;height:0;border:none';
+      document.body.appendChild(iframe);
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+      if (!iframeDoc) throw new Error("Не вдалося створити iframe");
+
+      const content = `<!DOCTYPE html><html><head><meta name="color-scheme" content="light only"><style>body{font-family:'Times New Roman',Times,serif;background:#fff;color:#000;margin:0;padding:10mm 15mm;width:210mm;font-size:10pt;line-height:1.3}.branding{position:absolute;top:10mm;right:15mm;font-size:8pt;color:#666}.header{text-align:center;font-weight:bold;font-size:13pt;margin-bottom:8px;text-transform:uppercase}.date-city{text-align:right;margin-bottom:12px;font-size:10pt}.intro{text-align:justify;margin-bottom:10px;text-indent:10mm}.section-title{font-weight:bold;margin-top:10px;margin-bottom:4px;text-transform:uppercase;font-size:10pt}.item{margin-bottom:3px;display:flex}.item-number{min-width:10mm}.item-text{flex:1}.signatures{display:flex;justify-content:space-between;margin-top:25px}.col{width:45%}.sign-line{border-top:1px solid #000;margin-top:20px;width:100%}</style></head><body><div class="branding">ФОП Помічник<br>fop-help.com</div><div class="header">ДОГОВІР ФРАНШИЗИ № ${formData.contractNumber || '___'}</div><div class="date-city">м. Київ ${formData.contractDate}</div><div class="intro"><strong>${formData.franchisorName}</strong> (Франчайзер) та <strong>${formData.franchiseeName}</strong> (Франчайзі) уклали цей договір.</div><div class="section-title">1. ПРЕДМЕТ</div><div class="item"><span class="item-number">1.1.</span><span class="item-text">Франчайзер надає Франчайзі право використовувати торговельну марку <strong>${formData.franchiseName}</strong> на території ${formData.territory || 'Україна'}.</span></div><div class="section-title">2. ПЛАТЕЖІ</div><div class="item"><span class="item-number">2.1.</span><span class="item-text">Паушальний внесок: <strong>${formData.franchiseFee} грн</strong>.</span></div><div class="item"><span class="item-number">2.2.</span><span class="item-text">Роялті: <strong>${formData.royaltyRate}%</strong> від доходу.</span></div><div class="section-title">3. ТЕРМІН ДІЇ</div><div class="item"><span class="item-number">3.1.</span><span class="item-text">Договір діє <strong>${formData.duration} років</strong>.</span></div><div class="signatures"><div class="col"><strong>ФРАНЧАЙЗЕР:</strong><br>${formData.franchisorName}<div class="sign-line"></div></div><div class="col"><strong>ФРАНЧАЙЗІ:</strong><br>${formData.franchiseeName}<div class="sign-line"></div></div></div></body></html>`;
+
+      iframeDoc.open();
+      iframeDoc.write(content);
+      iframeDoc.close();
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const canvas = await html2canvas(iframeDoc.body, { scale: 2, backgroundColor: '#ffffff', logging: false, useCORS: true });
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgProps = pdf.getImageProperties(imgData);
+      const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      let heightLeft = imgHeight, position = 0;
+      pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
+      heightLeft -= pdfHeight;
+      while (heightLeft >= 0) { position = heightLeft - imgHeight; pdf.addPage(); pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight); heightLeft -= pdfHeight; }
+      pdf.save(`Договір_франшизи_${formData.contractNumber || 'б/н'}_${formData.contractDate}.pdf`);
+      document.body.removeChild(iframe);
+      router.push('/documents/success');
+    } catch (error) {
+      console.error("Помилка:", error);
+      alert("Не вдалося створити PDF.");
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
+      <main className="container mx-auto px-4 py-12 max-w-4xl">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Договір франшизи</h1>
+        <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">Передача прав на бізнес-модель</p>
+        <Card className="dark:bg-gray-900">
+          <CardHeader><CardTitle className="flex items-center gap-2"><Award className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />Заповніть дані</CardTitle></CardHeader>
+          <CardContent className="space-y-6">
+            <div className="grid grid-cols-2 gap-4">
+              <div><Label htmlFor="franchisorName">Франчайзер *</Label><Input id="franchisorName" name="franchisorName" value={formData.franchisorName} onChange={handleChange} /></div>
+              <div><Label htmlFor="franchiseeName">Франчайзі *</Label><Input id="franchiseeName" name="franchiseeName" value={formData.franchiseeName} onChange={handleChange} /></div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="franchiseName">Назва франшизи *</Label>
+              <Input id="franchiseName" name="franchiseName" value={formData.franchiseName} onChange={handleChange} />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div><Label htmlFor="franchiseFee">Паушальний внесок, грн *</Label><Input id="franchiseFee" name="franchiseFee" type="number" value={formData.franchiseFee} onChange={handleChange} /></div>
+              <div><Label htmlFor="royaltyRate">Роялті, %</Label><Input id="royaltyRate" name="royaltyRate" type="number" value={formData.royaltyRate} onChange={handleChange} /></div>
+            </div>
+            <Button onClick={generatePDF} className="w-full" size="lg"><Download className="mr-2 h-5 w-5" />Завантажити PDF</Button>
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
+}

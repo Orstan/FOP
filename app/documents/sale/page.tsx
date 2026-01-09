@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ShoppingCart, Download, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function SaleGenerator() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     sellerName: "",
     sellerCode: "",
@@ -237,6 +239,8 @@ export default function SaleGenerator() {
       pdf.save(`Договір_купівлі-продажу_${formData.contractNumber || 'б/н'}_${formData.contractDate}.pdf`);
 
       document.body.removeChild(iframe);
+
+      router.push('/documents/success');
       
     } catch (error) {
       console.error("Помилка при генерації PDF:", error);

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Building2, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function CommercialRentGenerator() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     landlordName: "",
     landlordCode: "",
@@ -63,6 +65,7 @@ export default function CommercialRentGenerator() {
       while (heightLeft >= 0) { position = heightLeft - imgHeight; pdf.addPage(); pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight); heightLeft -= pdfHeight; }
       pdf.save(`Оренда_нежитлового_${formData.contractNumber || 'б/н'}_${formData.contractDate}.pdf`);
       document.body.removeChild(iframe);
+      router.push('/documents/success');
     } catch (error) {
       console.error("Помилка:", error);
       alert("Не вдалося створити PDF.");
