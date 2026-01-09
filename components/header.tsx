@@ -47,20 +47,6 @@ export function Header() {
             </Link>
           </nav>
           
-          <div className="hidden md:flex gap-2">
-            <Button size="sm" asChild variant="outline">
-              <Link href="/documents">
-                <Download className="mr-1.5 h-4 w-4" />
-                Документ
-              </Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link href="/calculators">
-                <Calculator className="mr-1.5 h-4 w-4" />
-                Калькулятор
-              </Link>
-            </Button>
-          </div>
           
           <ThemeToggle />
         </div>
