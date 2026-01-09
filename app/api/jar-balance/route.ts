@@ -45,7 +45,8 @@ async function fetchFromMonobank() {
 export async function GET() {
   try {
     if (!redisClient.isOpen) await redisClient.connect();
-    let balance = await redisClient.get(JAR_BALANCE_KEY);
+    const balanceString = await redisClient.get(JAR_BALANCE_KEY);
+    let balance: number | null = balanceString ? parseFloat(balanceString) : null;
 
     if (balance === null) {
       console.warn('[JAR BALANCE] No balance in KV, fetching from Monobank...');
@@ -55,7 +56,7 @@ export async function GET() {
     }
 
     if (redisClient.isOpen) await redisClient.quit();
-    return NextResponse.json({ balance: Number(balance), source: 'redis-cache' });
+    return NextResponse.json({ balance, source: 'redis-cache' });
 
   } catch (error) {
     console.error('[JAR BALANCE] Failed to get balance:', error);
