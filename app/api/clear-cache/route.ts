@@ -1,25 +1,15 @@
 import { NextResponse } from 'next/server';
-import { createClient } from 'redis';
+import { redis } from '@/lib/redis';
 
 const JAR_BALANCE_KEY = 'jar-balance';
 
-const redisClient = createClient({
-  url: process.env.REDIS_URL
-});
-
-redisClient.on('error', (err: Error) => console.error('[REDIS] Client Error', err));
-
-/**
- * API endpoint для примусового очищення кешу балансу банки.
- */
 export async function GET() {
-  try {
-    if (!redisClient.isOpen) await redisClient.connect();
-    
-    await redisClient.del(JAR_BALANCE_KEY);
-    
-    if (redisClient.isOpen) await redisClient.quit();
+  if (!redis) {
+    return NextResponse.json({ error: 'Redis client is not available' }, { status: 500 });
+  }
 
+  try {
+    await redis.del(JAR_BALANCE_KEY);
     return NextResponse.json({ status: 'ok', message: 'Jar balance cache cleared.' });
 
   } catch (error) {

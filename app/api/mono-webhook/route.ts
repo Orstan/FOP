@@ -1,34 +1,22 @@
 import { NextResponse } from 'next/server';
-import { createClient } from 'redis';
-import { kv } from '@vercel/kv';
+import { redis } from '@/lib/redis';
 
 const JAR_BALANCE_KEY = 'jar-balance';
 
-const redisClient = createClient({
-  url: process.env.REDIS_URL
-});
-
-redisClient.on('error', (err: Error) => console.error('[REDIS] Client Error', err));
-
-/**
- * API endpoint для прийому вебхуків від Monobank
- * 
- * Monobank надсилатиме сюди POST-запити при нових транзакціях.
- */
 export async function POST(request: Request) {
+  if (!redis) {
+    return NextResponse.json({ error: 'Redis client is not available' }, { status: 500 });
+  }
+
   try {
     const body = await request.json();
     console.log('[MONO WEBHOOK] Received:', JSON.stringify(body, null, 2));
 
-    // Отримуємо баланс з вебхука (в копійках)
     const newBalance = body?.statementItem?.jarBalance;
 
     if (typeof newBalance === 'number') {
-      // Зберігаємо новий баланс в Redis (в гривнях)
-      if (!redisClient.isOpen) await redisClient.connect();
-      await redisClient.set(JAR_BALANCE_KEY, newBalance / 100);
-      if (redisClient.isOpen) await redisClient.quit();
-      console.log(`[MONO WEBHOOK] Updated balance in KV: ${newBalance / 100}`);
+      await redis.set(JAR_BALANCE_KEY, newBalance / 100);
+      console.log(`[MONO WEBHOOK] Updated balance in Redis: ${newBalance / 100}`);
     }
 
     return NextResponse.json({ status: 'ok' });
