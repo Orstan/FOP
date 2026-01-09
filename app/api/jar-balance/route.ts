@@ -1,7 +1,15 @@
 import { NextResponse } from 'next/server';
-import { kv } from '@vercel/kv';
+import { createClient } from 'redis';
+import { kv } from '@vercel/kv'; // Keep for type compatibility, but we'll use redis client
 
 const JAR_BALANCE_KEY = 'jar-balance';
+
+// Create a Redis client from the Vercel environment variable
+const redisClient = createClient({
+  url: process.env.REDIS_URL
+});
+
+redisClient.on('error', (err: Error) => console.error('[REDIS] Client Error', err));
 
 async function fetchFromMonobank() {
   const MONOBANK_API_TOKEN = process.env.MONOBANK_API_TOKEN;
@@ -36,18 +44,22 @@ async function fetchFromMonobank() {
 
 export async function GET() {
   try {
-    let balance = await kv.get(JAR_BALANCE_KEY);
+    if (!redisClient.isOpen) await redisClient.connect();
+    let balance = await redisClient.get(JAR_BALANCE_KEY);
 
     if (balance === null) {
       console.warn('[JAR BALANCE] No balance in KV, fetching from Monobank...');
       balance = await fetchFromMonobank();
+      if (redisClient.isOpen) await redisClient.quit();
       return NextResponse.json({ balance, source: 'monobank-initial-fetch' });
     }
 
-    return NextResponse.json({ balance, source: 'kv-cache' });
+    if (redisClient.isOpen) await redisClient.quit();
+    return NextResponse.json({ balance: Number(balance), source: 'redis-cache' });
 
   } catch (error) {
     console.error('[JAR BALANCE] Failed to get balance:', error);
+    if (redisClient.isOpen) await redisClient.quit();
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json({ balance: 150, source: 'error-fallback', error: errorMessage }, { status: 500 });
   }

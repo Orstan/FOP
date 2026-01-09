@@ -1,7 +1,14 @@
 import { NextResponse } from 'next/server';
+import { createClient } from 'redis';
 import { kv } from '@vercel/kv';
 
 const JAR_BALANCE_KEY = 'jar-balance';
+
+const redisClient = createClient({
+  url: process.env.REDIS_URL
+});
+
+redisClient.on('error', (err: Error) => console.error('[REDIS] Client Error', err));
 
 /**
  * API endpoint для прийому вебхуків від Monobank
@@ -17,8 +24,10 @@ export async function POST(request: Request) {
     const newBalance = body?.statementItem?.jarBalance;
 
     if (typeof newBalance === 'number') {
-      // Зберігаємо новий баланс в Vercel KV (в гривнях)
-      await kv.set(JAR_BALANCE_KEY, newBalance / 100);
+      // Зберігаємо новий баланс в Redis (в гривнях)
+      if (!redisClient.isOpen) await redisClient.connect();
+      await redisClient.set(JAR_BALANCE_KEY, newBalance / 100);
+      if (redisClient.isOpen) await redisClient.quit();
       console.log(`[MONO WEBHOOK] Updated balance in KV: ${newBalance / 100}`);
     }
 
