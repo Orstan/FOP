@@ -34,6 +34,10 @@ export async function GET() {
 
     const data = await response.json();
 
+    // --- DEBUG LOGGING --- 
+    console.log('[JAR API] Full client-info response:', JSON.stringify(data, null, 2));
+    // --- END DEBUG LOGGING ---
+
     // Знаходимо потрібну банку за її sendId
     const jar = data.jars?.find((j: any) => j.sendId === JAR_ID);
 
