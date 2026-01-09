@@ -37,7 +37,8 @@ export function DonationWidget() {
 
     fetchJarBalance();
     
-    // Оновлюємо баланс кожні 65 секунд, щоб відповідати обмеженням API та кешуванню
+    // Оновлюємо баланс кожні 65 секунд, щоб відповідати обмеженням API та кешуванню.
+    // Trigger re-deploy
     const interval = setInterval(fetchJarBalance, 65 * 1000);
     
     return () => clearInterval(interval);
@@ -122,7 +123,7 @@ export function DonationWidget() {
           <p>💜 Ваша підтримка допомагає проекту залишатися безкоштовним</p>
           <p>🚀 Збираємо на рекламу, щоб про сервіс дізналося більше підприємців</p>
           <p className="pt-2 border-t dark:border-gray-700">
-            <strong>Донат від 100 грн</strong> - ваше ім'я/бренд у{' '}
+            <strong>Донат від 500 грн</strong> - ваше ім'я/бренд у{' '}
             <a href="/sponsors" className="text-purple-600 dark:text-purple-400 hover:underline">
               Дошці пошани
             </a>
