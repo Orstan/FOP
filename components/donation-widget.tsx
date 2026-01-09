@@ -1,15 +1,51 @@
 "use client"
 
 import { useState, useEffect } from "react";
-import { Heart, TrendingUp } from "lucide-react";
+import { Heart, TrendingUp, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 export function DonationWidget() {
-  const [raised, setRaised] = useState(5000);
+  const [raised, setRaised] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
   const goal = 25000;
-  const progress = (raised / goal) * 100;
+  const progress = raised ? (raised / goal) * 100 : 0;
+
+  // Отримуємо баланс банки через Monobank API
+  useEffect(() => {
+    const fetchJarBalance = async () => {
+      try {
+        // Публічний endpoint Monobank для банок
+        // https://api.monobank.ua/bank/jar/{jarId}
+        const jarId = "9Ewef621zA"; // ID вашої банки
+        const response = await fetch(`https://api.monobank.ua/bank/jar/${jarId}`);
+        
+        if (response.ok) {
+          const data = await response.json();
+          // Баланс приходить у копійках, переводимо в гривні
+          const balanceInUAH = Math.round(data.balance / 100);
+          setRaised(balanceInUAH);
+        } else {
+          // Якщо API недоступне, показуємо placeholder
+          setRaised(5000);
+        }
+      } catch (error) {
+        console.error("Помилка отримання балансу банки:", error);
+        // Fallback на дефолтне значення
+        setRaised(5000);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJarBalance();
+    
+    // Оновлюємо баланс кожні 5 хвилин
+    const interval = setInterval(fetchJarBalance, 5 * 60 * 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <Card className="dark:bg-gray-900 border-2 border-purple-200 dark:border-purple-800">
@@ -27,20 +63,29 @@ export function DonationWidget() {
           
           {/* Прогрес-бар */}
           <div className="relative">
-            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-5 overflow-hidden">
-              <div 
-                className="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full transition-all duration-500 flex items-center justify-end pr-2"
-                style={{ width: `${Math.min(progress, 100)}%` }}
-              >
-                {progress >= 15 && (
-                  <span className="text-xs font-semibold text-white">{progress.toFixed(0)}%</span>
-                )}
+            {loading ? (
+              <div className="flex items-center justify-center py-4">
+                <Loader2 className="h-6 w-6 animate-spin text-purple-600 dark:text-purple-400" />
+                <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">Завантаження балансу...</span>
               </div>
-            </div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 flex items-center justify-between">
-              <span>Зібрано: <strong className="text-purple-600 dark:text-purple-400">{raised.toLocaleString('uk-UA')} грн</strong></span>
-              <span>Ціль: <strong>{goal.toLocaleString('uk-UA')} грн</strong></span>
-            </p>
+            ) : (
+              <>
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-5 overflow-hidden">
+                  <div 
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full transition-all duration-500 flex items-center justify-end pr-2"
+                    style={{ width: `${Math.min(progress, 100)}%` }}
+                  >
+                    {progress >= 15 && (
+                      <span className="text-xs font-semibold text-white">{progress.toFixed(0)}%</span>
+                    )}
+                  </div>
+                </div>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 flex items-center justify-between">
+                  <span>Зібрано: <strong className="text-purple-600 dark:text-purple-400">{raised?.toLocaleString('uk-UA') || '0'} грн</strong></span>
+                  <span>Ціль: <strong>{goal.toLocaleString('uk-UA')} грн</strong></span>
+                </p>
+              </>
+            )}
           </div>
         </div>
 
