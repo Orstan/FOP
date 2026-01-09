@@ -1,62 +1,31 @@
 import { NextResponse } from 'next/server';
+import { kv } from '@vercel/kv';
 
-// This route is revalidated every 60 seconds by Vercel's caching mechanism
-export const revalidate = 60;
+const JAR_BALANCE_KEY = 'jar-balance';
 
 /**
- * API endpoint для отримання балансу банки Monobank
- * Використовує офіційний API Monobank.
+ * API endpoint для отримання балансу банки з кешу Vercel KV.
+ * Баланс оновлюється через вебхук /api/mono-webhook.
  */
 export async function GET() {
-  const MONOBANK_API_TOKEN = process.env.MONOBANK_API_TOKEN;
-  const JAR_ID = '9Ewef621zA'; // Ваш ID банки
-
-  if (!MONOBANK_API_TOKEN) {
-    console.error('[JAR API] Monobank API token is not set.');
-    // Повертаємо fallback, щоб сайт не падав
-    return NextResponse.json({ balance: 150, source: 'fallback-no-token' }, { status: 500 });
-  }
-
   try {
-    const response = await fetch('https://api.monobank.ua/personal/client-info', {
-      headers: {
-        'X-Token': MONOBANK_API_TOKEN,
-      },
-      // Next.js revalidation strategy
-      next: { revalidate: 60 },
-    });
+    const balance = await kv.get(JAR_BALANCE_KEY);
 
-    if (!response.ok) {
-      const errorBody = await response.text();
-      console.error('[JAR API] Monobank API Error Body:', errorBody);
-      throw new Error(`Monobank API error: ${response.status} ${response.statusText}`);
+    if (balance === null) {
+      // Якщо в кеші нічого немає, повертаємо fallback
+      // Це може статися при першому запуску, до першого вебхука
+      console.warn('[JAR BALANCE] No balance found in KV, returning fallback.');
+      return NextResponse.json({ balance: 150, source: 'kv-fallback' });
     }
-
-    const data = await response.json();
-
-    // --- DEBUG LOGGING --- 
-    console.log('[JAR API] Full client-info response:', JSON.stringify(data, null, 2));
-    // --- END DEBUG LOGGING ---
-
-    // Знаходимо потрібну банку за її sendId
-    const jar = data.jars?.find((j: any) => j.sendId === `jar/${JAR_ID}`);
-
-    if (!jar) {
-      throw new Error(`Jar with ID ${JAR_ID} not found.`);
-    }
-
-    // Баланс повертається в копійках, переводимо в гривні
-    const balance = jar.balance / 100;
 
     return NextResponse.json({ 
       balance,
-      source: 'monobank-api',
+      source: 'kv-cache',
     });
 
   } catch (error) {
-    console.error('[JAR API] Failed to fetch jar balance:', error);
-    // Повертаємо fallback у випадку помилки
+    console.error('[JAR BALANCE] Failed to fetch balance from KV:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ balance: 150, source: 'fallback-error', error: errorMessage }, { status: 500 });
+    return NextResponse.json({ balance: 150, source: 'kv-error', error: errorMessage }, { status: 500 });
   }
 }
