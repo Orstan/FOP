@@ -95,6 +95,20 @@ export default function RootLayout({
           data-website-id="7fdd9d0a-1d7b-42d4-9fad-f1c66cf3b6f9"
           strategy="afterInteractive"
         />
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17836471073"
+          strategy="afterInteractive"
+        />
+        <Script id="google-tag-manager" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'AW-17836471073');
+          `}
+        </Script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}

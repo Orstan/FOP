@@ -104,7 +104,7 @@ export default function CalculatorsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
+    <div className="bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
       <main className="container mx-auto px-4 py-12 max-w-6xl">
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
