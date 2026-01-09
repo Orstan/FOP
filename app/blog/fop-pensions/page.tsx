@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { TrendingUp, Calculator } from 'lucide-react'
+import { TrendingUp, Calculator, ArrowLeft } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Пенсія для ФОП у 2026: як формується та як збільшити | ФОП Помічник',

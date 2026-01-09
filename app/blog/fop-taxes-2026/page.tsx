@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Calculator, BookOpen, TrendingUp, AlertCircle } from "lucide-react";
+import { Calculator, BookOpen, TrendingUp, AlertCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";

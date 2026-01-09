@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { Briefcase, Calculator } from 'lucide-react'
+import { Briefcase, Calculator, ArrowLeft } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'ФОП і найм на роботу одночасно: чи можна у 2026 році | ФОП Помічник',

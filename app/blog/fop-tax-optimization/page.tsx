@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { TrendingDown, Shield, Calculator } from 'lucide-react'
+import { TrendingDown, Shield, Calculator, ArrowLeft } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Легальна оптимізація податків для ФОП 2026: 7 способів | ФОП Помічник',

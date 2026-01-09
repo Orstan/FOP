@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { PauseCircle, Calculator } from 'lucide-react'
+import { PauseCircle, Calculator, ArrowLeft } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'ФОП без діяльності: чи потрібно платити податки у 2026 році | ФОП Помічник',

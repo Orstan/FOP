@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { CreditCard, TrendingUp } from 'lucide-react'
+import { CreditCard, TrendingUp, ArrowLeft } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Банківські рахунки для ФОП 2026: порівняння та вибір кращого | ФОП Помічник',
