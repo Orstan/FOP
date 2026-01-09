@@ -39,7 +39,7 @@ export async function GET() {
     // --- END DEBUG LOGGING ---
 
     // Знаходимо потрібну банку за її sendId
-    const jar = data.jars?.find((j: any) => j.sendId === JAR_ID);
+    const jar = data.jars?.find((j: any) => j.sendId === `jar/${JAR_ID}`);
 
     if (!jar) {
       throw new Error(`Jar with ID ${JAR_ID} not found.`);
