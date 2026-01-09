@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import puppeteer from 'puppeteer-core';
+import puppeteer, { type Browser } from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 
 /**
@@ -9,7 +9,7 @@ import chromium from '@sparticuz/chromium';
  * Оновлюється в реальному часі при кожному запиті.
  */
 export async function GET() {
-  let browser = null;
+  let browser: Browser | null = null;
   
   try {
     const jarUrl = 'https://send.monobank.ua/jar/9Ewef621zA';
@@ -36,8 +36,8 @@ export async function GET() {
       timeout: 15000 
     });
     
-    // Чекаємо поки завантажиться контент (макс 10 сек)
-    await page.waitForTimeout(3000);
+    // Чекаємо поки завантажиться контент (3 сек)
+    await new Promise(resolve => setTimeout(resolve, 3000));
     
     // Витягуємо баланс та ціль з DOM після рендерингу JS
     const data = await page.evaluate(() => {
