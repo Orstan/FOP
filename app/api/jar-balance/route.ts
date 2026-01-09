@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { kv } from '@vercel/kv';
 
-const JAR_BALANCE_KEY = 'jar-balance';
+const JAR_BALANCE_KEY = 'jar-balance'; // Key for Vercel KV
 
 /**
  * API endpoint для отримання балансу банки з кешу Vercel KV.
