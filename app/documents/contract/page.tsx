@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { CompanySearch } from "@/components/company-search";
 
 export default function ContractGenerator() {
   const [formData, setFormData] = useState({
@@ -275,6 +276,17 @@ export default function ContractGenerator() {
 
               <div className="space-y-4">
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100">Дані замовника</h3>
+                
+                <CompanySearch 
+                  onCompanySelect={(company) => {
+                    setFormData({
+                      ...formData,
+                      clientName: company.name,
+                      clientCode: company.code,
+                      clientAddress: company.address || formData.clientAddress,
+                    });
+                  }}
+                />
                 
                 <div className="space-y-2">
                   <Label htmlFor="clientName">Назва/ПІБ замовника *</Label>

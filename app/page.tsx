@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { OrganizationStructuredData, WebApplicationStructuredData } from "@/components/structured-data";
+import { DonationWidget } from "@/components/donation-widget";
 
 export default function Home() {
   return (
@@ -131,6 +132,12 @@ export default function Home() {
                 </CardContent>
               </Card>
             </div>
+          </div>
+        </section>
+
+        <section className="py-16 px-4">
+          <div className="container mx-auto max-w-4xl">
+            <DonationWidget />
           </div>
         </section>
 
