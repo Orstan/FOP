@@ -3,7 +3,7 @@ import { kv } from '@vercel/kv';
 
 const JAR_BALANCE_KEY = 'jar-balance';
 const LAST_UPDATED_KEY = 'jar-balance-last-updated';
-const CACHE_TTL_SECONDS = 300; // 5 minutes
+const CACHE_TTL_SECONDS = 300; // 5 minutes, trigger deploy
 
 async function fetchAndCacheFromMonobank() {
   const MONOBANK_API_TOKEN = process.env.MONOBANK_API_TOKEN;
