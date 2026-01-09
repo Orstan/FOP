@@ -21,11 +21,11 @@ export async function GET() {
     
     browser = await puppeteer.launch({
       args: isProduction ? chromium.args : ['--no-sandbox', '--disable-setuid-sandbox'],
-      defaultViewport: chromium.defaultViewport,
+      defaultViewport: { width: 1280, height: 720 },
       executablePath: isProduction 
         ? await chromium.executablePath() 
         : 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-      headless: chromium.headless,
+      headless: true,
     });
 
     const page = await browser.newPage();
