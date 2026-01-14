@@ -9,6 +9,7 @@ import Image from "next/image";
 export function DonationWidget() {
   const [raised, setRaised] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const goal = 25000;
   const progress = raised ? (raised / goal) * 100 : 0;
 
@@ -16,22 +17,23 @@ export function DonationWidget() {
   useEffect(() => {
     const fetchJarBalance = async () => {
       try {
+        setLoading(true);
+        setError(false);
         // Використовуємо власний API route, який проксіює запит до Monobank
         const response = await fetch('/api/jar-balance');
         
         if (response.ok) {
           const data = await response.json();
           setRaised(data.balance);
+          setLoading(false);
         } else {
-          // Fallback
-          setRaised(5000);
+          // При помилці залишаємо стан завантаження
+          setError(true);
         }
       } catch (error) {
         console.error("Помилка отримання балансу банки:", error);
-        // Fallback на дефолтне значення
-        setRaised(5000);
-      } finally {
-        setLoading(false);
+        // При помилці показуємо індикатор завантаження
+        setError(true);
       }
     };
 
@@ -60,10 +62,12 @@ export function DonationWidget() {
           
           {/* Прогрес-бар */}
           <div className="relative">
-            {loading ? (
-              <div className="flex items-center justify-center py-4">
+            {loading || error ? (
+              <div className="flex flex-col items-center justify-center py-4 space-y-2">
                 <Loader2 className="h-6 w-6 animate-spin text-purple-600 dark:text-purple-400" />
-                <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">Завантаження балансу...</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  {error ? 'Оновлення балансу...' : 'Завантаження балансу...'}
+                </span>
               </div>
             ) : (
               <>
