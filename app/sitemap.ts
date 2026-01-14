@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import { getAllCitySlugs } from '@/lib/cities-data'
 import { getAllServiceSlugs } from '@/lib/services-data'
+import { getAllBlogTopicSlugs } from '@/lib/blog-topics-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://fop-help.com'
@@ -102,6 +103,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
+  // Генерація блог-комбінацій тема + місто (4500+ URLs)
+  const topicSlugs = getAllBlogTopicSlugs()
+  const blogCityPosts: MetadataRoute.Sitemap = []
+  
+  for (const topicSlug of topicSlugs) {
+    for (const citySlug of citySlugs) {
+      blogCityPosts.push({
+        url: `${baseUrl}/blog/${topicSlug}-${citySlug}`,
+        lastModified: currentDate,
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+      })
+    }
+  }
+
   return [
     ...staticPages,
     ...calculators,
@@ -109,5 +125,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...blogPosts,
     ...cities,
     ...cityServices,
+    ...blogCityPosts,
   ]
 }
