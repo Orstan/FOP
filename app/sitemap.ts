@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { getAllCitySlugs } from '@/lib/cities-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://fop-help.com'
@@ -70,10 +71,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   })
 
+  const citySlugs = getAllCitySlugs()
+  const cities = citySlugs.map((slug) => ({
+    url: `${baseUrl}/cities/${slug}`,
+    lastModified: currentDate,
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  cities.unshift({
+    url: `${baseUrl}/cities`,
+    lastModified: currentDate,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  })
+
   return [
     ...staticPages,
     ...calculators,
     ...documents,
     ...blogPosts,
+    ...cities,
   ]
 }

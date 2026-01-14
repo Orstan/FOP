@@ -17,7 +17,7 @@ export function Footer() {
         {/* Колонки - центровані на десктопі, рівномірно розподілені на мобільних */}
         <div className="flex flex-col items-center md:items-center">
           {/* Документи і Калькулятори в 2 колонки на мобільних */}
-          <div className="grid grid-cols-2 gap-x-8 gap-y-6 w-full px-4 md:max-w-none md:grid-cols-3 md:gap-8 md:justify-items-center md:px-0">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-6 w-full px-4 md:max-w-none md:grid-cols-4 md:gap-8 md:justify-items-center md:px-0">
             <div className="text-left pl-8 md:pl-0">
               <h3 className="text-white dark:text-gray-200 font-semibold mb-3 text-sm md:text-base">Документи</h3>
               <ul className="space-y-2 text-xs md:text-sm">
@@ -36,7 +36,17 @@ export function Footer() {
               </ul>
             </div>
             
-            {/* Інформація по центру на мобільних (col-span-2), третя колонка на десктопі */}
+            <div className="text-left">
+              <h3 className="text-white dark:text-gray-200 font-semibold mb-3 text-sm md:text-base">Популярні міста</h3>
+              <ul className="space-y-2 text-xs md:text-sm">
+                <li><Link href="/cities/kyiv" className="hover:text-white dark:hover:text-gray-200 transition-colors">ФОП Київ</Link></li>
+                <li><Link href="/cities/lviv" className="hover:text-white dark:hover:text-gray-200 transition-colors">ФОП Львів</Link></li>
+                <li><Link href="/cities/kharkiv" className="hover:text-white dark:hover:text-gray-200 transition-colors">ФОП Харків</Link></li>
+                <li><Link href="/cities" className="hover:text-white dark:hover:text-gray-200 transition-colors">Всі міста →</Link></li>
+              </ul>
+            </div>
+            
+            {/* Інформація по центру на мобільних (col-span-2), четверта колонка на десктопі */}
             <div className="col-span-2 md:col-span-1 text-center md:text-left mt-2 md:mt-0">
               <h3 className="text-white dark:text-gray-200 font-semibold mb-3 text-sm md:text-base">Інформація</h3>
               <ul className="space-y-2 text-xs md:text-sm inline-block text-left">

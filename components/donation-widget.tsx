@@ -39,7 +39,7 @@ export function DonationWidget() {
     
     // Оновлюємо баланс кожні 65 секунд, щоб відповідати обмеженням API та кешуванню.
     // Trigger re-deploy
-        const interval = setInterval(fetchJarBalance, 30 * 1000);
+    const interval = setInterval(fetchJarBalance, 65 * 1000);
     
     return () => clearInterval(interval);
   }, []);
