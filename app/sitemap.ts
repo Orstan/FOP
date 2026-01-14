@@ -103,7 +103,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // Генерація блог-комбінацій тема + місто (4500+ URLs)
+  // Генерація блог-комбінацій тема-місто (4500+ URLs)
   const topicSlugs = getAllBlogTopicSlugs()
   const blogCityPosts: MetadataRoute.Sitemap = []
   
