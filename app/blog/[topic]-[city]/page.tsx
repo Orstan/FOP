@@ -10,13 +10,15 @@ interface BlogCityPageProps {
   params: Promise<{ topic: string; city: string }>;
 }
 
+// Генеруємо тільки найпопулярніші комбінації під час build
+// Решта згенерується on-demand (ISR)
 export async function generateStaticParams() {
-  const citySlugs = getAllCitySlugs();
+  const popularCities = ['kyiv', 'lviv', 'kharkiv', 'odesa', 'dnipro'];
   const topicSlugs = getAllBlogTopicSlugs();
   
   const params = [];
   for (const topicSlug of topicSlugs) {
-    for (const citySlug of citySlugs) {
+    for (const citySlug of popularCities) {
       params.push({
         topic: topicSlug,
         city: citySlug,
@@ -26,6 +28,11 @@ export async function generateStaticParams() {
   
   return params;
 }
+
+// Увімкнути ISR з revalidation кожні 30 днів
+export const revalidate = 2592000;
+// Дозволити динамічну генерацію для інших міст
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }: BlogCityPageProps): Promise<Metadata> {
   const { topic, city } = await params;

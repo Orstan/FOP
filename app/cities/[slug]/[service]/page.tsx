@@ -10,12 +10,13 @@ interface CityServicePageProps {
   params: Promise<{ slug: string; service: string }>;
 }
 
+// Генеруємо тільки найпопулярніші комбінації під час build
 export async function generateStaticParams() {
-  const citySlugs = getAllCitySlugs();
+  const popularCities = ['kyiv', 'lviv', 'kharkiv', 'odesa', 'dnipro', 'zaporizhzhia', 'vinnytsia', 'poltava'];
   const serviceSlugs = getAllServiceSlugs();
   
   const params = [];
-  for (const citySlug of citySlugs) {
+  for (const citySlug of popularCities) {
     for (const serviceSlug of serviceSlugs) {
       params.push({
         slug: citySlug,
@@ -26,6 +27,11 @@ export async function generateStaticParams() {
   
   return params;
 }
+
+// Увімкнути ISR з revalidation кожні 30 днів
+export const revalidate = 2592000;
+// Дозволити динамічну генерацію для інших міст
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }: CityServicePageProps): Promise<Metadata> {
   const { slug, service } = await params;
