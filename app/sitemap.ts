@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getAllCitySlugs } from '@/lib/cities-data'
+import { getAllServiceSlugs } from '@/lib/services-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://fop-help.com'
@@ -86,11 +87,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   })
 
+  // Генерація комбінацій місто + послуга (2250+ URLs)
+  const serviceSlugs = getAllServiceSlugs()
+  const cityServices: MetadataRoute.Sitemap = []
+  
+  for (const citySlug of citySlugs) {
+    for (const serviceSlug of serviceSlugs) {
+      cityServices.push({
+        url: `${baseUrl}/cities/${citySlug}/${serviceSlug}`,
+        lastModified: currentDate,
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
+      })
+    }
+  }
+
   return [
     ...staticPages,
     ...calculators,
     ...documents,
     ...blogPosts,
     ...cities,
+    ...cityServices,
   ]
 }

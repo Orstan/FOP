@@ -213,6 +213,54 @@ export default async function CityPage({ params }: CityPageProps) {
           </div>
         </section>
 
+        <section className="py-12 bg-muted/30">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
+                Популярні послуги для ФОП у {city.name}
+              </h2>
+              
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                <Link href={`/cities/${city.slug}/fop-tax`} className="block bg-card border rounded-lg p-4 hover:shadow-lg hover:border-primary/50 transition-all">
+                  <div className="text-2xl mb-2">💰</div>
+                  <h3 className="font-semibold mb-1">Податки ФОП</h3>
+                  <p className="text-sm text-muted-foreground">Розрахунок єдиного податку</p>
+                </Link>
+                
+                <Link href={`/cities/${city.slug}/esv`} className="block bg-card border rounded-lg p-4 hover:shadow-lg hover:border-primary/50 transition-all">
+                  <div className="text-2xl mb-2">🏥</div>
+                  <h3 className="font-semibold mb-1">ЄСВ</h3>
+                  <p className="text-sm text-muted-foreground">Розрахунок соціальних внесків</p>
+                </Link>
+                
+                <Link href={`/cities/${city.slug}/contract`} className="block bg-card border rounded-lg p-4 hover:shadow-lg hover:border-primary/50 transition-all">
+                  <div className="text-2xl mb-2">📄</div>
+                  <h3 className="font-semibold mb-1">Договір</h3>
+                  <p className="text-sm text-muted-foreground">Конструктор договорів</p>
+                </Link>
+                
+                <Link href={`/cities/${city.slug}/act`} className="block bg-card border rounded-lg p-4 hover:shadow-lg hover:border-primary/50 transition-all">
+                  <div className="text-2xl mb-2">📋</div>
+                  <h3 className="font-semibold mb-1">Акт робіт</h3>
+                  <p className="text-sm text-muted-foreground">Генератор актів</p>
+                </Link>
+                
+                <Link href={`/cities/${city.slug}/invoice`} className="block bg-card border rounded-lg p-4 hover:shadow-lg hover:border-primary/50 transition-all">
+                  <div className="text-2xl mb-2">💳</div>
+                  <h3 className="font-semibold mb-1">Рахунок</h3>
+                  <p className="text-sm text-muted-foreground">Створення рахунків</p>
+                </Link>
+                
+                <Link href={`/cities/${city.slug}/open-fop`} className="block bg-card border rounded-lg p-4 hover:shadow-lg hover:border-primary/50 transition-all">
+                  <div className="text-2xl mb-2">🚀</div>
+                  <h3 className="font-semibold mb-1">Відкрити ФОП</h3>
+                  <p className="text-sm text-muted-foreground">Інструкція відкриття</p>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="py-12">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
