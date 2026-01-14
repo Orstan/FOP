@@ -49,7 +49,7 @@ export function Header() {
           </Link>
           <Link 
             href="/sponsors" 
-            className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors font-medium"
+            className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors font-medium whitespace-nowrap"
           >
             💎 Меценати
           </Link>
