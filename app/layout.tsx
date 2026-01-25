@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { GoogleAnalytics } from "@/components/analytics";
+import { GoogleAdSense } from "@/components/google-adsense";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
@@ -79,6 +80,9 @@ export const metadata: Metadata = {
   verification: {
     google: '-3SuFo8zlyvnn6FJbSiIJ68_3BAM3a8p9q7BG0BTl1o',
   },
+  other: {
+    'google-adsense-account': 'ca-pub-7434166826056099',
+  },
 };
 
 export default function RootLayout({
@@ -91,12 +95,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7434166826056099"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+        <GoogleAdSense />
         <Script
           defer
           src="https://cloud.umami.is/script.js"
