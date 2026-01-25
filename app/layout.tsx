@@ -90,6 +90,12 @@ export default function RootLayout({
     <html lang="uk" suppressHydrationWarning>
       <head>
         <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7434166826056099"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+        <Script
           defer
           src="https://cloud.umami.is/script.js"
           data-website-id="7fdd9d0a-1d7b-42d4-9fad-f1c66cf3b6f9"
