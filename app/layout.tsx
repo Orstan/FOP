@@ -88,7 +88,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="uk" suppressHydrationWarning>
-      <head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
+      >
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7434166826056099"
@@ -129,10 +131,6 @@ export default function RootLayout({
             gtag('config', 'AW-17868549005');
           `}
         </Script>
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
-      >
         <GoogleAnalytics gaId="G-BZYJHJKSXR" />
         <ThemeProvider
           attribute="class"
