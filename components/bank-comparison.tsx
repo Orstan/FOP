@@ -121,12 +121,12 @@ export function BankComparison() {
                 {bank.medal}
               </div>
               
-              <CardHeader className="pt-6">
-                <div className="flex items-start gap-4">
-                  <div className="text-5xl mt-2">{bank.logo}</div>
-                  <div className="flex-1">
+              <CardHeader className="pt-6 text-center">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="text-6xl">{bank.logo}</div>
+                  <div>
                     <CardTitle className="text-3xl font-bold mb-2">{bank.name}</CardTitle>
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center justify-center gap-2 mb-2">
                       <span className="text-base font-semibold text-gray-600 dark:text-gray-400">
                         {bank.position} місце
                       </span>
