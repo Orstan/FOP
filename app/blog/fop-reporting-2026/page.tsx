@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Calendar, FileCheck, AlertTriangle, ArrowLeft } from 'lucide-react'
+import { BankCTA } from '@/components/bank-cta'
 
 export const metadata: Metadata = {
   title: 'Звітність ФОП у 2026 році: терміни, декларації, штрафи | ФОП Помічник',
@@ -217,6 +218,8 @@ export default function FopReportingPage() {
                 </Link>
               </div>
             </div>
+
+            <BankCTA context="reporting" />
 
             <h2>Чеклист звітності на 2026 рік</h2>
             <div className="bg-slate-100 dark:bg-slate-800 p-6 rounded-lg">

@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ThemeToggle } from "@/components/theme-toggle";
 import { OrganizationStructuredData, WebApplicationStructuredData } from "@/components/structured-data";
 import { DonationWidget } from "@/components/donation-widget";
+import { BankComparison } from "@/components/bank-comparison";
 
 export default function Home() {
   return (
@@ -118,6 +119,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <BankComparison />
 
         <section className="py-16 px-4">
           <div className="container mx-auto max-w-4xl">
