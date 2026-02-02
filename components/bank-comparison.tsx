@@ -125,13 +125,16 @@ export function BankComparison() {
                 <div className="flex items-start gap-4">
                   <div className="text-5xl mt-2">{bank.logo}</div>
                   <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <CardTitle className="text-2xl">{bank.position} місце: {bank.name}</CardTitle>
+                    <CardTitle className="text-3xl font-bold mb-2">{bank.name}</CardTitle>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-base font-semibold text-gray-600 dark:text-gray-400">
+                        {bank.position} місце
+                      </span>
                     </div>
-                    <CardDescription className="text-lg font-semibold text-blue-600 dark:text-blue-400">
+                    <CardDescription className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-2">
                       {bank.subtitle}
                     </CardDescription>
-                    <p className="text-sm text-green-600 dark:text-green-400 font-medium mt-2">
+                    <p className="text-sm text-green-600 dark:text-green-400 font-medium">
                       {bank.bonus}
                     </p>
                   </div>
