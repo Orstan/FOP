@@ -55,6 +55,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'pumb-bank-fop-2026',
+    'unex-bank-fop-2026',
     'yak-vidkryty-fop-2026',
     'choose-fop-group',
     'fop-reporting-2026',

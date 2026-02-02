@@ -8,19 +8,25 @@ import { Check, ExternalLink, Sparkles } from "lucide-react";
 interface Bank {
   name: string;
   logo: string;
+  position: number;
+  medal: string;
+  subtitle: string;
   bonus: string;
   monthlyFee: string;
   features: string[];
-  isPopular?: boolean;
   affiliateLink: string;
   commission: string;
+  reward?: string;
 }
 
 const banks: Bank[] = [
   {
+    position: 1,
+    medal: "🥇",
     name: "ПУМБ",
     logo: "🏢",
-    bonus: "0% комісії на 12 місяців",
+    subtitle: "Найвигідніший",
+    bonus: "0 грн відкриття рахунку",
     monthlyFee: "0 грн акційний період",
     commission: "0% на переказах 12 міс",
     features: [
@@ -30,24 +36,46 @@ const banks: Bank[] = [
       "Безкоштовні платіжки",
       "Інтеграція з ДПС"
     ],
-    isPopular: true,
-    affiliateLink: "https://salesdoubler.pro/placeholder-pumb" // TODO: Замінити на реальне посилання
+    affiliateLink: "https://salesdoubler.pro/placeholder-pumb",
+    reward: "Винагорода: 1600 грн"
   },
   {
+    position: 2,
+    medal: "🥈",
     name: "Raiffeisen Bank",
     logo: "🏦",
-    bonus: "Бонус за відкриття картки",
+    subtitle: "Найнадійніший європейський банк",
+    bonus: "Стабільність та міжнародний рівень",
     monthlyFee: "Від 0 грн",
-    commission: "Вигідні тарифи для бізнесу",
+    commission: "Професійні тарифи",
     features: [
-      "Стабільний банк з 2.5+ млн клієнтів",
-      "Широкий спектр банківських послуг",
-      "Інвестиційні можливості",
-      "Мережа відділень по всій Україні",
-      "Професійне обслуговування бізнес-клієнтів"
+      "Частина міжнародної групи",
+      "Понад 25 років в Україні",
+      "Швидкі міжнародні перекази",
+      "Бізнес-кредитування",
+      "Персональний менеджер"
     ],
-    isPopular: false,
-    affiliateLink: "https://salesdoubler.pro/placeholder-raiffeisen" // TODO: Замінити на реальне посилання
+    affiliateLink: "https://salesdoubler.pro/placeholder-raiffeisen",
+    reward: "Винагорода: 360 грн"
+  },
+  {
+    position: 3,
+    medal: "🥉",
+    name: "Unex Bank",
+    logo: "🏦",
+    subtitle: "Кредитування для бізнесу",
+    bonus: "Швидке схвалення кредитів",
+    monthlyFee: "Від 99 грн/міс",
+    commission: "Конкурентні ставки",
+    features: [
+      "Бізнес-кредити до 5 млн грн",
+      "Схвалення за 1-2 дні",
+      "Овердрафт для ФОП",
+      "Факторинг та лізинг",
+      "Онлайн-банкінг 24/7"
+    ],
+    affiliateLink: "https://admitad.com/placeholder-unex",
+    reward: "Партнер Admitad"
   }
 ];
 
@@ -69,79 +97,92 @@ export function BankComparison() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-full mb-4">
             <Sparkles className="h-4 w-4" />
-            <span className="text-sm font-medium">Партнерські пропозиції 2026 🔥</span>
+            <span className="text-sm font-medium">ТОП-3 банки для ФОП 2026 🔥</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Відкрийте рахунок ФОП за 5 хвилин
+            Рейтинг банків для відкриття рахунку ФОП
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Порівняйте умови провідних банків України та оберіть найвигідніший варіант для вашого бізнесу
+            Оберіть найкращий банк для вашого бізнесу з нашого перевіреного рейтингу
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-8">
+        <div className="space-y-6 max-w-4xl mx-auto mb-8">
           {banks.map((bank) => (
             <Card 
               key={bank.name} 
               className={`relative transition-all hover:shadow-xl ${
-                bank.isPopular 
-                  ? 'border-2 border-blue-500 dark:border-blue-400' 
-                  : 'border hover:border-blue-300 dark:hover:border-blue-700'
+                bank.position === 1
+                  ? 'border-2 border-yellow-500 dark:border-yellow-400 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20' 
+                  : 'border-2 hover:border-blue-300 dark:hover:border-blue-700'
               } dark:bg-gray-900`}
             >
-              {bank.isPopular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge className="bg-blue-600 hover:bg-blue-700 text-white">
-                    Популярний вибір
-                  </Badge>
-                </div>
-              )}
+              <div className="absolute -top-4 -left-4 text-6xl">
+                {bank.medal}
+              </div>
               
-              <CardHeader className="text-center pb-4">
-                <div className="text-5xl mb-3">{bank.logo}</div>
-                <CardTitle className="text-2xl">{bank.name}</CardTitle>
-                <CardDescription className="text-base font-semibold text-green-600 dark:text-green-400">
-                  {bank.bonus}
-                </CardDescription>
+              <CardHeader className="pt-6">
+                <div className="flex items-start gap-4">
+                  <div className="text-5xl mt-2">{bank.logo}</div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <CardTitle className="text-2xl">{bank.position} місце: {bank.name}</CardTitle>
+                    </div>
+                    <CardDescription className="text-lg font-semibold text-blue-600 dark:text-blue-400">
+                      {bank.subtitle}
+                    </CardDescription>
+                    <p className="text-sm text-green-600 dark:text-green-400 font-medium mt-2">
+                      {bank.bonus}
+                    </p>
+                  </div>
+                </div>
               </CardHeader>
 
               <CardContent className="space-y-6">
-                <div className="space-y-2 border-b pb-4 dark:border-gray-800">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Обслуговування:</span>
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">{bank.monthlyFee}</span>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Обслуговування:</span>
+                      <span className="font-semibold text-gray-900 dark:text-gray-100">{bank.monthlyFee}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Комісії:</span>
+                      <span className="font-semibold text-gray-900 dark:text-gray-100">{bank.commission}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Комісії:</span>
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">{bank.commission}</span>
+                  
+                  <div className="flex items-center justify-center md:justify-end">
+                    <Button 
+                      onClick={() => handleBankClick(bank)}
+                      className={`${
+                        bank.position === 1
+                          ? 'bg-yellow-600 hover:bg-yellow-700' 
+                          : bank.position === 2
+                          ? 'bg-gray-600 hover:bg-gray-700'
+                          : 'bg-orange-600 hover:bg-orange-700'
+                      }`}
+                      size="lg"
+                    >
+                      Відкрити рахунок
+                      <ExternalLink className="ml-2 h-4 w-4" />
+                    </Button>
                   </div>
                 </div>
 
-                <ul className="space-y-3">
+                <ul className="grid md:grid-cols-2 gap-2">
                   {bank.features.map((feature, index) => (
                     <li key={index} className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">{feature}</span>
+                      <Check className="h-4 w-4 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                      <span className="text-xs text-gray-700 dark:text-gray-300">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
-                <Button 
-                  onClick={() => handleBankClick(bank)}
-                  className={`w-full ${
-                    bank.isPopular 
-                      ? 'bg-blue-600 hover:bg-blue-700' 
-                      : ''
-                  }`}
-                  size="lg"
-                >
-                  Відкрити рахунок
-                  <ExternalLink className="ml-2 h-4 w-4" />
-                </Button>
-
-                <p className="text-xs text-gray-500 dark:text-gray-500 text-center">
-                  Переходячи за посиланням, ви підтримуєте ФОП Помічник
-                </p>
+                {bank.reward && (
+                  <p className="text-xs text-gray-500 dark:text-gray-500 text-center italic">
+                    {bank.reward} • Підтримайте ФОП Помічник
+                  </p>
+                )}
               </CardContent>
             </Card>
           ))}
@@ -155,8 +196,9 @@ export function BankComparison() {
                 Як обрати банк для ФОП?
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                <strong>ПУМБ</strong> — найвигідніший вибір у 2026 році: 0% комісії на 12 місяців, автоматична сплата податків. 
-                <strong>Raiffeisen Bank</strong> — надійний міжнародний банк зі стабільністю та широким спектром послуг для бізнесу.
+                <strong>ПУМБ</strong> — лідер рейтингу з 0% комісії на 12 місяців. 
+                <strong>Raiffeisen Bank</strong> — надійність європейського банку. 
+                <strong>Unex Bank</strong> — спеціалізується на кредитуванні бізнесу.
               </p>
               <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <li>✅ Порівняйте комісії та умови обслуговування</li>
