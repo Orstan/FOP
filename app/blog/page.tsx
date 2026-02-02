@@ -66,6 +66,15 @@ export default function BlogPage() {
       available: true,
     },
     {
+      title: "Raiffeisen Bank для ФОП 2026: Умови, Тарифи, Відгуки",
+      description: "Докладний огляд Raiffeisen Bank Aval для ФОП: умови відкриття рахунку, тарифи, комісії, переваги та недоліки для підприємців",
+      slug: "raiffeisen-bank-fop-2026",
+      date: "2026-02-02",
+      readTime: "10 хв",
+      category: "Фінанси",
+      available: true,
+    },
+    {
       title: "Кращі банки для ФОП у 2026: порівняння та вибір",
       description: "Огляд банків для ФОП: Monobank, ПриватБанк, ПУМБ. Тарифи, комісії, як відкрити рахунок онлайн",
       slug: "fop-bank-accounts",

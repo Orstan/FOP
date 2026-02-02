@@ -32,6 +32,22 @@ const banks: Bank[] = [
     ],
     isPopular: true,
     affiliateLink: "https://salesdoubler.pro/placeholder-pumb" // TODO: Замінити на реальне посилання
+  },
+  {
+    name: "Raiffeisen Bank",
+    logo: "🏦",
+    bonus: "Бонус за відкриття картки",
+    monthlyFee: "Від 0 грн",
+    commission: "Вигідні тарифи для бізнесу",
+    features: [
+      "Стабільний банк з 2.5+ млн клієнтів",
+      "Широкий спектр банківських послуг",
+      "Інвестиційні можливості",
+      "Мережа відділень по всій Україні",
+      "Професійне обслуговування бізнес-клієнтів"
+    ],
+    isPopular: false,
+    affiliateLink: "https://salesdoubler.pro/placeholder-raiffeisen" // TODO: Замінити на реальне посилання
   }
 ];
 
@@ -53,17 +69,17 @@ export function BankComparison() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-full mb-4">
             <Sparkles className="h-4 w-4" />
-            <span className="text-sm font-medium">Акційна пропозиція 2026 🔥</span>
+            <span className="text-sm font-medium">Партнерські пропозиції 2026 🔥</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Відкрийте рахунок ФОП у ПУМБ за 5 хвилин
+            Відкрийте рахунок ФОП за 5 хвилин
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Спеціальна пропозиція: 0% комісії на всі операції протягом 12 місяців для нових клієнтів
+            Порівняйте умови провідних банків України та оберіть найвигідніший варіант для вашого бізнесу
           </p>
         </div>
 
-        <div className="max-w-md mx-auto mb-8">
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-8">
           {banks.map((bank) => (
             <Card 
               key={bank.name} 
@@ -136,16 +152,16 @@ export function BankComparison() {
             <div className="text-3xl">💡</div>
             <div>
               <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                Чому ПУМБ — ідеальний вибір для ФОП?
+                Як обрати банк для ФОП?
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                ПУМБ пропонує найвигідніші умови для підприємців у 2026 році: 0% комісії на всі операції протягом 12 місяців, 
-                автоматична сплата податків та безкоштовне обслуговування. Це дозволить заощадити до 3000 грн на рік!
+                <strong>ПУМБ</strong> — найвигідніший вибір у 2026 році: 0% комісії на 12 місяців, автоматична сплата податків. 
+                <strong>Raiffeisen Bank</strong> — надійний міжнародний банк зі стабільністю та широким спектром послуг для бізнесу.
               </p>
               <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                <li>✅ Відкриття рахунку за 5 хвилин онлайн</li>
-                <li>✅ Інтеграція з Дія.Бізнес для автоматичної звітності</li>
-                <li>✅ Безкоштовні платіжні доручення без обмежень</li>
+                <li>✅ Порівняйте комісії та умови обслуговування</li>
+                <li>✅ Оберіть банк з онлайн-відкриттям рахунку</li>
+                <li>✅ Перевірте наявність інтеграції з Дія.Бізнес</li>
               </ul>
             </div>
           </div>

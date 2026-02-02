@@ -60,6 +60,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'fop-reporting-2026',
     'close-fop-2026',
     'fop-without-activity',
+    'raiffeisen-bank-fop-2026',
     'fop-bank-accounts',
     'fop-and-salary',
     'fop-pensions',
