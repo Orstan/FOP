@@ -55,6 +55,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yak-vidkryty-fop-2026',
+    'choose-fop-group',
+    'fop-reporting-2026',
+    'close-fop-2026',
+    'fop-without-activity',
+    'fop-bank-accounts',
+    'fop-and-salary',
+    'fop-pensions',
+    'fop-tax-optimization',
     'fop-taxes-2026',
     'open-fop-diya',
     'upwork-fiverr-2026',
