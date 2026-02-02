@@ -21,6 +21,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як відкрити ФОП у 2026 році: Покрокова інструкція",
+      description: "Повний гайд з відкриття ФОП в Україні. Документи, вартість, групи оподаткування, онлайн реєстрація та відкриття рахунку",
+      slug: "yak-vidkryty-fop-2026",
+      date: "2026-02-02",
+      readTime: "8 хв",
+      category: "Інструкції",
+      available: true,
+    },
+    {
       title: "Як вибрати групу ФОП: 1, 2 чи 3 група у 2026 році",
       description: "Докладний гайд по вибору групи ФОП. Порівняння 1, 2 та 3 групи: податки, ліміти, види діяльності",
       slug: "choose-fop-group",
