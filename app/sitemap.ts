@@ -55,6 +55,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'fop-cash-register-2026',
+    'fop-sick-leave-2026',
+    'fop-maternity-leave-2026',
+    'fop-general-tax-system-2026',
     'pumb-bank-fop-2026',
     'unex-bank-fop-2026',
     'yak-vidkryty-fop-2026',
