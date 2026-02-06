@@ -216,7 +216,7 @@ export default function FOPGeneralTaxSystemPage() {
               </li>
               <li className="flex items-start gap-3">
                 <CheckCircle2 className="h-5 w-5 text-purple-600 dark:text-purple-400 flex-shrink-0 mt-0.5" />
-                <span><strong>Найм працівників:</strong> Якщо у вас багато найманих працівників (>10 осіб)</span>
+                <span><strong>Найм працівників:</strong> Якщо у вас багато найманих працівників (&gt;10 осіб)</span>
               </li>
             </ul>
           </div>
@@ -315,7 +315,7 @@ export default function FOPGeneralTaxSystemPage() {
                 <p>• Можна бути платником ПДВ</p>
                 <p>• Підходить для торгівлі з великими витратами</p>
                 <p>• Більше найманих працівників</p>
-                <p>• Вигідно при високих витратах (>40%)</p>
+                <p>• Вигідно при високих витратах (&gt;40%)</p>
               </CardContent>
             </Card>
 
