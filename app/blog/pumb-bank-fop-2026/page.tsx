@@ -177,7 +177,7 @@ export default function PUMBFOPPage() {
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Онлайн через сайт</h3>
                 <p className="text-sm text-gray-700 dark:text-gray-300">
-                  Залиште заявку на сайті pumb.ua в розділі "Бізнес". Менеджер зв'яжеться з вами протягом дня.
+                  Залиште заявку на офіційному сайті ПУМБ в розділі "Бізнес". Менеджер зв'яжеться з вами протягом дня.
                 </p>
               </div>
             </div>
@@ -286,7 +286,7 @@ export default function PUMBFOPPage() {
               Вигідні тарифи для бізнесу, зручний онлайн-банкінг, підтримка підприємців
             </p>
             <Button size="lg" variant="secondary" asChild>
-              <a href="https://www.pumb.ua/business" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.pumb.ua" target="_blank" rel="noopener noreferrer">
                 Перейти на сайт ПУМБ
                 <ExternalLink className="ml-2 h-5 w-5" />
               </a>
