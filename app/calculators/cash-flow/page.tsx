@@ -112,7 +112,7 @@ export default function CashFlowCalculator() {
               <p className="font-semibold mb-2">Обов'язкові:</p>
               <ul className="space-y-1 text-gray-600 dark:text-gray-400">
                 <li>• Єдиний податок (5% для групи 3)</li>
-                <li>• ЄСВ (1760 грн/міс мінімум)</li>
+                <li>• ЄСВ (1 902 грн/міс мінімум)</li>
                 <li>• Оренда приміщення</li>
                 <li>• Комунальні платежі</li>
               </ul>

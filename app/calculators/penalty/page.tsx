@@ -39,7 +39,7 @@ export default function PenaltyCalculator() {
       return;
     }
 
-    const nbuRate = 0.13;
+    const nbuRate = 0.15; // Облікова ставка НБУ 2026
     const dailyRate = (nbuRate * (rate / 100)) / 365;
     const dailyPenalty = amount * dailyRate;
     const totalPenalty = dailyPenalty * days;
@@ -126,7 +126,7 @@ export default function PenaltyCalculator() {
                   <Info className="h-5 w-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
                   <div className="text-sm text-red-900 dark:text-red-200">
                     <p className="font-semibold mb-1">Дані на 2026 рік</p>
-                    <p>Облікова ставка НБУ: 13% річних</p>
+                    <p>Облікова ставка НБУ: 15% річних</p>
                     <p>Ставка пені за податки: 120% від облікової ставки</p>
                   </div>
                 </div>

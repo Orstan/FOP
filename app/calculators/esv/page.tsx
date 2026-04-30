@@ -25,7 +25,7 @@ export default function ESVCalculator() {
       return;
     }
 
-    const minWage = 8000;
+    const minWage = 8647;
     const esvRate = 0.22;
     
     const minESV = minWage * esvRate;
@@ -146,8 +146,8 @@ export default function ESVCalculator() {
                   <div className="space-y-3 pt-4 border-t dark:border-gray-700">
                     <h4 className="font-semibold text-gray-900 dark:text-gray-100">Важлива інформація:</h4>
                     <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                      <li>• <strong>Мінімум:</strong> 1 760 грн (22% від мінімалки 8 000 грн)</li>
-                      <li>• <strong>Максимум:</strong> 26 400 грн (22% від 15 мінзарплат)</li>
+                      <li>• <strong>Мінімум:</strong> 1 902,34 грн (22% від мінімалки 8 647 грн)</li>
+                      <li>• <strong>Максимум:</strong> 28 535,10 грн (22% від 15 мінзарплат)</li>
                       <li>• <strong>Термін сплати:</strong> до 20 числа наступного місяця</li>
                       <li>• <strong>Добровільний ЄСВ:</strong> можна платити більше мінімуму для вищої пенсії</li>
                     </ul>

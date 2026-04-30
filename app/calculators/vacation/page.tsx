@@ -44,7 +44,7 @@ export default function VacationCalculator() {
     const averageDailySalary = (salary * 12) / workDays;
     const vacationPay = averageDailySalary * days;
     
-    const taxRate = 0.195;
+    const taxRate = 0.23; // ПДФО 18% + ВЗ 5%
     const esvRate = 0.22;
     
     const tax = vacationPay * taxRate;
@@ -174,7 +174,7 @@ export default function VacationCalculator() {
                     </div>
 
                     <div className="flex justify-between items-center pb-3 border-b dark:border-gray-700">
-                      <span className="text-gray-600 dark:text-gray-400">ПДФО (18%) + ВЗ (1.5%):</span>
+                      <span className="text-gray-600 dark:text-gray-400">ПДФО (18%) + ВЗ (5%):</span>
                       <span className="text-lg font-semibold text-red-600 dark:text-red-400">
                         -{result.tax.toLocaleString('uk-UA')} грн
                       </span>

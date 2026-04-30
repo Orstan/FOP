@@ -16,6 +16,7 @@ export default function FOPTaxCalculator() {
   const [result, setResult] = useState<{
     singleTax: number;
     esv: number;
+    militaryTax: number;
     total: number;
     netIncome: number;
   } | null>(null);
@@ -27,7 +28,7 @@ export default function FOPTaxCalculator() {
     penaltyResult: null as number | null,
   });
 
-  const nbuRate = 0.135; // NBU discount rate (example, 13.5%)
+  const nbuRate = 0.15; // NBU discount rate (15% станом на 2026)
 
   const calculatePenalty = () => {
     const debtAmount = parseFloat(penaltyState.debt);
@@ -63,30 +64,35 @@ export default function FOPTaxCalculator() {
 
     let singleTax = 0;
     let esv = 0;
-    const minWage = 8000;
+    let militaryTax = 0;
+    const minWage = 8647;
     const esvRate = 0.22;
 
     switch (group) {
       case "1":
-        singleTax = 0;
+        singleTax = minWage * 0.10; // до 10% мінзарплати (встановлює місцева рада)
         esv = minWage * esvRate;
+        militaryTax = minWage * 0.10; // 10% від мінзарплати
         break;
       case "2":
         singleTax = minWage * 0.20;
         esv = minWage * esvRate;
+        militaryTax = minWage * 0.10; // 10% від мінзарплати
         break;
       case "3":
         singleTax = incomeAmount * 0.05;
         esv = minWage * esvRate;
+        militaryTax = incomeAmount * 0.01; // 1% від доходу
         break;
     }
 
-    const total = singleTax + esv;
+    const total = singleTax + esv + militaryTax;
     const netIncome = incomeAmount - total;
 
     setResult({
       singleTax: Math.round(singleTax * 100) / 100,
       esv: Math.round(esv * 100) / 100,
+      militaryTax: Math.round(militaryTax * 100) / 100,
       total: Math.round(total * 100) / 100,
       netIncome: Math.round(netIncome * 100) / 100,
     });
@@ -123,9 +129,9 @@ export default function FOPTaxCalculator() {
                     <SelectValue placeholder="Оберіть групу" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">Група 1 (роздрібна торгівля, до 1 167 300 грн/рік)</SelectItem>
-                    <SelectItem value="2">Група 2 (послуги для юросіб, до 5 836 800 грн/рік)</SelectItem>
-                    <SelectItem value="3">Група 3 (послуги для всіх, до 7 000 000 грн/рік)</SelectItem>
+                    <SelectItem value="1">Група 1 (роздрібна торгівля, до 1 444 049 грн/рік)</SelectItem>
+                    <SelectItem value="2">Група 2 (послуги для юросіб, до 7 211 598 грн/рік)</SelectItem>
+                    <SelectItem value="3">Група 3 (послуги для всіх, до 10 091 049 грн/рік)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -152,8 +158,8 @@ export default function FOPTaxCalculator() {
                   <Info className="h-5 w-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
                   <div className="text-sm text-blue-900 dark:text-blue-200">
                     <p className="font-semibold mb-1">Дані актуальні на 2026 рік</p>
-                    <p>Мінімальна зарплата: 8 000 грн</p>
-                    <p>Ставка ЄСВ: 22%</p>
+                    <p>Мінімальна зарплата: 8 647 грн</p>
+                    <p>Ставка ЄСВ: 22% | Військовий збір: 10% мінзарплати (1-2 гр.) / 1% доходу (3 гр.)</p>
                   </div>
                 </div>
               </div>
@@ -175,6 +181,12 @@ export default function FOPTaxCalculator() {
                       <span className="text-gray-600 dark:text-gray-400">Єдиний податок:</span>
                       <span className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                         {result.singleTax.toLocaleString('uk-UA')} грн
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center pb-3 border-b dark:border-gray-700">
+                      <span className="text-gray-600 dark:text-gray-400">Військовий збір:</span>
+                      <span className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                        {result.militaryTax.toLocaleString('uk-UA')} грн
                       </span>
                     </div>
                     <div className="flex justify-between items-center pb-3 border-b dark:border-gray-700">
@@ -234,22 +246,22 @@ export default function FOPTaxCalculator() {
             <div className="space-y-2">
               <h4 className="font-semibold text-gray-900 dark:text-gray-100">Група 1</h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Роздрібна торгівля на ринках. Ліміт доходу: до 1 167 300 грн/рік. 
-                Тільки ЄСВ, єдиний податок не сплачується.
+                Роздрібна торгівля на ринках. Ліміт доходу: до 1 444 049 грн/рік. 
+                Фіксований ЄП (до 10% мінзарплати) + ЄСВ + ВЗ (10% мінзарплати).
               </p>
             </div>
             <div className="space-y-2">
               <h4 className="font-semibold text-gray-900 dark:text-gray-100">Група 2</h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Надання послуг юридичним особам. Ліміт доходу: до 5 836 800 грн/рік.
-                Фіксований податок + ЄСВ.
+                Надання послуг юридичним особам. Ліміт доходу: до 7 211 598 грн/рік.
+                Фіксований податок (20% мінзарплати) + ЄСВ + ВЗ (10% мінзарплати).
               </p>
             </div>
             <div className="space-y-2">
               <h4 className="font-semibold text-gray-900 dark:text-gray-100">Група 3</h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Надання послуг будь-яким особам. Ліміт доходу: до 7 000 000 грн/рік.
-                5% від доходу + ЄСВ. Найпопулярніша група для IT-фахівців та фрілансерів.
+                Надання послуг будь-яким особам. Ліміт доходу: до 10 091 049 грн/рік.
+                5% від доходу + ЄСВ + ВЗ (1% від доходу). Найпопулярніша група для IT-фахівців та фрілансерів.
               </p>
             </div>
           </CardContent>
