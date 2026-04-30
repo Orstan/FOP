@@ -117,7 +117,7 @@ export default async function BlogCityPage({ params }: BlogCityPageProps) {
       name: 'ФОП Помічник',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://fop-help.com/og-image.png',
+        url: 'https://www.fop-help.com/og-image.png',
       },
     },
     datePublished: '2026-01-14',

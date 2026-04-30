@@ -39,7 +39,7 @@ export default function CitiesPage() {
     '@type': 'CollectionPage',
     name: 'ФОП у Містах України',
     description: 'Інформація для підприємців у всіх містах України',
-    url: 'https://fop-help.com/cities',
+    url: 'https://www.fop-help.com/cities',
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [
@@ -47,13 +47,13 @@ export default function CitiesPage() {
           '@type': 'ListItem',
           position: 1,
           name: 'Головна',
-          item: 'https://fop-help.com',
+          item: 'https://www.fop-help.com',
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Міста',
-          item: 'https://fop-help.com/cities',
+          item: 'https://www.fop-help.com/cities',
         },
       ],
     },

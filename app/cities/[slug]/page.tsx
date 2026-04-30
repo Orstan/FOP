@@ -104,8 +104,8 @@ export default async function CityPage({ params }: CityPageProps) {
       name: city.name,
       '@id': `https://www.wikidata.org/wiki/${city.name}`,
     },
-    url: `https://fop-help.com/cities/${slug}`,
-    image: 'https://fop-help.com/og-image.png',
+    url: `https://www.fop-help.com/cities/${slug}`,
+    image: 'https://www.fop-help.com/og-image.png',
     priceRange: 'Безкоштовно',
     serviceType: ['Калькулятори податків', 'Документи для бізнесу', 'Консультації'],
   };

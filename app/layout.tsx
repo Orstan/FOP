@@ -39,14 +39,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://fop-help.com'),
+  metadataBase: new URL('https://www.fop-help.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: "website",
     locale: "uk_UA",
-    url: "https://fop-help.com",
+    url: "https://www.fop-help.com",
     siteName: "ФОП Помічник",
     title: "ФОП Помічник - Все для підприємця України 2026",
     description: "Безкоштовні документи, калькулятори податків та експертні поради для ФОП. Створюйте договори за 2 хвилини. Розраховуйте податки онлайн.",

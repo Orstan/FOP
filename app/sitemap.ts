@@ -4,7 +4,7 @@ import { getAllServiceSlugs } from '@/lib/services-data'
 import { getAllBlogTopicSlugs } from '@/lib/blog-topics-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://fop-help.com'
+  const baseUrl = 'https://www.fop-help.com'
   const currentDate = new Date()
 
   const staticPages = [

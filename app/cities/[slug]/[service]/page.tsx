@@ -97,7 +97,7 @@ export default async function CityServicePage({ params }: CityServicePageProps) 
     provider: {
       '@type': 'Organization',
       name: 'ФОП Помічник',
-      url: 'https://fop-help.com',
+      url: 'https://www.fop-help.com',
     },
     areaServed: {
       '@type': 'City',
@@ -105,7 +105,7 @@ export default async function CityServicePage({ params }: CityServicePageProps) 
       addressRegion: city.region,
       addressCountry: 'UA',
     },
-    url: `https://fop-help.com/cities/${slug}/${service}`,
+    url: `https://www.fop-help.com/cities/${slug}/${service}`,
     priceRange: 'Безкоштовно',
   };
 

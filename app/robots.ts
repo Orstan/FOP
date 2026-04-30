@@ -14,6 +14,6 @@ export default function robots(): MetadataRoute.Robots {
         crawlDelay: 0,
       },
     ],
-    sitemap: 'https://fop-help.com/sitemap.xml',
+    sitemap: 'https://www.fop-help.com/sitemap.xml',
   }
 }
