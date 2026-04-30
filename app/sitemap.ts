@@ -91,6 +91,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'open-fop-diya',
     'upwork-fiverr-2026',
     'contract-mistakes',
+    'military-tax-fop-2026',
+    'fop-crypto-2026',
+    'fop-tax-calendar-2026',
+    'fop-grants-2026',
   ].map((slug) => ({
     url: `${baseUrl}/blog/${slug}`,
     lastModified: currentDate,
