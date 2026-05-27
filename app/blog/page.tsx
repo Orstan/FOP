@@ -21,6 +21,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як ФОП вести облік доходів та витрат",
+      description: "облік ФОП - детальний гайд для підприємців",
+      slug: "yak-fop-vesty-oblik-dokhodiv-ta-vytrat",
+      date: "2026-05-27",
+      readTime: "3 хв",
+      category: "Бухгалтерія",
+      available: true,
+    },
+    {
       title: "ФОП на патенті 2026: Хто може та як перейти",
       description: "патент для ФОП - детальний гайд для підприємців",
       slug: "fop-na-patenti-2026-khto-mozhe-ta-yak-pereyty",
