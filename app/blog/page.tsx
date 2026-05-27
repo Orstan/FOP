@@ -21,6 +21,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "ФОП на патенті 2026: Хто може та як перейти",
+      description: "патент для ФОП - детальний гайд для підприємців",
+      slug: "fop-na-patenti-2026-khto-mozhe-ta-yak-pereyty",
+      date: "2026-05-27",
+      readTime: "4 хв",
+      category: "Податки",
+      available: true,
+    },
+    {
       title: "Військовий Збір для ФОП 2026: Нові ставки 5%, розрахунок та терміни",
       description: "Повний гайд по ВЗ: нова ставка 5% для зарплат, 10% мінзарплати для 1-2 гр., 1% від доходу для 3 гр. Приклади розрахунків та штрафи",
       slug: "military-tax-fop-2026",
