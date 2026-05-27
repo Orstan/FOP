@@ -236,7 +236,7 @@ async function generateBlogPost() {
 
     // Генеруємо контент через OpenAI
     const completion = await openai.chat.completions.create({
-      model: "gpt-4-turbo-preview",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
