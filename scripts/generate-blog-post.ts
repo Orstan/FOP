@@ -85,33 +85,46 @@ const blogTopics = [
   },
 ];
 
-// Шаблон для генерації статті
+// Шаблон для генерації статті у форматі JSX
 const generateBlogPostPrompt = (topic: typeof blogTopics[0]) => `
-Створи детальну SEO-оптимізовану статтю для блогу про ФОП (фізичні особи-підприємці) в Україні.
+Створи SEO-оптимізовану статтю для блогу про ФОП (фізичні особи-підприємці) в Україні.
 
 Тема: ${topic.title}
 Категорія: ${topic.category}
 Ключові слова: ${topic.keywords.join(', ')}
 
-Стаття має бути:
-1. Обсягом 2000-2500 слів
-2. Структурована з чіткими заголовками H2 та H3
-3. Містити практичні поради та покрокові інструкції
-4. Включати реальні приклади та цифри (актуальні на 2026 рік)
-5. SEO-оптимізована з природним використанням ключових слів
-6. Написана простою, зрозумілою мовою для підприємців
-7. Містити таблиці, списки переваг/недоліків де це доречно
+ВАЖЛИВО: Стаття має бути у форматі JSX (React) з HTML-тегами. НЕ використовуй Markdown!
+
+Формат відповіді - ТІЛЬКИ JSX код (без блоків коду, без коментарів, без пояснень).
+Використовуй ТІЛЬКИ такі HTML-теги:
+- <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-12 mb-6"> для заголовків секцій
+- <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-4"> для підзаголовків
+- <p className="text-gray-700 dark:text-gray-300 mb-4"> для абзаців
+- <ul className="space-y-2 mb-6"> та <li className="flex items-start gap-2"><span className="text-blue-600">•</span><span> для списків
+- <strong> для жирного тексту
+- <div className="bg-blue-50 dark:bg-blue-950/30 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg"> для блоків-порад
+- <div className="bg-yellow-50 dark:bg-yellow-950/30 border-l-4 border-yellow-500 p-6 mb-8 rounded-r-lg"> для попереджень
 
 Структура статті:
-- Вступ з коротким описом проблеми/теми
-- Основні розділи з детальною інформацією
-- Практичні поради та інструкції
-- Переваги та недоліки (якщо застосовно)
-- Висновок з підсумками
-- Посилання на інші корисні статті блогу
+1. Вступний абзац (2-3 речення, що пояснюють тему)
+2. 4-6 основних секцій з h2 заголовками
+3. Практичні поради та покрокові інструкції
+4. Переваги та недоліки (якщо застосовно)
+5. Висновок
 
-Формат відповіді: надай ТІЛЬКИ текст статті українською мовою, без додаткових коментарів.
-Стаття має бути готова до публікації та відповідати стилю існуючих статей на сайті fop-help.com.
+Вимоги до контенту:
+- Обсяг: 1500-2000 слів
+- Мова: українська
+- Актуальна інформація на 2026 рік
+- Практичні поради для підприємців
+- Природне використання ключових слів
+- НЕ використовуй символи > та < в тексті (тільки в тегах). Замість > пиши &gt; а замість < пиши &lt;
+- НЕ використовуй лапки " в тексті, пиши &laquo; та &raquo;
+- className атрибути мають бути саме такими як показано вище
+- Кожен тег має бути правильно закритий
+- НЕ додавай посилання на зовнішні сайти
+
+Надай ТІЛЬКИ JSX код без огортання у блоки коду.
 `;
 
 // Функція для генерації slug зі заголовка
@@ -134,6 +147,17 @@ function generateSlug(title: string): string {
     .substring(0, 60);
 }
 
+// Функція для витягування description з контенту (перший абзац тексту)
+function extractDescription(content: string): string {
+  // Шукаємо текст в першому <p> тезі
+  const match = content.match(/<p[^>]*>([^<]+)<\/p>/);
+  if (match && match[1]) {
+    return match[1].replace(/&laquo;/g, '"').replace(/&raquo;/g, '"').replace(/&gt;/g, '>').replace(/&lt;/g, '<').substring(0, 155);
+  }
+  // Fallback: беремо перші 155 символів без HTML тегів
+  return content.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().substring(0, 155);
+}
+
 // Функція для створення React компонента статті
 function createBlogPostComponent(
   title: string,
@@ -143,23 +167,24 @@ function createBlogPostComponent(
   category: string,
   readTime: string
 ): string {
-  const today = new Date().toISOString().split('T')[0];
+  const description = extractDescription(content).replace(/"/g, '\\"').replace(/\n/g, ' ');
+  const dateStr = new Date().toLocaleDateString('uk-UA', { year: 'numeric', month: 'long', day: 'numeric' });
   
   return `import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "${title} | ФОП Помічник 2026",
-  description: "${content.substring(0, 155).replace(/"/g, '\\"')}...",
+  description: "${description}",
   keywords: [
     ${keywords.map(k => `"${k}"`).join(',\n    ')}
   ],
   openGraph: {
     title: "${title}",
-    description: "${content.substring(0, 155).replace(/"/g, '\\"')}...",
+    description: "${description}",
     type: "article",
   },
 };
@@ -174,7 +199,7 @@ export default function BlogPost() {
               href="/blog" 
               className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium no-underline"
             >
-              ← Назад до блогу
+              &larr; Назад до блогу
             </Link>
           </div>
 
@@ -183,8 +208,8 @@ export default function BlogPost() {
           </h1>
 
           <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-8 not-prose">
-            <time>Оновлено: ${new Date().toLocaleDateString('uk-UA', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
-            <span>•</span>
+            <time>Оновлено: ${dateStr}</time>
+            <span>&bull;</span>
             <span>Читання: ${readTime}</span>
           </div>
 
@@ -240,7 +265,7 @@ async function generateBlogPost() {
       messages: [
         {
           role: "system",
-          content: "Ти експерт з українського законодавства для підприємців (ФОП). Пишеш детальні, практичні статті простою мовою."
+          content: "Ти експерт з українського законодавства для підприємців (ФОП). Генеруєш статті виключно у форматі JSX з HTML-тегами. НІКОЛИ не використовуй Markdown синтаксис (# ## ### - * і т.д.). Завжди повертай тільки валідний JSX код з className атрибутами."
         },
         {
           role: "user",
@@ -251,7 +276,11 @@ async function generateBlogPost() {
       max_tokens: 4000,
     });
 
-    const content = completion.choices[0].message.content || '';
+    let content = completion.choices[0].message.content || '';
+    // Очищуємо від можливих markdown code block маркерів
+    content = content.replace(/^```[a-z]*\n?/gm, '').replace(/```$/gm, '').trim();
+    // Видаляємо будь-які markdown заголовки якщо AI все ж їх додав
+    content = content.replace(/^#{1,6}\s+.+$/gm, '');
     console.log(`✅ Контент згенеровано (${content.length} символів)`);
 
     // Створюємо slug та директорію
