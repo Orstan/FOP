@@ -1,8 +1,6 @@
-import Link from "next/link";
-import { BookOpen, Calendar, Clock } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { Metadata } from "next";
+import { BlogList } from "@/components/blog-list";
 
 export const metadata: Metadata = {
   title: "Блог для Підприємців - Податки, ФОП, Юридичні Поради, Інструкції 2026",
@@ -259,54 +257,7 @@ export default function BlogPage() {
           </p>
         </div>
 
-        <div className="space-y-6">
-          {articles.map((article, index) => (
-            <Card 
-              key={index} 
-              className={`dark:bg-gray-900 border-2 transition-all ${article.available ? 'hover:border-blue-600 dark:hover:border-blue-400 hover:shadow-lg' : 'opacity-60'}`}
-            >
-              <CardHeader>
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full font-medium">
-                        {article.category}
-                      </span>
-                      {!article.available && (
-                        <span className="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">
-                          Незабаром
-                        </span>
-                      )}
-                    </div>
-                    <CardTitle className="text-xl mb-2">
-                      {article.available ? (
-                        <Link href={`/blog/${article.slug}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                          {article.title}
-                        </Link>
-                      ) : (
-                        article.title
-                      )}
-                    </CardTitle>
-                    <CardDescription className="text-base">{article.description}</CardDescription>
-                  </div>
-                  <BookOpen className="h-12 w-12 text-blue-600 dark:text-blue-400 flex-shrink-0 opacity-20" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-1">
-                    <Calendar className="h-4 w-4" />
-                    <span>{new Date(article.date).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-4 w-4" />
-                    <span>{article.readTime} читання</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <BlogList articles={articles} />
 
         <Card className="mt-12 dark:bg-gray-900 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border-blue-200 dark:border-blue-800">
           <CardHeader>
