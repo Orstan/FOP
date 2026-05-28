@@ -123,3 +123,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Mobile bottom nav safe area for iOS */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

@@ -7,6 +7,7 @@ import { GoogleAnalytics } from "@/components/analytics";
 import { GoogleAdSense } from "@/components/google-adsense";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { MobileNav } from "@/components/mobile-nav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -138,10 +139,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen pb-[68px] lg:pb-0">
             <Header />
             {children}
             <Footer />
+            <MobileNav />
           </div>
         </ThemeProvider>
       </body>
