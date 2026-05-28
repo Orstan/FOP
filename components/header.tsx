@@ -9,7 +9,7 @@ export function Header() {
   return (
     <header className="border-b bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center">
-        <div className="flex-1 flex justify-start">
+        <div className="flex-1 flex justify-center lg:justify-start">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Sparkles className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             <span className="text-xl font-bold text-gray-900 dark:text-gray-100">ФОП Помічник</span>
