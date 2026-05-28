@@ -46,10 +46,9 @@ export function Footer() {
               </ul>
             </div>
             
-            {/* Інформація по центру на мобільних (col-span-2), четверта колонка на десктопі */}
-            <div className="col-span-2 md:col-span-1 text-center md:text-left mt-2 md:mt-0">
+            <div className="text-left">
               <h3 className="text-white dark:text-gray-200 font-semibold mb-3 text-sm md:text-base">Інформація</h3>
-              <ul className="space-y-2 text-xs md:text-sm inline-block text-left">
+              <ul className="space-y-2 text-xs md:text-sm">
                 <li><Link href="/blog" className="hover:text-white dark:hover:text-gray-200 transition-colors">Блог</Link></li>
                 <li><Link href="/about" className="hover:text-white dark:hover:text-gray-200 transition-colors">Про нас</Link></li>
                 <li><Link href="/contact" className="hover:text-white dark:hover:text-gray-200 transition-colors">Контакти</Link></li>
@@ -60,17 +59,6 @@ export function Footer() {
         
         <div className="border-t border-gray-800 dark:border-gray-900 mt-6 md:mt-8 pt-6 md:pt-8 text-center text-xs md:text-sm">
           <p>&copy; 2026 ФОП Помічник. Всі права захищені.</p>
-          <p className="mt-2 text-gray-500 dark:text-gray-600">
-            Розроблено{' '}
-            <a 
-              href="https://webvy.online/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-blue-400 hover:text-blue-300 dark:text-blue-500 dark:hover:text-blue-400 font-medium transition-colors"
-            >
-              Studio WebVy
-            </a>
-          </p>
         </div>
       </div>
     </footer>
