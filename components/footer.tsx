@@ -36,7 +36,7 @@ export function Footer() {
               </ul>
             </div>
             
-            <div className="text-left">
+            <div className="text-left pl-8 md:pl-0">
               <h3 className="text-white dark:text-gray-200 font-semibold mb-3 text-sm md:text-base">Популярні міста</h3>
               <ul className="space-y-2 text-xs md:text-sm">
                 <li><Link href="/cities/kyiv" className="hover:text-white dark:hover:text-gray-200 transition-colors">ФОП Київ</Link></li>
