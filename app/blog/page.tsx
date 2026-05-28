@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як ФОП працювати з іноземними клієнтами у 2026",
+      description: "ФОП іноземні клієнти - детальний гайд для підприємців",
+      slug: "yak-fop-pratsyuvaty-z-inozemnymy-kliyentamy-u-2026",
+      date: "2026-05-28",
+      readTime: "3 хв",
+      category: "Міжнародний бізнес",
+      available: true,
+    },
+    {
       title: "Як ФОП вести облік доходів та витрат",
       description: "облік ФОП - детальний гайд для підприємців",
       slug: "yak-fop-vesty-oblik-dokhodiv-ta-vytrat",

@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yak-fop-pratsyuvaty-z-inozemnymy-kliyentamy-u-2026',
     'yak-fop-vesty-oblik-dokhodiv-ta-vytrat',
     'fop-cash-register-2026',
     'fop-sick-leave-2026',
