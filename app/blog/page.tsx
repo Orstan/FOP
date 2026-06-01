@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Страхування для ФОП: Види та необхідність у 2026",
+      description: "страхування ФОП - детальний гайд для підприємців",
+      slug: "strakhuvannya-dlya-fop-vydy-ta-neobkhidnist-u-2026",
+      date: "2026-06-01",
+      readTime: "2 хв",
+      category: "Страхування",
+      available: true,
+    },
+    {
       title: "Як ФОП працювати з іноземними клієнтами у 2026",
       description: "ФОП іноземні клієнти - детальний гайд для підприємців",
       slug: "yak-fop-pratsyuvaty-z-inozemnymy-kliyentamy-u-2026",
