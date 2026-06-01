@@ -252,11 +252,38 @@ export default function BlogPost() {
 `;
 }
 
+// Функція для отримання списку вже існуючих slug-ів
+function getExistingSlugs(): string[] {
+  const blogDir = path.join(process.cwd(), 'app', 'blog');
+  if (!fs.existsSync(blogDir)) return [];
+  return fs.readdirSync(blogDir).filter(item => {
+    const itemPath = path.join(blogDir, item);
+    return fs.statSync(itemPath).isDirectory() && item !== 'page.tsx';
+  });
+}
+
 // Основна функція генерації статті
 async function generateBlogPost() {
   try {
-    // Вибираємо випадкову тему
-    const randomTopic = blogTopics[Math.floor(Math.random() * blogTopics.length)];
+    // Отримуємо існуючі slug-и
+    const existingSlugs = getExistingSlugs();
+    console.log(`📂 Існуючих статей: ${existingSlugs.length}`);
+
+    // Фільтруємо теми — тільки ті, для яких ще не створено статтю
+    const availableTopics = blogTopics.filter(topic => {
+      const slug = generateSlug(topic.title);
+      return !existingSlugs.includes(slug);
+    });
+
+    if (availableTopics.length === 0) {
+      console.log('⚠️ Всі теми вже використані! Додайте нові теми до списку.');
+      return { success: false, reason: 'no_topics' };
+    }
+
+    console.log(`📋 Доступних тем: ${availableTopics.length}`);
+
+    // Вибираємо випадкову тему з доступних
+    const randomTopic = availableTopics[Math.floor(Math.random() * availableTopics.length)];
     console.log(`🎯 Генеруємо статтю: ${randomTopic.title}`);
 
     // Генеруємо контент через OpenAI
@@ -286,6 +313,12 @@ async function generateBlogPost() {
     // Створюємо slug та директорію
     const slug = generateSlug(randomTopic.title);
     const blogDir = path.join(process.cwd(), 'app', 'blog', slug);
+
+    // Повторна перевірка на випадок race condition (два паралельні запуски)
+    if (fs.existsSync(path.join(blogDir, 'page.tsx'))) {
+      console.log(`⚠️ Стаття з slug '${slug}' вже існує. Пропускаємо.`);
+      return { success: false, reason: 'already_exists', slug };
+    }
     
     if (!fs.existsSync(blogDir)) {
       fs.mkdirSync(blogDir, { recursive: true });
@@ -340,6 +373,12 @@ async function updateBlogList(topic: typeof blogTopics[0], slug: string, readTim
       available: true,
     },`;
 
+  // Перевіряємо чи стаття вже є в списку
+  if (content.includes(`slug: "${slug}"`)) {
+    console.log(`⚠️ Стаття '${slug}' вже є в списку блогів. Пропускаємо.`);
+    return;
+  }
+
   // Вставляємо нову статтю на початок масиву articles
   content = content.replace(
     /const articles = \[/,
@@ -354,6 +393,12 @@ async function updateBlogList(topic: typeof blogTopics[0], slug: string, readTim
 async function updateSitemap(slug: string) {
   const sitemapPath = path.join(process.cwd(), 'app', 'sitemap.ts');
   let content = fs.readFileSync(sitemapPath, 'utf-8');
+
+  // Перевіряємо чи slug вже є в sitemap
+  if (content.includes(`'${slug}'`)) {
+    console.log(`⚠️ Slug '${slug}' вже є в sitemap. Пропускаємо.`);
+    return;
+  }
 
   // Додаємо новий slug на початок масиву blogPosts
   content = content.replace(
