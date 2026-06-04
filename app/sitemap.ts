@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yak-fop-naymaty-pratsivnykiv-pokrokova-instruktsiya',
     'strakhuvannya-dlya-fop-vydy-ta-neobkhidnist-u-2026',
     'yak-fop-pratsyuvaty-z-inozemnymy-kliyentamy-u-2026',
     'yak-fop-vesty-oblik-dokhodiv-ta-vytrat',

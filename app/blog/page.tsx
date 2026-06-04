@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як ФОП наймати працівників: Покрокова інструкція",
+      description: "найм працівників ФОП - детальний гайд для підприємців",
+      slug: "yak-fop-naymaty-pratsivnykiv-pokrokova-instruktsiya",
+      date: "2026-06-04",
+      readTime: "2 хв",
+      category: "Кадри",
+      available: true,
+    },
+    {
       title: "Страхування для ФОП: Види та необхідність у 2026",
       description: "страхування ФОП - детальний гайд для підприємців",
       slug: "strakhuvannya-dlya-fop-vydy-ta-neobkhidnist-u-2026",
