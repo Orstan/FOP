@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як ФОП отримати субсидію від держави",
+      description: "субсидії для ФОП - детальний гайд для підприємців",
+      slug: "yak-fop-otrymaty-subsydiyu-vid-derzhavy",
+      date: "2026-06-08",
+      readTime: "3 хв",
+      category: "Фінанси",
+      available: true,
+    },
+    {
       title: "Як ФОП наймати працівників: Покрокова інструкція",
       description: "найм працівників ФОП - детальний гайд для підприємців",
       slug: "yak-fop-naymaty-pratsivnykiv-pokrokova-instruktsiya",
