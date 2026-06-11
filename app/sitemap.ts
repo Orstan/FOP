@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'franshyza-dlya-fop-yak-vidkryty-biznes-za-franshyzoyu',
     'yak-fop-otrymaty-subsydiyu-vid-derzhavy',
     'yak-fop-naymaty-pratsivnykiv-pokrokova-instruktsiya',
     'strakhuvannya-dlya-fop-vydy-ta-neobkhidnist-u-2026',

@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Франшиза для ФОП: Як відкрити бізнес за франшизою",
+      description: "франшиза ФОП - детальний гайд для підприємців",
+      slug: "franshyza-dlya-fop-yak-vidkryty-biznes-za-franshyzoyu",
+      date: "2026-06-11",
+      readTime: "3 хв",
+      category: "Бізнес",
+      available: true,
+    },
+    {
       title: "Як ФОП отримати субсидію від держави",
       description: "субсидії для ФОП - детальний гайд для підприємців",
       slug: "yak-fop-otrymaty-subsydiyu-vid-derzhavy",
