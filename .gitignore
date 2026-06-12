@@ -42,3 +42,8 @@ next-env.d.ts
 
 .vercel
 .env*.local
+
+# indexing tool secrets
+indexing-tool/token.json
+indexing-tool/progress.json
+indexing-tool/client_secret_*.json
