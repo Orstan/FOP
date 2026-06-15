@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як ФОП платити аліменти: Розрахунок та нюанси",
+      description: "аліменти ФОП - детальний гайд для підприємців",
+      slug: "yak-fop-platyty-alimenty-rozrakhunok-ta-nyuansy",
+      date: "2026-06-15",
+      readTime: "2 хв",
+      category: "Юридичні питання",
+      available: true,
+    },
+    {
       title: "Франшиза для ФОП: Як відкрити бізнес за франшизою",
       description: "франшиза ФОП - детальний гайд для підприємців",
       slug: "franshyza-dlya-fop-yak-vidkryty-biznes-za-franshyzoyu",
