@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Податкові канікули для ФОП 2026: Умови та переваги",
+      description: "податкові канікули ФОП - детальний гайд для підприємців",
+      slug: "podatkovi-kanikuly-dlya-fop-2026-umovy-ta-perevahy",
+      date: "2026-06-18",
+      readTime: "3 хв",
+      category: "Податки",
+      available: true,
+    },
+    {
       title: "Як ФОП платити аліменти: Розрахунок та нюанси",
       description: "аліменти ФОП - детальний гайд для підприємців",
       slug: "yak-fop-platyty-alimenty-rozrakhunok-ta-nyuansy",

@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'podatkovi-kanikuly-dlya-fop-2026-umovy-ta-perevahy',
     'yak-fop-platyty-alimenty-rozrakhunok-ta-nyuansy',
     'franshyza-dlya-fop-yak-vidkryty-biznes-za-franshyzoyu',
     'yak-fop-otrymaty-subsydiyu-vid-derzhavy',
