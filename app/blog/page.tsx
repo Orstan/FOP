@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "ФОП на патенті 2026: Хто може та як перейти",
+      description: "патент для ФОП - детальний гайд для підприємців",
+      slug: "fop-na-patenti-2026-khto-mozhe-ta-yak-pereyty",
+      date: "2026-06-22",
+      readTime: "2 хв",
+      category: "Податки",
+      available: true,
+    },
+    {
       title: "Податкові канікули для ФОП 2026: Умови та переваги",
       description: "податкові канікули ФОП - детальний гайд для підприємців",
       slug: "podatkovi-kanikuly-dlya-fop-2026-umovy-ta-perevahy",
