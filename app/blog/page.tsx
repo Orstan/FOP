@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Електронний підпис для ФОП: Як отримати та використовувати",
+      description: "ЕЦП для ФОП - детальний гайд для підприємців",
+      slug: "elektronnyy-pidpys-dlya-fop-yak-otrymaty-ta-vykorystovuvaty",
+      date: "2026-06-25",
+      readTime: "3 хв",
+      category: "Документи",
+      available: true,
+    },
+    {
       title: "ФОП на патенті 2026: Хто може та як перейти",
       description: "патент для ФОП - детальний гайд для підприємців",
       slug: "fop-na-patenti-2026-khto-mozhe-ta-yak-pereyty",
