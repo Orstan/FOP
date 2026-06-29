@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yak-fop-otrymaty-kredyt-na-rozvytok-biznesu',
     'elektronnyy-pidpys-dlya-fop-yak-otrymaty-ta-vykorystovuvaty',
     'fop-na-patenti-2026-khto-mozhe-ta-yak-pereyty',
     'podatkovi-kanikuly-dlya-fop-2026-umovy-ta-perevahy',

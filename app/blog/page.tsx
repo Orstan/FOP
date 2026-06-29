@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як ФОП отримати кредит на розвиток бізнесу",
+      description: "кредит для ФОП - детальний гайд для підприємців",
+      slug: "yak-fop-otrymaty-kredyt-na-rozvytok-biznesu",
+      date: "2026-06-29",
+      readTime: "2 хв",
+      category: "Фінанси",
+      available: true,
+    },
+    {
       title: "Електронний підпис для ФОП: Як отримати та використовувати",
       description: "ЕЦП для ФОП - детальний гайд для підприємців",
       slug: "elektronnyy-pidpys-dlya-fop-yak-otrymaty-ta-vykorystovuvaty",
