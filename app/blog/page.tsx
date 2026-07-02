@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як ФОП відкрити інтернет-магазин: Покрокова інструкція",
+      description: "інтернет-магазин ФОП - детальний гайд для підприємців",
+      slug: "yak-fop-vidkryty-internet-mahazyn-pokrokova-instruktsiya",
+      date: "2026-07-02",
+      readTime: "3 хв",
+      category: "Бізнес",
+      available: true,
+    },
+    {
       title: "Як ФОП отримати кредит на розвиток бізнесу",
       description: "кредит для ФОП - детальний гайд для підприємців",
       slug: "yak-fop-otrymaty-kredyt-na-rozvytok-biznesu",
