@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Онлайн-каси для ФОП 2026: Вибір та підключення",
+      description: "онлайн-каса ФОП - детальний гайд для підприємців",
+      slug: "onlayn-kasy-dlya-fop-2026-vybir-ta-pidklyuchennya",
+      date: "2026-07-06",
+      readTime: "2 хв",
+      category: "Обладнання",
+      available: true,
+    },
+    {
       title: "Як ФОП відкрити інтернет-магазин: Покрокова інструкція",
       description: "інтернет-магазин ФОП - детальний гайд для підприємців",
       slug: "yak-fop-vidkryty-internet-mahazyn-pokrokova-instruktsiya",

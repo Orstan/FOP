@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'onlayn-kasy-dlya-fop-2026-vybir-ta-pidklyuchennya',
     'yak-fop-vidkryty-internet-mahazyn-pokrokova-instruktsiya',
     'yak-fop-otrymaty-kredyt-na-rozvytok-biznesu',
     'elektronnyy-pidpys-dlya-fop-yak-otrymaty-ta-vykorystovuvaty',
