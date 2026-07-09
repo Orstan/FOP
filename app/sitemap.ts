@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'fop-ta-kryptovalyuta-yak-lehal-no-pratsyuvaty-z-krypto',
     'onlayn-kasy-dlya-fop-2026-vybir-ta-pidklyuchennya',
     'yak-fop-vidkryty-internet-mahazyn-pokrokova-instruktsiya',
     'yak-fop-otrymaty-kredyt-na-rozvytok-biznesu',

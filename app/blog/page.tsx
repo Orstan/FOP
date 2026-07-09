@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "ФОП та криптовалюта: Як легально працювати з крипто",
+      description: "ФОП криптовалюта - детальний гайд для підприємців",
+      slug: "fop-ta-kryptovalyuta-yak-lehal-no-pratsyuvaty-z-krypto",
+      date: "2026-07-09",
+      readTime: "2 хв",
+      category: "Фінанси",
+      available: true,
+    },
+    {
       title: "Онлайн-каси для ФОП 2026: Вибір та підключення",
       description: "онлайн-каса ФОП - детальний гайд для підприємців",
       slug: "onlayn-kasy-dlya-fop-2026-vybir-ta-pidklyuchennya",
