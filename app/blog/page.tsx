@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Бухгалтерські програми для ФОП 2026: Огляд та порівняння",
+      description: "програми для ФОП - детальний гайд для підприємців",
+      slug: "bukhhalters-ki-prohramy-dlya-fop-2026-ohlyad-ta-porivnyannya",
+      date: "2026-07-13",
+      readTime: "3 хв",
+      category: "Бухгалтерія",
+      available: true,
+    },
+    {
       title: "ФОП та криптовалюта: Як легально працювати з крипто",
       description: "ФОП криптовалюта - детальний гайд для підприємців",
       slug: "fop-ta-kryptovalyuta-yak-lehal-no-pratsyuvaty-z-krypto",
