@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as http from 'http';
 import * as url from 'url';
+import * as readline from 'readline';
 import { getAllCitySlugs } from '../lib/cities-data';
 import { getAllServiceSlugs } from '../lib/services-data';
 
@@ -71,15 +72,26 @@ function getTokenFileName(clientSecretFile: string): string {
   return path.join(TOOL_DIR, `token_${id}.json`);
 }
 
+function askQuestion(question: string): Promise<string> {
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  return new Promise(resolve => {
+    rl.question(question, (answer) => {
+      rl.close();
+      resolve(answer.trim());
+    });
+  });
+}
+
 async function authorize(clientSecretFile: string, port: number): Promise<any> {
   const credentials = JSON.parse(fs.readFileSync(clientSecretFile, 'utf-8'));
-  const { client_id, client_secret } = credentials.installed;
+  const { client_id, client_secret, redirect_uris } = credentials.installed;
   const tokenFile = getTokenFileName(clientSecretFile);
+  const redirectUri = redirect_uris?.[0] || 'http://localhost';
 
   const oauth2Client = new google.auth.OAuth2(
     client_id,
     client_secret,
-    `http://localhost:${port}`
+    redirectUri
   );
 
   // Перевіряємо чи є збережений токен
@@ -97,53 +109,68 @@ async function authorize(clientSecretFile: string, port: number): Promise<any> {
         console.log(`  ✅ Токен оновлено`);
       } catch (err) {
         console.log(`  ⚠️ Не вдалося оновити токен, потрібна нова авторизація`);
-        return await getNewToken(oauth2Client, tokenFile, port);
+        return await getNewToken(oauth2Client, tokenFile, redirectUri);
       }
     }
 
     return oauth2Client;
   }
 
-  return await getNewToken(oauth2Client, tokenFile, port);
+  return await getNewToken(oauth2Client, tokenFile, redirectUri);
 }
 
-async function getNewToken(oauth2Client: any, tokenFile: string, port: number): Promise<any> {
+async function getNewToken(oauth2Client: any, tokenFile: string, redirectUri: string): Promise<any> {
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: ['https://www.googleapis.com/auth/indexing'],
+    redirect_uri: redirectUri,
   });
 
-  console.log(`\n🔗 Відкрийте посилання у браузері:\n`);
-  console.log(authUrl);
-  console.log(`\n⏳ Очікую авторизацію на порті ${port}...\n`);
+  console.log(`\n  🔗 Відкрийте посилання у браузері:`);
+  console.log(`  ${authUrl}\n`);
 
-  return new Promise((resolve, reject) => {
-    const server = http.createServer(async (req, res) => {
-      try {
-        const queryParams = new url.URL(req.url!, `http://localhost:${port}`).searchParams;
-        const code = queryParams.get('code');
+  // Якщо redirect на localhost — запускаємо сервер
+  if (redirectUri.includes('localhost')) {
+    const portMatch = redirectUri.match(/:(\d+)/);
+    const listenPort = portMatch ? parseInt(portMatch[1]) : 80;
 
-        if (code) {
-          res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-          res.end('<h1>✅ Авторизація успішна! Можете закрити це вікно.</h1>');
+    return new Promise((resolve, reject) => {
+      const server = http.createServer(async (req, res) => {
+        try {
+          const queryParams = new url.URL(req.url!, redirectUri).searchParams;
+          const code = queryParams.get('code');
 
-          const { tokens } = await oauth2Client.getToken(code);
-          oauth2Client.setCredentials(tokens);
-          fs.writeFileSync(tokenFile, JSON.stringify(tokens), 'utf-8');
-          console.log(`  ✅ Авторизація пройшла успішно! Токен збережено.\n`);
+          if (code) {
+            res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+            res.end('<h1>✅ Авторизація успішна! Можете закрити це вікно.</h1>');
 
+            const { tokens } = await oauth2Client.getToken(code);
+            oauth2Client.setCredentials(tokens);
+            fs.writeFileSync(tokenFile, JSON.stringify(tokens), 'utf-8');
+            console.log(`  ✅ Токен збережено!\n`);
+
+            server.close();
+            resolve(oauth2Client);
+          }
+        } catch (err) {
           server.close();
-          resolve(oauth2Client);
+          reject(err);
         }
-      } catch (err) {
-        reject(err);
-      }
-    });
+      });
 
-    server.listen(port, () => {
-      console.log(`  🖥️  Локальний сервер на http://localhost:${port}`);
+      server.listen(listenPort, () => {
+        console.log(`  ⏳ Очікую авторизацію на http://localhost:${listenPort} ...`);
+      });
     });
-  });
+  } else {
+    // Fallback: користувач вставляє код вручну
+    const code = await askQuestion('  📋 Вставте код авторизації сюди: ');
+    const { tokens } = await oauth2Client.getToken(code);
+    oauth2Client.setCredentials(tokens);
+    fs.writeFileSync(tokenFile, JSON.stringify(tokens), 'utf-8');
+    console.log(`  ✅ Токен збережено!\n`);
+    return oauth2Client;
+  }
 }
 
 // ==================== Пінг Sitemap ====================
@@ -171,28 +198,26 @@ function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function submitUrl(auth: any, urlToIndex: string, type: 'URL_UPDATED' | 'URL_DELETED' = 'URL_UPDATED'): Promise<boolean> {
+async function submitUrl(auth: any, urlToIndex: string, type: 'URL_UPDATED' | 'URL_DELETED' = 'URL_UPDATED'): Promise<'SUCCESS' | 'FAILED' | 'RATE_LIMIT'> {
   try {
     const indexing = google.indexing({ version: 'v3', auth });
-    const response = await indexing.urlNotifications.publish({
+    await indexing.urlNotifications.publish({
       requestBody: {
         url: urlToIndex,
         type,
       },
     });
-    return true;
+    return 'SUCCESS';
   } catch (err: any) {
     const status = err?.response?.status;
     const message = err?.response?.data?.error?.message || err.message;
 
     if (status === 429) {
-      console.log(`  ⏳ Rate limit — чекаємо 60 сек...`);
-      await sleep(60000);
-      return false;
+      return 'RATE_LIMIT';
     }
 
     console.log(`  ❌ Помилка (${status}): ${message}`);
-    return false;
+    return 'FAILED';
   }
 }
 
@@ -202,7 +227,6 @@ async function main() {
   const args = process.argv.slice(2);
   const skipIndexing = args.includes('--sitemap-only');
   const startFrom = parseInt(args.find(a => a.startsWith('--start='))?.split('=')[1] || '0');
-  const accountIndex = args.find(a => a.startsWith('--account='));
 
   console.log('═══════════════════════════════════════════════');
   console.log('  🔍 Google Indexing Tool — ФОП Помічник');
@@ -260,17 +284,29 @@ async function main() {
 
     try {
       const auth = await authorize(secretFile, port);
+      let processedInBatch = 0;
       
       for (let j = 0; j < batch.length; j++) {
         const u = batch[j];
         process.stdout.write(`  [${j + 1}/${batch.length}] ${u.replace(BASE_URL, '')} ... `);
 
-        const ok = await submitUrl(auth, u);
-        if (ok) {
+        const status = await submitUrl(auth, u);
+        
+        // ЗАПИСУЄМО ЛОГ
+        const logLine = `${new Date().toISOString()},${accountName},${u},${status}\n`;
+        fs.appendFileSync(path.join(TOOL_DIR, 'indexing-logs.csv'), logLine, 'utf-8');
+        
+        if (status === 'SUCCESS') {
           totalSuccess++;
+          processedInBatch++;
           console.log('✅');
+        } else if (status === 'RATE_LIMIT') {
+          console.log('\n⚠️ Досягнуто ліміт API (429). Переходимо до наступного акаунту...');
+          break;
         } else {
           totalFailed++;
+          processedInBatch++;
+          console.log('❌');
         }
 
         if (j < batch.length - 1) {
@@ -278,13 +314,23 @@ async function main() {
         }
       }
 
-      offset += batch.length;
+      offset += processedInBatch; 
+
+      // ПРОМІЖНЕ ЗБЕРЕЖЕННЯ ПРОГРЕСУ
+      const currentProcessed = globalStart + offset;
+      fs.writeFileSync(progressFile, JSON.stringify({
+        lastRun: new Date().toISOString(),
+        processed: currentProcessed,
+        total: allUrls.length,
+        remaining: allUrls.length - currentProcessed,
+      }, null, 2), 'utf-8');
+
     } catch (err: any) {
       console.log(`  ❌ Помилка з акаунтом ${accountName}: ${err.message}`);
     }
   }
 
-  // Зберігаємо прогрес
+  // Зберігаємо фінальний прогрес
   const newProcessed = globalStart + offset;
   fs.writeFileSync(progressFile, JSON.stringify({
     lastRun: new Date().toISOString(),

@@ -40,6 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+
 .vercel
 .env*.local
 
@@ -47,3 +48,5 @@ next-env.d.ts
 indexing-tool/token.json
 indexing-tool/progress.json
 indexing-tool/client_secret_*.json
+indexing-tool/token_*.json
+indexing-tool/*.csv
