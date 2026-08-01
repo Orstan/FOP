@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Штрафи за несвоєчасну сплату ЄСВ та ЄП у 2026 році",
+      description: "штрафи ФОП - детальний гайд для підприємців",
+      slug: "shtrafy-za-nesvoyechasnu-splatu-yesv-ta-yep-u-2026-rotsi",
+      date: "2026-08-01",
+      readTime: "2 хв",
+      category: "Податки",
+      available: true,
+    },
+    {
       title: "Бухгалтерські програми для ФОП 2026: Огляд та порівняння",
       description: "програми для ФОП - детальний гайд для підприємців",
       slug: "bukhhalters-ki-prohramy-dlya-fop-2026-ohlyad-ta-porivnyannya",

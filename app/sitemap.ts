@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'shtrafy-za-nesvoyechasnu-splatu-yesv-ta-yep-u-2026-rotsi',
     'bukhhalters-ki-prohramy-dlya-fop-2026-ohlyad-ta-porivnyannya',
     'fop-ta-kryptovalyuta-yak-lehal-no-pratsyuvaty-z-krypto',
     'onlayn-kasy-dlya-fop-2026-vybir-ta-pidklyuchennya',
