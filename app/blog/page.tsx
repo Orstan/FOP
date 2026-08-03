@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як правильно оформити договір з фрілансером (ФОП)",
+      description: "договір з фрілансером - детальний гайд для підприємців",
+      slug: "yak-pravyl-no-oformyty-dohovir-z-frilanserom-fop",
+      date: "2026-08-03",
+      readTime: "2 хв",
+      category: "Документи",
+      available: true,
+    },
+    {
       title: "Штрафи за несвоєчасну сплату ЄСВ та ЄП у 2026 році",
       description: "штрафи ФОП - детальний гайд для підприємців",
       slug: "shtrafy-za-nesvoyechasnu-splatu-yesv-ta-yep-u-2026-rotsi",

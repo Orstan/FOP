@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yak-pravyl-no-oformyty-dohovir-z-frilanserom-fop',
     'shtrafy-za-nesvoyechasnu-splatu-yesv-ta-yep-u-2026-rotsi',
     'bukhhalters-ki-prohramy-dlya-fop-2026-ohlyad-ta-porivnyannya',
     'fop-ta-kryptovalyuta-yak-lehal-no-pratsyuvaty-z-krypto',
