@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Грошове забезпечення військових ЗСУ 2026: огляд зарплат та премій",
+      description: "зарплата ЗСУ 2026 - детальний гайд для підприємців",
+      slug: "hroshove-zabezpechennya-viys-kovykh-zsu-2026-ohlyad-zarplat-",
+      date: "2026-08-06",
+      readTime: "3 хв",
+      category: "Військове право",
+      available: true,
+    },
+    {
       title: "Як правильно оформити договір з фрілансером (ФОП)",
       description: "договір з фрілансером - детальний гайд для підприємців",
       slug: "yak-pravyl-no-oformyty-dohovir-z-frilanserom-fop",

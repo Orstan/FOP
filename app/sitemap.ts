@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'hroshove-zabezpechennya-viys-kovykh-zsu-2026-ohlyad-zarplat-',
     'yak-pravyl-no-oformyty-dohovir-z-frilanserom-fop',
     'shtrafy-za-nesvoyechasnu-splatu-yesv-ta-yep-u-2026-rotsi',
     'bukhhalters-ki-prohramy-dlya-fop-2026-ohlyad-ta-porivnyannya',
