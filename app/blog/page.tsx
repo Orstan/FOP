@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як закрити ФОП онлайн через Дію у 2026 році",
+      description: "закриття ФОП - детальний гайд для підприємців",
+      slug: "yak-zakryty-fop-onlayn-cherez-diyu-u-2026-rotsi",
+      date: "2026-08-10",
+      readTime: "3 хв",
+      category: "Документи",
+      available: true,
+    },
+    {
       title: "Грошове забезпечення військових ЗСУ 2026: огляд зарплат та премій",
       description: "зарплата ЗСУ 2026 - детальний гайд для підприємців",
       slug: "hroshove-zabezpechennya-viys-kovykh-zsu-2026-ohlyad-zarplat-",
