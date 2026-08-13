@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'vidpustka-dlya-mobilizovanykh-fop-zberezhennya-stazhu',
     'yak-zakryty-fop-onlayn-cherez-diyu-u-2026-rotsi',
     'hroshove-zabezpechennya-viys-kovykh-zsu-2026-ohlyad-zarplat-',
     'yak-pravyl-no-oformyty-dohovir-z-frilanserom-fop',

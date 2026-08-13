@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Відпустка для мобілізованих ФОП: збереження стажу",
+      description: "відпустка мобілізованих - детальний гайд для підприємців",
+      slug: "vidpustka-dlya-mobilizovanykh-fop-zberezhennya-stazhu",
+      date: "2026-08-13",
+      readTime: "3 хв",
+      category: "Військове право",
+      available: true,
+    },
+    {
       title: "Як закрити ФОП онлайн через Дію у 2026 році",
       description: "закриття ФОП - детальний гайд для підприємців",
       slug: "yak-zakryty-fop-onlayn-cherez-diyu-u-2026-rotsi",
