@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yak-fop-otrymaty-hrant-vid-diyi-prohrama-vlasna-sprava',
     'vidpustka-dlya-mobilizovanykh-fop-zberezhennya-stazhu',
     'yak-zakryty-fop-onlayn-cherez-diyu-u-2026-rotsi',
     'hroshove-zabezpechennya-viys-kovykh-zsu-2026-ohlyad-zarplat-',

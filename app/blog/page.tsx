@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як ФОП отримати грант від Дії: програма 'Власна справа'",
+      description: "грант Дія - детальний гайд для підприємців",
+      slug: "yak-fop-otrymaty-hrant-vid-diyi-prohrama-vlasna-sprava",
+      date: "2026-08-17",
+      readTime: "3 хв",
+      category: "Фінанси",
+      available: true,
+    },
+    {
       title: "Відпустка для мобілізованих ФОП: збереження стажу",
       description: "відпустка мобілізованих - детальний гайд для підприємців",
       slug: "vidpustka-dlya-mobilizovanykh-fop-zberezhennya-stazhu",
