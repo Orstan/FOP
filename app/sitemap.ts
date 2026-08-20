@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'podatkova-perevirka-fop-2026-moratoriy-ta-vynyatky',
     'yak-fop-otrymaty-hrant-vid-diyi-prohrama-vlasna-sprava',
     'vidpustka-dlya-mobilizovanykh-fop-zberezhennya-stazhu',
     'yak-zakryty-fop-onlayn-cherez-diyu-u-2026-rotsi',

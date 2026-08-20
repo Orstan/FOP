@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Податкова перевірка ФОП 2026: мораторій та винятки",
+      description: "податкова перевірка ФОП - детальний гайд для підприємців",
+      slug: "podatkova-perevirka-fop-2026-moratoriy-ta-vynyatky",
+      date: "2026-08-20",
+      readTime: "2 хв",
+      category: "Податки",
+      available: true,
+    },
+    {
       title: "Як ФОП отримати грант від Дії: програма 'Власна справа'",
       description: "грант Дія - детальний гайд для підприємців",
       slug: "yak-fop-otrymaty-hrant-vid-diyi-prohrama-vlasna-sprava",
