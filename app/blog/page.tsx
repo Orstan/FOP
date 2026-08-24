@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "ЗЕД контракт для ФОП: зразок та вимоги 2026",
+      description: "ЗЕД контракт ФОП - детальний гайд для підприємців",
+      slug: "zed-kontrakt-dlya-fop-zrazok-ta-vymohy-2026",
+      date: "2026-08-24",
+      readTime: "3 хв",
+      category: "Міжнародний бізнес",
+      available: true,
+    },
+    {
       title: "Податкова перевірка ФОП 2026: мораторій та винятки",
       description: "податкова перевірка ФОП - детальний гайд для підприємців",
       slug: "podatkova-perevirka-fop-2026-moratoriy-ta-vynyatky",

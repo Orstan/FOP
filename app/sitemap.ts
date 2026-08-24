@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'zed-kontrakt-dlya-fop-zrazok-ta-vymohy-2026',
     'podatkova-perevirka-fop-2026-moratoriy-ta-vynyatky',
     'yak-fop-otrymaty-hrant-vid-diyi-prohrama-vlasna-sprava',
     'vidpustka-dlya-mobilizovanykh-fop-zberezhennya-stazhu',
