@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Компенсація за працевлаштування ВПО та ветеранів у 2026 році",
+      description: "компенсація за ВПО - детальний гайд для підприємців",
+      slug: "kompensatsiya-za-pratsevlashtuvannya-vpo-ta-veteraniv-u-2026",
+      date: "2026-08-27",
+      readTime: "2 хв",
+      category: "Кадри",
+      available: true,
+    },
+    {
       title: "ЗЕД контракт для ФОП: зразок та вимоги 2026",
       description: "ЗЕД контракт ФОП - детальний гайд для підприємців",
       slug: "zed-kontrakt-dlya-fop-zrazok-ta-vymohy-2026",
