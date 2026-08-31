@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Лізинг для ФОП: як взяти авто для бізнесу",
+      description: "лізинг для ФОП - детальний гайд для підприємців",
+      slug: "lizynh-dlya-fop-yak-vzyaty-avto-dlya-biznesu",
+      date: "2026-08-31",
+      readTime: "3 хв",
+      category: "Фінанси",
+      available: true,
+    },
+    {
       title: "Компенсація за працевлаштування ВПО та ветеранів у 2026 році",
       description: "компенсація за ВПО - детальний гайд для підприємців",
       slug: "kompensatsiya-za-pratsevlashtuvannya-vpo-ta-veteraniv-u-2026",
