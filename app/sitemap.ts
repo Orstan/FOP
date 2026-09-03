@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yak-povernuty-pomylkovo-splacheni-podatky-fop',
     'lizynh-dlya-fop-yak-vzyaty-avto-dlya-biznesu',
     'kompensatsiya-za-pratsevlashtuvannya-vpo-ta-veteraniv-u-2026',
     'zed-kontrakt-dlya-fop-zrazok-ta-vymohy-2026',

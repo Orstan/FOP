@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як повернути помилково сплачені податки ФОП",
+      description: "повернення податків ФОП - детальний гайд для підприємців",
+      slug: "yak-povernuty-pomylkovo-splacheni-podatky-fop",
+      date: "2026-09-03",
+      readTime: "3 хв",
+      category: "Податки",
+      available: true,
+    },
+    {
       title: "Лізинг для ФОП: як взяти авто для бізнесу",
       description: "лізинг для ФОП - детальний гайд для підприємців",
       slug: "lizynh-dlya-fop-yak-vzyaty-avto-dlya-biznesu",
