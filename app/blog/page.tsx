@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "РРО для ФОП 2026: кому потрібен обов'язково та які штрафи",
+      description: "РРО ФОП - детальний гайд для підприємців",
+      slug: "rro-dlya-fop-2026-komu-potriben-obov-yazkovo-ta-yaki-shtrafy",
+      date: "2026-09-07",
+      readTime: "3 хв",
+      category: "Обладнання",
+      available: true,
+    },
+    {
       title: "Як повернути помилково сплачені податки ФОП",
       description: "повернення податків ФОП - детальний гайд для підприємців",
       slug: "yak-povernuty-pomylkovo-splacheni-podatky-fop",

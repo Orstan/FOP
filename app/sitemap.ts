@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'rro-dlya-fop-2026-komu-potriben-obov-yazkovo-ta-yaki-shtrafy',
     'yak-povernuty-pomylkovo-splacheni-podatky-fop',
     'lizynh-dlya-fop-yak-vzyaty-avto-dlya-biznesu',
     'kompensatsiya-za-pratsevlashtuvannya-vpo-ta-veteraniv-u-2026',
