@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як змінити КВЕД ФОП онлайн через Дію",
+      description: "зміна КВЕД онлайн - детальний гайд для підприємців",
+      slug: "yak-zminyty-kved-fop-onlayn-cherez-diyu",
+      date: "2026-09-10",
+      readTime: "3 хв",
+      category: "Документи",
+      available: true,
+    },
+    {
       title: "РРО для ФОП 2026: кому потрібен обов'язково та які штрафи",
       description: "РРО ФОП - детальний гайд для підприємців",
       slug: "rro-dlya-fop-2026-komu-potriben-obov-yazkovo-ta-yaki-shtrafy",

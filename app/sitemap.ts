@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yak-zminyty-kved-fop-onlayn-cherez-diyu',
     'rro-dlya-fop-2026-komu-potriben-obov-yazkovo-ta-yaki-shtrafy',
     'yak-povernuty-pomylkovo-splacheni-podatky-fop',
     'lizynh-dlya-fop-yak-vzyaty-avto-dlya-biznesu',
