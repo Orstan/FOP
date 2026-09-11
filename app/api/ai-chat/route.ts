@@ -127,11 +127,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey =
+      process.env.OPENAI_API_KEY ||
+      process.env.OPENAI_KEY ||
+      process.env.OPEN_AI_KEY ||
+      process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+
     if (!apiKey) {
+      console.error('[AI Chat] OpenAI API key is missing in environment variables.');
       return NextResponse.json(
         {
-          error: 'OPENAI_API_KEY не налаштовано в системі. Будь ласка, перевірте налаштування оточення на Vercel або у файлі .env.local.',
+          error: 'OPENAI_API_KEY не налаштовано в системі. Будь ласка, додайте змінну OPENAI_API_KEY у налаштуваннях Vercel (Settings → Environment Variables) та виконайте Redeploy.',
         },
         { status: 500 }
       );
