@@ -4,8 +4,11 @@ import Link from "next/link";
 import { Sparkles, Download, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useAIAssistantStore } from "@/lib/ai-assistant-store";
 
 export function Header() {
+  const { openAssistant } = useAIAssistantStore();
+
   return (
     <header className="border-b bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center relative">
@@ -54,6 +57,13 @@ export function Header() {
           >
             💎 Меценати
           </Link>
+          <button
+            onClick={() => openAssistant()}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-blue-600/10 via-indigo-600/10 to-purple-600/10 hover:from-blue-600/20 hover:via-indigo-600/20 hover:to-purple-600/20 text-blue-600 dark:text-blue-400 font-semibold text-sm transition-all border border-blue-200/60 dark:border-blue-800/60 shadow-xs cursor-pointer"
+          >
+            <Sparkles className="h-4 w-4 text-amber-500 animate-pulse" />
+            <span>AI-Помічник</span>
+          </button>
         </nav>
 
         <div className="flex-1 flex justify-end lg:flex-1">

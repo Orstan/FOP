@@ -8,6 +8,8 @@ import { GoogleAdSense } from "@/components/google-adsense";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { MobileNav } from "@/components/mobile-nav";
+import { AIAssistantDrawer } from "@/components/ai/ai-assistant-drawer";
+import { AIAssistantFAB } from "@/components/ai/ai-assistant-fab";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -144,6 +146,8 @@ export default function RootLayout({
             {children}
             <Footer />
             <MobileNav />
+            <AIAssistantFAB />
+            <AIAssistantDrawer />
           </div>
         </ThemeProvider>
       </body>

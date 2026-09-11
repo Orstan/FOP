@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ThemeToggle } from "@/components/theme-toggle";
 import { OrganizationStructuredData, WebApplicationStructuredData } from "@/components/structured-data";
 import { DonationWidget } from "@/components/donation-widget";
+import { AIHeroButton, AICardButton } from "@/components/ai/ai-hero-button";
 
 export default function Home() {
   return (
@@ -23,8 +24,9 @@ export default function Home() {
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
               Безкоштовний конструктор документів, розумні калькулятори податків та експертні статті для українських підприємців
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild className="text-lg px-8">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <AIHeroButton />
+              <Button size="lg" asChild className="text-lg px-8" variant="outline">
                 <Link href="/documents">
                   <Download className="mr-2 h-5 w-5" />
                   Створити документ
@@ -42,22 +44,47 @@ export default function Home() {
 
         <section className="py-16 px-4 bg-white dark:bg-gray-950">
           <div className="container mx-auto max-w-6xl">
-            <h2 className="text-3xl font-bold text-center mb-12 dark:text-gray-100">Три інструменти для вашого бізнесу</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <Card className="border-2 hover:border-blue-600 dark:hover:border-blue-400 transition-all hover:shadow-lg dark:bg-gray-900">
+            <h2 className="text-3xl font-bold text-center mb-12 dark:text-gray-100">Інструменти для вашого бізнесу</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Картка 1: AI-Помічник */}
+              <Card className="border-2 border-indigo-500/50 hover:border-indigo-600 dark:border-indigo-500/40 dark:hover:border-indigo-400 transition-all hover:shadow-xl dark:bg-gray-900 flex flex-col justify-between relative overflow-hidden group">
+                <div className="absolute top-0 right-0 bg-gradient-to-l from-indigo-600 to-purple-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl shadow-xs">
+                  AI 2026
+                </div>
                 <CardHeader>
-                  <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 dark:bg-indigo-900/40 rounded-xl flex items-center justify-center mb-4 text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform">
+                    <Sparkles className="h-6 w-6 text-indigo-600 dark:text-indigo-400 animate-pulse" />
+                  </div>
+                  <CardTitle>AI-Помічник ФОП</CardTitle>
+                  <CardDescription>Розумний онлайн-консультант з податків та законів</CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-col flex-1 justify-between">
+                  <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400 mb-6">
+                    <li>• Ставки податків та ЄСВ 2026</li>
+                    <li>• РРО, ПРРО та ліміти доходу</li>
+                    <li>• Відкриття та закриття в Дії</li>
+                    <li>• ЗЕД, валюта та інвойси для IT</li>
+                    <li>• Голосовий ввід українською</li>
+                  </ul>
+                  <AICardButton />
+                </CardContent>
+              </Card>
+
+              {/* Картка 2: Конструктор документів */}
+              <Card className="border-2 hover:border-blue-600 dark:hover:border-blue-400 transition-all hover:shadow-lg dark:bg-gray-900 flex flex-col justify-between">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mb-4">
                     <FileText className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   <CardTitle>Конструктор документів</CardTitle>
                   <CardDescription>Заповніть форму — отримайте готовий PDF безкоштовно</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex flex-col flex-1 justify-between">
                   <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400 mb-6">
                     <li>• Договір надання послуг</li>
                     <li>• Акт виконаних робіт</li>
                     <li>• Рахунок-фактура (Invoice)</li>
-                    <li>• Договір оренди</li>
+                    <li>• Договір оренди житла/авто</li>
                     <li>• Трудовий договір</li>
                   </ul>
                   <Button asChild className="w-full">
@@ -68,15 +95,16 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              <Card className="border-2 hover:border-green-600 dark:hover:border-green-400 transition-all hover:shadow-lg dark:bg-gray-900">
+              {/* Картка 3: Розумні калькулятори */}
+              <Card className="border-2 hover:border-green-600 dark:hover:border-green-400 transition-all hover:shadow-lg dark:bg-gray-900 flex flex-col justify-between">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center mb-4">
                     <Calculator className="h-6 w-6 text-green-600 dark:text-green-400" />
                   </div>
                   <CardTitle>Розумні калькулятори</CardTitle>
                   <CardDescription>Точні розрахунки податків та платежів для ФОП</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex flex-col flex-1 justify-between">
                   <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400 mb-6">
                     <li>• Єдиний податок за групами</li>
                     <li>• ЄСВ (Єдиний соціальний внесок)</li>
@@ -92,15 +120,16 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              <Card className="border-2 hover:border-purple-600 dark:hover:border-purple-400 transition-all hover:shadow-lg dark:bg-gray-900">
+              {/* Картка 4: База знань */}
+              <Card className="border-2 hover:border-purple-600 dark:hover:border-purple-400 transition-all hover:shadow-lg dark:bg-gray-900 flex flex-col justify-between">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center mb-4">
                     <BookOpen className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   <CardTitle>База знань</CardTitle>
                   <CardDescription>Експертні статті та інструкції для підприємців</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex flex-col flex-1 justify-between">
                   <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400 mb-6">
                     <li>• Як відкрити ФОП у 2026 році</li>
                     <li>• Зміни в податковому законодавстві</li>

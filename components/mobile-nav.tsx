@@ -3,11 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FileText, Calculator, Menu, BookOpen, Phone, MapPin, Heart, Info, X } from "lucide-react";
+import { FileText, Calculator, Menu, BookOpen, Phone, MapPin, Heart, Info, X, Sparkles } from "lucide-react";
+import { useAIAssistantStore } from "@/lib/ai-assistant-store";
 
 export function MobileNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { openAssistant } = useAIAssistantStore();
 
   const isActive = (path: string) => pathname === path || pathname.startsWith(path + "/");
 
@@ -34,7 +36,20 @@ export function MobileNav() {
                 <X className="h-4 w-4 text-gray-500" />
               </button>
             </div>
-            <nav className="px-2 pb-3">
+            <nav className="px-2 pb-3 space-y-1">
+              <button
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  openAssistant();
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all text-left bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/40 text-blue-600 dark:text-blue-400 font-medium"
+              >
+                <Sparkles className="h-5 w-5 text-amber-500 animate-pulse" />
+                <span>AI-Помічник 2026</span>
+                <span className="ml-auto text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-blue-600 text-white">
+                  ШІ
+                </span>
+              </button>
               <Link
                 href="/cities"
                 onClick={() => setIsMenuOpen(false)}
