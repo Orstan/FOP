@@ -1,6 +1,8 @@
 import OpenAI from 'openai';
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 // Простий in-memory rate limiting по IP (до 30 запитів за 5 хв)
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
@@ -139,11 +141,13 @@ export async function POST(req: NextRequest) {
     const { messages = [] } = body;
 
     // Беремо останні 8 повідомлень для збереження контексту та економії токенів
-    const recentMessages = Array.isArray(messages)
-      ? messages.slice(-8).map((m: { role: string; content: string }) => ({
-          role: m.role === 'user' ? 'user' : ('assistant' as const),
-          content: String(m.content || ''),
-        }))
+    const recentMessages: OpenAI.Chat.ChatCompletionMessageParam[] = Array.isArray(messages)
+      ? messages.slice(-8).map((m: { role: string; content: string }) => {
+          if (m.role === 'user') {
+            return { role: 'user' as const, content: String(m.content || '') };
+          }
+          return { role: 'assistant' as const, content: String(m.content || '') };
+        })
       : [];
 
     const openai = new OpenAI({ apiKey });
