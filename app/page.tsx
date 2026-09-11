@@ -14,25 +14,25 @@ export default function Home() {
       <WebApplicationStructuredData />
 
       <main>
-        <section className="py-20 px-4">
+        <section className="py-12 sm:py-20 px-4">
           <div className="container mx-auto max-w-6xl text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-gray-100 mb-4 sm:mb-6 leading-tight">
               Все для ФОП:<br />
               <span className="text-blue-600 dark:text-blue-400">від калькулятора до договору</span><br />
               за 2 хвилини
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-2">
               Безкоштовний конструктор документів, розумні калькулятори податків та експертні статті для українських підприємців
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center max-w-sm sm:max-w-none mx-auto">
               <AIHeroButton />
-              <Button size="lg" asChild className="text-lg px-8" variant="outline">
+              <Button size="lg" asChild className="text-base sm:text-lg px-6 sm:px-8 py-3 w-full sm:w-auto" variant="outline">
                 <Link href="/documents">
                   <Download className="mr-2 h-5 w-5" />
                   Створити документ
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild className="text-lg px-8">
+              <Button size="lg" variant="outline" asChild className="text-base sm:text-lg px-6 sm:px-8 py-3 w-full sm:w-auto">
                 <Link href="/calculators">
                   <Calculator className="mr-2 h-5 w-5" />
                   Розрахувати податки
