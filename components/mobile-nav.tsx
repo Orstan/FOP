@@ -136,19 +136,16 @@ export function MobileNav() {
               <span className="text-[10px] font-medium leading-none whitespace-nowrap tracking-tight">Блог</span>
             </Link>
 
-            {/* Центральна виділена кнопка AI-Помічника (Рівно 50% по центру екрана) */}
-            <div className="flex flex-col items-center justify-center w-full relative">
+            {/* Центральна виділена кнопка AI (Рівно 50% по центру екрана, без тексту) */}
+            <div className="flex items-center justify-center w-full relative pb-1">
               <button
                 onClick={() => openAssistant()}
-                className="relative -top-2.5 flex flex-col items-center justify-center group cursor-pointer"
+                className="relative -top-3 flex items-center justify-center group cursor-pointer"
                 aria-label="AI-Помічник"
               >
                 <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/35 border-[2.5px] border-white dark:border-gray-950 group-active:scale-95 transition-transform">
-                  <Sparkles className="h-5 w-5 text-amber-300 animate-pulse" />
+                  <Sparkles className="h-6 w-6 text-amber-300 animate-pulse" />
                 </div>
-                <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 mt-0.5 whitespace-nowrap tracking-tight">
-                  AI-Помічник
-                </span>
               </button>
             </div>
 
