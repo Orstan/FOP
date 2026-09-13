@@ -120,20 +120,20 @@ export function MobileNav() {
               }`}
             >
               <FileText className={`h-5 w-5 ${isActive("/documents") ? "stroke-[2.5]" : ""}`} />
-              <span className="text-[10px] font-medium leading-none whitespace-nowrap">Документи</span>
+              <span className="text-[10px] font-medium leading-none whitespace-nowrap tracking-tight">Документи</span>
             </Link>
 
-            {/* Калькулятори */}
+            {/* Блог */}
             <Link
-              href="/calculators"
+              href="/blog"
               className={`flex flex-col items-center justify-center gap-1 py-1 w-full transition-all ${
-                isActive("/calculators")
+                isActive("/blog")
                   ? "text-blue-600 dark:text-blue-400 font-semibold"
                   : "text-gray-500 dark:text-gray-400 active:text-blue-600"
               }`}
             >
-              <Calculator className={`h-5 w-5 ${isActive("/calculators") ? "stroke-[2.5]" : ""}`} />
-              <span className="text-[10px] font-medium leading-none whitespace-nowrap">Калькулятори</span>
+              <BookOpen className={`h-5 w-5 ${isActive("/blog") ? "stroke-[2.5]" : ""}`} />
+              <span className="text-[10px] font-medium leading-none whitespace-nowrap tracking-tight">Блог</span>
             </Link>
 
             {/* Центральна виділена кнопка AI-Помічника (Рівно 50% по центру екрана) */}
@@ -152,17 +152,17 @@ export function MobileNav() {
               </button>
             </div>
 
-            {/* Блог */}
+            {/* Калькулятори */}
             <Link
-              href="/blog"
+              href="/calculators"
               className={`flex flex-col items-center justify-center gap-1 py-1 w-full transition-all ${
-                isActive("/blog")
+                isActive("/calculators")
                   ? "text-blue-600 dark:text-blue-400 font-semibold"
                   : "text-gray-500 dark:text-gray-400 active:text-blue-600"
               }`}
             >
-              <BookOpen className={`h-5 w-5 ${isActive("/blog") ? "stroke-[2.5]" : ""}`} />
-              <span className="text-[10px] font-medium leading-none whitespace-nowrap">Блог</span>
+              <Calculator className={`h-5 w-5 ${isActive("/calculators") ? "stroke-[2.5]" : ""}`} />
+              <span className="text-[10px] font-medium leading-none whitespace-nowrap tracking-tight">Калькулятори</span>
             </Link>
 
             {/* Меню (гамбургер) */}
@@ -181,7 +181,7 @@ export function MobileNav() {
                   <Menu className="h-5 w-5" />
                 )}
               </div>
-              <span className="text-[10px] font-medium leading-none whitespace-nowrap">Меню</span>
+              <span className="text-[10px] font-medium leading-none whitespace-nowrap tracking-tight">Меню</span>
             </button>
           </nav>
         </div>
