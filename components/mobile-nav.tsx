@@ -109,66 +109,68 @@ export function MobileNav() {
       {/* Нижня панель навігації для смартфонів */}
       <div className="fixed bottom-0 left-0 right-0 z-[1000] lg:hidden">
         <div className="bg-white/95 dark:bg-gray-950/95 backdrop-blur-lg border-t border-gray-200 dark:border-gray-800 pb-[env(safe-area-inset-bottom)]">
-          <nav className="flex items-center justify-around px-2 py-1 relative">
+          <nav className="grid grid-cols-5 w-full items-end px-1 py-1.5 min-h-[58px] relative">
             {/* Документи */}
             <Link
               href="/documents"
-              className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl min-w-[56px] transition-all ${
+              className={`flex flex-col items-center justify-center gap-1 py-1 w-full transition-all ${
                 isActive("/documents")
-                  ? "text-blue-600 dark:text-blue-400"
+                  ? "text-blue-600 dark:text-blue-400 font-semibold"
                   : "text-gray-500 dark:text-gray-400 active:text-blue-600"
               }`}
             >
               <FileText className={`h-5 w-5 ${isActive("/documents") ? "stroke-[2.5]" : ""}`} />
-              <span className="text-[10px] font-medium leading-tight">Документи</span>
+              <span className="text-[10px] font-medium leading-none whitespace-nowrap">Документи</span>
             </Link>
 
             {/* Калькулятори */}
             <Link
               href="/calculators"
-              className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl min-w-[56px] transition-all ${
+              className={`flex flex-col items-center justify-center gap-1 py-1 w-full transition-all ${
                 isActive("/calculators")
-                  ? "text-blue-600 dark:text-blue-400"
+                  ? "text-blue-600 dark:text-blue-400 font-semibold"
                   : "text-gray-500 dark:text-gray-400 active:text-blue-600"
               }`}
             >
               <Calculator className={`h-5 w-5 ${isActive("/calculators") ? "stroke-[2.5]" : ""}`} />
-              <span className="text-[10px] font-medium leading-tight">Калькулятори</span>
+              <span className="text-[10px] font-medium leading-none whitespace-nowrap">Калькулятори</span>
             </Link>
 
-            {/* Центральна виділена кнопка AI-Помічника */}
-            <button
-              onClick={() => openAssistant()}
-              className="relative -top-3 flex flex-col items-center group cursor-pointer"
-              aria-label="AI-Помічник"
-            >
-              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/35 border-2 border-white dark:border-gray-950 group-active:scale-95 transition-transform">
-                <Sparkles className="h-6 w-6 text-amber-300 animate-pulse" />
-              </div>
-              <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 mt-0.5">
-                AI Помічник
-              </span>
-            </button>
+            {/* Центральна виділена кнопка AI-Помічника (Рівно 50% по центру екрана) */}
+            <div className="flex flex-col items-center justify-center w-full relative">
+              <button
+                onClick={() => openAssistant()}
+                className="relative -top-2.5 flex flex-col items-center justify-center group cursor-pointer"
+                aria-label="AI-Помічник"
+              >
+                <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/35 border-[2.5px] border-white dark:border-gray-950 group-active:scale-95 transition-transform">
+                  <Sparkles className="h-5 w-5 text-amber-300 animate-pulse" />
+                </div>
+                <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 mt-0.5 whitespace-nowrap tracking-tight">
+                  AI-Помічник
+                </span>
+              </button>
+            </div>
 
             {/* Блог */}
             <Link
               href="/blog"
-              className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl min-w-[56px] transition-all ${
+              className={`flex flex-col items-center justify-center gap-1 py-1 w-full transition-all ${
                 isActive("/blog")
-                  ? "text-blue-600 dark:text-blue-400"
+                  ? "text-blue-600 dark:text-blue-400 font-semibold"
                   : "text-gray-500 dark:text-gray-400 active:text-blue-600"
               }`}
             >
               <BookOpen className={`h-5 w-5 ${isActive("/blog") ? "stroke-[2.5]" : ""}`} />
-              <span className="text-[10px] font-medium leading-tight">Блог</span>
+              <span className="text-[10px] font-medium leading-none whitespace-nowrap">Блог</span>
             </Link>
 
             {/* Меню (гамбургер) */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl min-w-[56px] transition-all ${
+              className={`flex flex-col items-center justify-center gap-1 py-1 w-full transition-all cursor-pointer ${
                 isMenuOpen
-                  ? "text-blue-600 dark:text-blue-400"
+                  ? "text-blue-600 dark:text-blue-400 font-semibold"
                   : "text-gray-500 dark:text-gray-400 active:text-blue-600"
               }`}
             >
@@ -179,7 +181,7 @@ export function MobileNav() {
                   <Menu className="h-5 w-5" />
                 )}
               </div>
-              <span className="text-[10px] font-medium leading-tight">Меню</span>
+              <span className="text-[10px] font-medium leading-none whitespace-nowrap">Меню</span>
             </button>
           </nav>
         </div>

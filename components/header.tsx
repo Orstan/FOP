@@ -10,22 +10,24 @@ export function Header() {
 
   return (
     <header className="border-b bg-white/85 dark:bg-gray-950/85 backdrop-blur-md sticky top-0 z-50 transition-colors">
-      <div className="container mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-4">
-        {/* Логотип */}
-        <Link 
-          href="/" 
-          className="flex items-center gap-2 hover:opacity-85 transition-opacity shrink-0 py-0.5"
-        >
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shadow-xs text-white">
-            <Sparkles className="h-4 w-4 text-amber-300" />
-          </div>
-          <span className="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100 whitespace-nowrap tracking-tight">
-            ФОП Помічник
-          </span>
-        </Link>
+      <div className="container mx-auto px-4 py-2.5 sm:py-3 flex items-center justify-between relative min-h-[56px]">
+        {/* Логотип: по центру на мобільному (absolute 50%), зліва на десктопі */}
+        <div className="absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 z-10">
+          <Link 
+            href="/" 
+            className="flex items-center gap-2 hover:opacity-85 transition-opacity py-0.5"
+          >
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shadow-xs text-white shrink-0">
+              <Sparkles className="h-4 w-4 text-amber-300" />
+            </div>
+            <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 whitespace-nowrap tracking-tight">
+              ФОП Помічник
+            </span>
+          </Link>
+        </div>
 
         {/* Навігація для десктопу */}
-        <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-7 mx-auto">
           <Link 
             href="/documents" 
             className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
@@ -64,14 +66,14 @@ export function Header() {
           </Link>
         </nav>
 
-        {/* Праві елементи: Кнопка AI + ThemeToggle */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        {/* Праві елементи: Кнопка AI (ТІЛЬКИ десктоп) + ThemeToggle */}
+        <div className="flex items-center gap-3 shrink-0 ml-auto lg:ml-0 z-20">
           <button
             onClick={() => openAssistant()}
-            className="group relative inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:via-indigo-500 hover:to-purple-500 shadow-md shadow-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-[1.03] active:scale-95 transition-all duration-200 whitespace-nowrap cursor-pointer shrink-0"
+            className="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:via-indigo-500 hover:to-purple-500 shadow-md shadow-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-[1.03] active:scale-95 transition-all duration-200 whitespace-nowrap cursor-pointer shrink-0"
             aria-label="Відкрити AI-Помічник"
           >
-            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300 animate-pulse shrink-0" />
+            <Sparkles className="w-4 h-4 text-amber-300 animate-pulse shrink-0" />
             <span className="font-semibold tracking-tight">AI-Помічник</span>
             <span className="hidden xl:inline-block text-[10px] bg-white/20 text-white px-1.5 py-0.5 rounded-full uppercase tracking-wider font-bold">
               2026
