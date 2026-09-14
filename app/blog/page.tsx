@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Арешт рахунків ФОП виконавчою службою у 2026 році",
+      description: "арешт рахунку ФОП - детальний гайд для підприємців",
+      slug: "aresht-rakhunkiv-fop-vykonavchoyu-sluzhboyu-u-2026-rotsi",
+      date: "2026-09-14",
+      readTime: "2 хв",
+      category: "Юридичні питання",
+      available: true,
+    },
+    {
       title: "Як змінити КВЕД ФОП онлайн через Дію",
       description: "зміна КВЕД онлайн - детальний гайд для підприємців",
       slug: "yak-zminyty-kved-fop-onlayn-cherez-diyu",
