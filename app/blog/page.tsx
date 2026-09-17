@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "РРО для ФОП 2 групи: винятки та правила",
+      description: "РРО ФОП 2 група - детальний гайд для підприємців",
+      slug: "rro-dlya-fop-2-hrupy-vynyatky-ta-pravyla",
+      date: "2026-09-17",
+      readTime: "3 хв",
+      category: "Обладнання",
+      available: true,
+    },
+    {
       title: "Арешт рахунків ФОП виконавчою службою у 2026 році",
       description: "арешт рахунку ФОП - детальний гайд для підприємців",
       slug: "aresht-rakhunkiv-fop-vykonavchoyu-sluzhboyu-u-2026-rotsi",

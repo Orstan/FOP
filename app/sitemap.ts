@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'rro-dlya-fop-2-hrupy-vynyatky-ta-pravyla',
     'aresht-rakhunkiv-fop-vykonavchoyu-sluzhboyu-u-2026-rotsi',
     'yak-zminyty-kved-fop-onlayn-cherez-diyu',
     'rro-dlya-fop-2026-komu-potriben-obov-yazkovo-ta-yaki-shtrafy',
