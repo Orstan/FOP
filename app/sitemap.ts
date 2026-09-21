@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'viys-kovyy-zbir-dlya-fop-stavky-ta-pravyla-splaty-2026',
     'rro-dlya-fop-2-hrupy-vynyatky-ta-pravyla',
     'aresht-rakhunkiv-fop-vykonavchoyu-sluzhboyu-u-2026-rotsi',
     'yak-zminyty-kved-fop-onlayn-cherez-diyu',

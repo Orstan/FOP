@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Військовий збір для ФОП: ставки та правила сплати 2026",
+      description: "військовий збір ФОП - детальний гайд для підприємців",
+      slug: "viys-kovyy-zbir-dlya-fop-stavky-ta-pravyla-splaty-2026",
+      date: "2026-09-21",
+      readTime: "2 хв",
+      category: "Податки",
+      available: true,
+    },
+    {
       title: "РРО для ФОП 2 групи: винятки та правила",
       description: "РРО ФОП 2 група - детальний гайд для підприємців",
       slug: "rro-dlya-fop-2-hrupy-vynyatky-ta-pravyla",
