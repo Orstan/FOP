@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Дропшипінг ФОП 2026: як правильно вести облік та платити податки",
+      description: "дропшипінг ФОП - детальний гайд для підприємців",
+      slug: "dropshypinh-fop-2026-yak-pravyl-no-vesty-oblik-ta-platyty-po",
+      date: "2026-09-24",
+      readTime: "3 хв",
+      category: "Бізнес",
+      available: true,
+    },
+    {
       title: "Військовий збір для ФОП: ставки та правила сплати 2026",
       description: "військовий збір ФОП - детальний гайд для підприємців",
       slug: "viys-kovyy-zbir-dlya-fop-stavky-ta-pravyla-splaty-2026",
