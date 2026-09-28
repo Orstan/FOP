@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'dekretni-vyplaty-dlya-fop-2026-yak-oformyty-ta-otrymaty',
     'dropshypinh-fop-2026-yak-pravyl-no-vesty-oblik-ta-platyty-po',
     'viys-kovyy-zbir-dlya-fop-stavky-ta-pravyla-splaty-2026',
     'rro-dlya-fop-2-hrupy-vynyatky-ta-pravyla',

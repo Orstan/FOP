@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Декретні виплати для ФОП 2026: як оформити та отримати",
+      description: "декретні ФОП - детальний гайд для підприємців",
+      slug: "dekretni-vyplaty-dlya-fop-2026-yak-oformyty-ta-otrymaty",
+      date: "2026-09-28",
+      readTime: "3 хв",
+      category: "Фінанси",
+      available: true,
+    },
+    {
       title: "Дропшипінг ФОП 2026: як правильно вести облік та платити податки",
       description: "дропшипінг ФОП - детальний гайд для підприємців",
       slug: "dropshypinh-fop-2026-yak-pravyl-no-vesty-oblik-ta-platyty-po",
