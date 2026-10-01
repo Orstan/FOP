@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Допомога сім'ям загиблих військовослужбовців: виплати 2026",
+      description: "виплати сім'ям загиблих - детальний гайд для підприємців",
+      slug: "dopomoha-sim-yam-zahyblykh-viys-kovosluzhbovtsiv-vyplaty-202",
+      date: "2026-10-01",
+      readTime: "2 хв",
+      category: "Військове право",
+      available: true,
+    },
+    {
       title: "Декретні виплати для ФОП 2026: як оформити та отримати",
       description: "декретні ФОП - детальний гайд для підприємців",
       slug: "dekretni-vyplaty-dlya-fop-2026-yak-oformyty-ta-otrymaty",

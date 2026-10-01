@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'dopomoha-sim-yam-zahyblykh-viys-kovosluzhbovtsiv-vyplaty-202',
     'dekretni-vyplaty-dlya-fop-2026-yak-oformyty-ta-otrymaty',
     'dropshypinh-fop-2026-yak-pravyl-no-vesty-oblik-ta-platyty-po',
     'viys-kovyy-zbir-dlya-fop-stavky-ta-pravyla-splaty-2026',
