@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як отримати витяг з реєстру платників єдиного податку онлайн",
+      description: "витяг єдиного податку - детальний гайд для підприємців",
+      slug: "yak-otrymaty-vytyah-z-reyestru-platnykiv-yedynoho-podatku-on",
+      date: "2026-10-05",
+      readTime: "3 хв",
+      category: "Документи",
+      available: true,
+    },
+    {
       title: "Допомога сім'ям загиблих військовослужбовців: виплати 2026",
       description: "виплати сім'ям загиблих - детальний гайд для підприємців",
       slug: "dopomoha-sim-yam-zahyblykh-viys-kovosluzhbovtsiv-vyplaty-202",

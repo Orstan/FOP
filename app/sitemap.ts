@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yak-otrymaty-vytyah-z-reyestru-platnykiv-yedynoho-podatku-on',
     'dopomoha-sim-yam-zahyblykh-viys-kovosluzhbovtsiv-vyplaty-202',
     'dekretni-vyplaty-dlya-fop-2026-yak-oformyty-ta-otrymaty',
     'dropshypinh-fop-2026-yak-pravyl-no-vesty-oblik-ta-platyty-po',
