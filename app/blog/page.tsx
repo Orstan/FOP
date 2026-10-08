@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Чи може військовослужбовець відкрити ФОП у 2026 році",
+      description: "ФОП для військового - детальний гайд для підприємців",
+      slug: "chy-mozhe-viys-kovosluzhbovets-vidkryty-fop-u-2026-rotsi",
+      date: "2026-10-08",
+      readTime: "3 хв",
+      category: "Військове право",
+      available: true,
+    },
+    {
       title: "Як отримати витяг з реєстру платників єдиного податку онлайн",
       description: "витяг єдиного податку - детальний гайд для підприємців",
       slug: "yak-otrymaty-vytyah-z-reyestru-platnykiv-yedynoho-podatku-on",
