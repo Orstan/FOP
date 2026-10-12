@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Продаж товарів через Instagram та маркетплейси: як легалізувати",
+      description: "ФОП інстаграм - детальний гайд для підприємців",
+      slug: "prodazh-tovariv-cherez-instagram-ta-marketpleysy-yak-lehaliz",
+      date: "2026-10-12",
+      readTime: "2 хв",
+      category: "Бізнес",
+      available: true,
+    },
+    {
       title: "Чи може військовослужбовець відкрити ФОП у 2026 році",
       description: "ФОП для військового - детальний гайд для підприємців",
       slug: "chy-mozhe-viys-kovosluzhbovets-vidkryty-fop-u-2026-rotsi",
