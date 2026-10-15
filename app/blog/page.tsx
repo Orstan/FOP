@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як призупинити діяльність ФОП під час служби в ЗСУ",
+      description: "призупинення ФОП ЗСУ - детальний гайд для підприємців",
+      slug: "yak-pryzupynyty-diyal-nist-fop-pid-chas-sluzhby-v-zsu",
+      date: "2026-10-15",
+      readTime: "3 хв",
+      category: "Військове право",
+      available: true,
+    },
+    {
       title: "Продаж товарів через Instagram та маркетплейси: як легалізувати",
       description: "ФОП інстаграм - детальний гайд для підприємців",
       slug: "prodazh-tovariv-cherez-instagram-ta-marketpleysy-yak-lehaliz",

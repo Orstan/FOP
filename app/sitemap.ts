@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yak-pryzupynyty-diyal-nist-fop-pid-chas-sluzhby-v-zsu',
     'prodazh-tovariv-cherez-instagram-ta-marketpleysy-yak-lehaliz',
     'chy-mozhe-viys-kovosluzhbovets-vidkryty-fop-u-2026-rotsi',
     'yak-otrymaty-vytyah-z-reyestru-platnykiv-yedynoho-podatku-on',
