@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як ФОП перейти на загальну систему оподаткування у 2026 році",
+      description: "ФОП перехід на загальну систему - детальний гайд для підприємців",
+      slug: "yak-fop-pereyty-na-zahal-nu-systemu-opodatkuvannya-u-2026-ro",
+      date: "2026-10-19",
+      readTime: "3 хв",
+      category: "Податки",
+      available: true,
+    },
+    {
       title: "Як призупинити діяльність ФОП під час служби в ЗСУ",
       description: "призупинення ФОП ЗСУ - детальний гайд для підприємців",
       slug: "yak-pryzupynyty-diyal-nist-fop-pid-chas-sluzhby-v-zsu",

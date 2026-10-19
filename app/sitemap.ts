@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yak-fop-pereyty-na-zahal-nu-systemu-opodatkuvannya-u-2026-ro',
     'yak-pryzupynyty-diyal-nist-fop-pid-chas-sluzhby-v-zsu',
     'prodazh-tovariv-cherez-instagram-ta-marketpleysy-yak-lehaliz',
     'chy-mozhe-viys-kovosluzhbovets-vidkryty-fop-u-2026-rotsi',
