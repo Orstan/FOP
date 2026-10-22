@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "ЄСВ для ФОП 2026: хто може не платити під час воєнного стану",
+      description: "ЄСВ 2026 - детальний гайд для підприємців",
+      slug: "yesv-dlya-fop-2026-khto-mozhe-ne-platyty-pid-chas-voyennoho-",
+      date: "2026-10-22",
+      readTime: "3 хв",
+      category: "Податки",
+      available: true,
+    },
+    {
       title: "Як ФОП перейти на загальну систему оподаткування у 2026 році",
       description: "ФОП перехід на загальну систему - детальний гайд для підприємців",
       slug: "yak-fop-pereyty-na-zahal-nu-systemu-opodatkuvannya-u-2026-ro",
