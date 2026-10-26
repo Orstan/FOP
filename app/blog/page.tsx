@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Чи може ФОП працювати без печатки у 2026 році",
+      description: "печатка ФОП - детальний гайд для підприємців",
+      slug: "chy-mozhe-fop-pratsyuvaty-bez-pechatky-u-2026-rotsi",
+      date: "2026-10-26",
+      readTime: "2 хв",
+      category: "Документи",
+      available: true,
+    },
+    {
       title: "ЄСВ для ФОП 2026: хто може не платити під час воєнного стану",
       description: "ЄСВ 2026 - детальний гайд для підприємців",
       slug: "yesv-dlya-fop-2026-khto-mozhe-ne-platyty-pid-chas-voyennoho-",
