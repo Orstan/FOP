@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Первинна документація ФОП 2026: що перевіряє податкова",
+      description: "документи ФОП - детальний гайд для підприємців",
+      slug: "pervynna-dokumentatsiya-fop-2026-shcho-pereviryaye-podatkova",
+      date: "2026-10-29",
+      readTime: "2 хв",
+      category: "Бухгалтерія",
+      available: true,
+    },
+    {
       title: "Чи може ФОП працювати без печатки у 2026 році",
       description: "печатка ФОП - детальний гайд для підприємців",
       slug: "chy-mozhe-fop-pratsyuvaty-bez-pechatky-u-2026-rotsi",

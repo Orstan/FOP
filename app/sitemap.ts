@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'pervynna-dokumentatsiya-fop-2026-shcho-pereviryaye-podatkova',
     'chy-mozhe-fop-pratsyuvaty-bez-pechatky-u-2026-rotsi',
     'yesv-dlya-fop-2026-khto-mozhe-ne-platyty-pid-chas-voyennoho-',
     'yak-fop-pereyty-na-zahal-nu-systemu-opodatkuvannya-u-2026-ro',
