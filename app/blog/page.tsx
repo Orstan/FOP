@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Які КВЕДи заборонені для ФОП на спрощеній системі 2026",
+      description: "заборонені КВЕД ФОП - детальний гайд для підприємців",
+      slug: "yaki-kvedy-zaboroneni-dlya-fop-na-sproshcheniy-systemi-2026",
+      date: "2026-11-02",
+      readTime: "3 хв",
+      category: "Юридичні питання",
+      available: true,
+    },
+    {
       title: "Первинна документація ФОП 2026: що перевіряє податкова",
       description: "документи ФОП - детальний гайд для підприємців",
       slug: "pervynna-dokumentatsiya-fop-2026-shcho-pereviryaye-podatkova",

@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yaki-kvedy-zaboroneni-dlya-fop-na-sproshcheniy-systemi-2026',
     'pervynna-dokumentatsiya-fop-2026-shcho-pereviryaye-podatkova',
     'chy-mozhe-fop-pratsyuvaty-bez-pechatky-u-2026-rotsi',
     'yesv-dlya-fop-2026-khto-mozhe-ne-platyty-pid-chas-voyennoho-',
