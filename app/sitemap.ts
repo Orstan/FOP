@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'podatky-dlya-it-fop-u-2026-rotsi-shcho-zminylosya',
     'yaki-kvedy-zaboroneni-dlya-fop-na-sproshcheniy-systemi-2026',
     'pervynna-dokumentatsiya-fop-2026-shcho-pereviryaye-podatkova',
     'chy-mozhe-fop-pratsyuvaty-bez-pechatky-u-2026-rotsi',

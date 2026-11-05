@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Податки для ІТ ФОП у 2026 році: що змінилося",
+      description: "податки ІТ ФОП - детальний гайд для підприємців",
+      slug: "podatky-dlya-it-fop-u-2026-rotsi-shcho-zminylosya",
+      date: "2026-11-05",
+      readTime: "2 хв",
+      category: "Податки",
+      available: true,
+    },
+    {
       title: "Які КВЕДи заборонені для ФОП на спрощеній системі 2026",
       description: "заборонені КВЕД ФОП - детальний гайд для підприємців",
       slug: "yaki-kvedy-zaboroneni-dlya-fop-na-sproshcheniy-systemi-2026",
