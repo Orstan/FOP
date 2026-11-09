@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'ekvayrynh-dlya-internet-mahazynu-fop-wayforpay-liqpay-mono',
     'podatky-dlya-it-fop-u-2026-rotsi-shcho-zminylosya',
     'yaki-kvedy-zaboroneni-dlya-fop-na-sproshcheniy-systemi-2026',
     'pervynna-dokumentatsiya-fop-2026-shcho-pereviryaye-podatkova',

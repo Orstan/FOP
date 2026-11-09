@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Еквайринг для інтернет-магазину ФОП: WayForPay, LiqPay, Mono",
+      description: "еквайринг для ФОП - детальний гайд для підприємців",
+      slug: "ekvayrynh-dlya-internet-mahazynu-fop-wayforpay-liqpay-mono",
+      date: "2026-11-09",
+      readTime: "3 хв",
+      category: "Бізнес",
+      available: true,
+    },
+    {
       title: "Податки для ІТ ФОП у 2026 році: що змінилося",
       description: "податки ІТ ФОП - детальний гайд для підприємців",
       slug: "podatky-dlya-it-fop-u-2026-rotsi-shcho-zminylosya",
