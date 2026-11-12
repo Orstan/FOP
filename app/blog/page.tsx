@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Блокування рахунків ФОП фінмоніторингом: причини та як розблокувати",
+      description: "фінмоніторинг ФОП - детальний гайд для підприємців",
+      slug: "blokuvannya-rakhunkiv-fop-finmonitorynhom-prychyny-ta-yak-ro",
+      date: "2026-11-12",
+      readTime: "2 хв",
+      category: "Фінанси",
+      available: true,
+    },
+    {
       title: "Еквайринг для інтернет-магазину ФОП: WayForPay, LiqPay, Mono",
       description: "еквайринг для ФОП - детальний гайд для підприємців",
       slug: "ekvayrynh-dlya-internet-mahazynu-fop-wayforpay-liqpay-mono",
