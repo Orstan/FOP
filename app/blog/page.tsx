@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "ФОП та волонтерство 2026: як допомагати ЗСУ легально",
+      description: "ФОП волонтер - детальний гайд для підприємців",
+      slug: "fop-ta-volonterstvo-2026-yak-dopomahaty-zsu-lehal-no",
+      date: "2026-11-16",
+      readTime: "3 хв",
+      category: "Юридичні питання",
+      available: true,
+    },
+    {
       title: "Блокування рахунків ФОП фінмоніторингом: причини та як розблокувати",
       description: "фінмоніторинг ФОП - детальний гайд для підприємців",
       slug: "blokuvannya-rakhunkiv-fop-finmonitorynhom-prychyny-ta-yak-ro",

@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'fop-ta-volonterstvo-2026-yak-dopomahaty-zsu-lehal-no',
     'blokuvannya-rakhunkiv-fop-finmonitorynhom-prychyny-ta-yak-ro',
     'ekvayrynh-dlya-internet-mahazynu-fop-wayforpay-liqpay-mono',
     'podatky-dlya-it-fop-u-2026-rotsi-shcho-zminylosya',
