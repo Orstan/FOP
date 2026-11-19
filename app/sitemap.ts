@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'mikrohranty-dlya-veteraniv-na-vidkryttya-biznesu-fop-2026',
     'fop-ta-volonterstvo-2026-yak-dopomahaty-zsu-lehal-no',
     'blokuvannya-rakhunkiv-fop-finmonitorynhom-prychyny-ta-yak-ro',
     'ekvayrynh-dlya-internet-mahazynu-fop-wayforpay-liqpay-mono',

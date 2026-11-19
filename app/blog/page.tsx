@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Мікрогранти для ветеранів на відкриття бізнесу (ФОП) 2026",
+      description: "гранти для ветеранів - детальний гайд для підприємців",
+      slug: "mikrohranty-dlya-veteraniv-na-vidkryttya-biznesu-fop-2026",
+      date: "2026-11-19",
+      readTime: "3 хв",
+      category: "Фінанси",
+      available: true,
+    },
+    {
       title: "ФОП та волонтерство 2026: як допомагати ЗСУ легально",
       description: "ФОП волонтер - детальний гайд для підприємців",
       slug: "fop-ta-volonterstvo-2026-yak-dopomahaty-zsu-lehal-no",
