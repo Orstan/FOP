@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Ліквідація ФОП з боргами: чи можливо і які наслідки",
+      description: "закриття ФОП з боргами - детальний гайд для підприємців",
+      slug: "likvidatsiya-fop-z-borhamy-chy-mozhlyvo-i-yaki-naslidky",
+      date: "2026-11-23",
+      readTime: "3 хв",
+      category: "Юридичні питання",
+      available: true,
+    },
+    {
       title: "Мікрогранти для ветеранів на відкриття бізнесу (ФОП) 2026",
       description: "гранти для ветеранів - детальний гайд для підприємців",
       slug: "mikrohranty-dlya-veteraniv-na-vidkryttya-biznesu-fop-2026",

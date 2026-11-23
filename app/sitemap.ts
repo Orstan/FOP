@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'likvidatsiya-fop-z-borhamy-chy-mozhlyvo-i-yaki-naslidky',
     'mikrohranty-dlya-veteraniv-na-vidkryttya-biznesu-fop-2026',
     'fop-ta-volonterstvo-2026-yak-dopomahaty-zsu-lehal-no',
     'blokuvannya-rakhunkiv-fop-finmonitorynhom-prychyny-ta-yak-ro',
