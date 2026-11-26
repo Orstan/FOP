@@ -71,6 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const blogPosts = [
+    'yak-zareyestruvaty-prro-checkbox-abo-vchasno-dlya-fop',
     'likvidatsiya-fop-z-borhamy-chy-mozhlyvo-i-yaki-naslidky',
     'mikrohranty-dlya-veteraniv-na-vidkryttya-biznesu-fop-2026',
     'fop-ta-volonterstvo-2026-yak-dopomahaty-zsu-lehal-no',

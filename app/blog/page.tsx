@@ -19,6 +19,15 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const articles = [
     {
+      title: "Як зареєструвати ПРРО Checkbox або Вчасно для ФОП",
+      description: "реєстрація ПРРО - детальний гайд для підприємців",
+      slug: "yak-zareyestruvaty-prro-checkbox-abo-vchasno-dlya-fop",
+      date: "2026-11-26",
+      readTime: "2 хв",
+      category: "Обладнання",
+      available: true,
+    },
+    {
       title: "Ліквідація ФОП з боргами: чи можливо і які наслідки",
       description: "закриття ФОП з боргами - детальний гайд для підприємців",
       slug: "likvidatsiya-fop-z-borhamy-chy-mozhlyvo-i-yaki-naslidky",
